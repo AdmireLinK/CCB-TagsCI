@@ -25,7 +25,7 @@ jobs:
       - name: Run Makefile
         working-directory: ./Character Tags Crawler
         env:
-          PYTHONPATH: ${{ github.workspace }}/Character Tags Crawler
+          PYTHONPATH: .
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           MOEGIRL_COOKIES: ${{ secrets.MOEGIRL_COOKIES }}
         run: |
