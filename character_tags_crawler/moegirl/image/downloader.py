@@ -115,8 +115,18 @@ for idx, i in enumerate(bar):
                 headers=headers,
                 cooldown=cooldown,
             )
-            res = res.json()
-            soup = BeautifulSoup(res["parse"]["text"]["*"], features="html.parser")
+            if res is None or res.status_code != 200:
+                bar.write(f"Failed to get URL for {url}")
+                continue
+            try:
+                data = res.json()
+            except Exception as e:
+                bar.write(f"Failed to parse JSON for {url}: {str(e)}")
+                continue
+            if "parse" not in data or "text" not in data["parse"]:
+                bar.write(f"Invalid response format for {url}")
+                continue
+            soup = BeautifulSoup(data["parse"]["text"]["*"], features="html.parser")
             url2 = soup.find("img")
             assert url2 is not None
             url2 = url2.attrs["src"]

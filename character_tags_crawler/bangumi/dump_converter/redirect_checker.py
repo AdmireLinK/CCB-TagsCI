@@ -17,10 +17,17 @@ def get_id(id, bar, chars):
     url = f"https://api.bgm.tv/v0/characters/{id}"
     try:
         response = safe_get(url, headers=headers, cooldown=cooldown, bar=bar)
-        if response.status_code != 200:
-            bar.write(f'{id} {chars[id]["name"]} -> HTTP {response.status_code}')
+        if response is None:
+            bar.write(f'{id} {chars[id]["name"]} -> No response')
             return None
-        data = response.json()
+        try:
+            data = response.json()
+        except Exception as e:
+            bar.write(f'{id} {chars[id]["name"]} -> JSON parse error: {str(e)}')
+            return None
+        if 'id' not in data:
+            bar.write(f'{id} {chars[id]["name"]} -> Invalid response format')
+            return None
         return data['id']
     except Exception as e:
         bar.write(f'{id} {chars[id]["name"]} -> Error: {str(e)}')

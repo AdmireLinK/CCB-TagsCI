@@ -11,8 +11,14 @@ import hashlib
 chdir_project_root()
 
 release_url = "https://raw.githubusercontent.com/bangumi/Archive/refs/heads/master/aux/latest.json"
-release = requests.get(release_url).json()
-print(f"Latest dump file: {release['name']}")
+try:
+    response = requests.get(release_url, timeout=30)
+    response.raise_for_status()
+    release = response.json()
+    print(f"Latest dump file: {release['name']}")
+except Exception as e:
+    print(f"Failed to fetch release info: {str(e)}", file=sys.stderr)
+    sys.exit(1)
 
 download_url = release["browser_download_url"]
 print(f"Downloading dump file from {download_url} ...")

@@ -66,14 +66,20 @@ def crawl_characters(index):
         for i in bar:
             id = i['id']
             bar.set_description('{} {}'.format(i['name'], id))
-            data = json.loads(
-                safe_get(
-                    f'https://api.bgm.tv/v0/characters/{id}',
-                    bar,
-                    headers=headers,
-                    cooldown=cooldown,
-                ).text,
+            res = safe_get(
+                f'https://api.bgm.tv/v0/characters/{id}',
+                bar,
+                headers=headers,
+                cooldown=cooldown,
             )
+            if res is None or res.status_code != 200:
+                bar.write(f'Failed to get character data for {id}')
+                continue
+            try:
+                data = json.loads(res.text)
+            except Exception as e:
+                bar.write(f'Failed to parse JSON for {id}: {str(e)}')
+                continue
             ret[id] = data
     except BaseException as e:
         bar.write(str(e))
@@ -96,14 +102,19 @@ def crawl_bangumi_id(index, url, ret: dict = {}):
                     verbose=True,
                     cooldown=cooldown,
                 )
-                ret[i] = res.json()
+                if res is None or res.status_code != 200:
+                    ret[i] = {}
+                    continue
+                try:
+                    ret[i] = res.json()
+                except Exception as e:
+                    bar.write(f'Failed to parse JSON for {i}: {str(e)}')
+                    ret[i] = {}
             except KeyboardInterrupt as e:
                 raise e
             except requests.HTTPError as e:
                 if e.response.status_code == 404:
-                    # continue
                     ret[i] = {}
-                    # return {}, None
                 else:
                     raise e
     except BaseException as e:
