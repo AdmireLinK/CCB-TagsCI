@@ -71,8 +71,11 @@ try:
         bar.set_description(f'{k} {chars[k]["name"]}')
         realid = get_id(k, bar, chars)
         if realid is not None and realid != k:
-            redirects[k] = realid
-            bar.write(f'{k} {chars[k]["name"]} -> {realid} {chars[realid]["name"]}')
+            if realid in chars:
+                redirects[k] = realid
+                bar.write(f'{k} {chars[k]["name"]} -> {realid} {chars[realid]["name"]}')
+            else:
+                bar.write(f'{k} {chars[k]["name"]} -> {realid} (not in chars)')
 except KeyboardInterrupt:
     pass
 
