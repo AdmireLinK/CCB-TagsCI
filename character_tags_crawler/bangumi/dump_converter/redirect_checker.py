@@ -1,6 +1,6 @@
 from tqdm import tqdm
 from utils.file import load_json, save_json, chdir_project_root
-from utils.network import safe_get, safe_soup, safe_download
+from utils.network import safe_get, safe_soup, safe_download, DynamicCooldown
 import requests
 
 chdir_project_root()
@@ -10,13 +10,23 @@ headers = {
     'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
     'User-Agent': 'Zzzyt/MoeRanker (https://github.com/Zzzzzzyt/MoeRanker)',
 }
-cooldown = 2
+
+dynamic_cooldown = DynamicCooldown(
+    initial=0.2,
+    min_cooldown=0.1,
+    max_cooldown=5.0,
+    slow_threshold=1.0,
+    fast_threshold=0.3,
+    increase_factor=1.5,
+    decrease_factor=0.95,
+    jitter=0.3
+)
 
 
 def get_id(id, bar, chars):
     url = f"https://api.bgm.tv/v0/characters/{id}"
     try:
-        response = safe_get(url, headers=headers, cooldown=cooldown, bar=bar, verbose=False)
+        response = safe_get(url, headers=headers, dynamic_cooldown=dynamic_cooldown, bar=bar, verbose=False)
         if response is None:
             bar.write(f'{id} {chars[id]["name"]} -> No response')
             return None

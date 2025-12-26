@@ -16,6 +16,51 @@ global_session.mount('https', HTTPAdapter(max_retries=retry))
 global_session.mount('http', HTTPAdapter(max_retries=retry))
 
 
+class DynamicCooldown:
+    def __init__(self, initial=0.2, min_cooldown=0.1, max_cooldown=5.0, 
+                 slow_threshold=1.0, fast_threshold=0.3, 
+                 increase_factor=1.5, decrease_factor=0.95, jitter=0.3):
+        self.current = initial
+        self.min_cooldown = min_cooldown
+        self.max_cooldown = max_cooldown
+        self.slow_threshold = slow_threshold
+        self.fast_threshold = fast_threshold
+        self.increase_factor = increase_factor
+        self.decrease_factor = decrease_factor
+        self.jitter = jitter
+        self.slow_response_count = 0
+        self.fast_response_count = 0
+
+    def get(self):
+        jittered = self.current * random.uniform(1 - self.jitter, 1 + self.jitter)
+        return max(self.min_cooldown, min(self.max_cooldown, jittered))
+
+    def update(self, response_time):
+        if response_time > self.slow_threshold:
+            self.slow_response_count += 1
+            self.fast_response_count = 0
+            if self.slow_response_count >= 2:
+                self.current = min(self.max_cooldown, self.current * self.increase_factor)
+                self.slow_response_count = 0
+        elif response_time < self.fast_threshold:
+            self.fast_response_count += 1
+            self.slow_response_count = 0
+            if self.fast_response_count >= 5:
+                self.current = max(self.min_cooldown, self.current * self.decrease_factor)
+                self.fast_response_count = 0
+        else:
+            self.slow_response_count = 0
+            self.fast_response_count = 0
+
+    def reset(self):
+        self.current = self.min_cooldown
+        self.slow_response_count = 0
+        self.fast_response_count = 0
+
+
+default_dynamic_cooldown = DynamicCooldown()
+
+
 def safe_get(
     url: str,
     bar: tqdm | None = None,
@@ -26,9 +71,14 @@ def safe_get(
     jitter: float = 0.5,
     verbose: bool = True,
     session: requests.Session | None = None,
+    dynamic_cooldown: DynamicCooldown | None = None,
 ) -> requests.Response:
-    if jitter > 0:
-        cooldown *= random.uniform(1 - jitter, 1 + jitter)
+    if dynamic_cooldown:
+        actual_cooldown = dynamic_cooldown.get()
+    elif jitter > 0:
+        actual_cooldown = cooldown * random.uniform(1 - jitter, 1 + jitter)
+    else:
+        actual_cooldown = cooldown
 
     if not session:
         global global_session
@@ -42,17 +92,27 @@ def safe_get(
     r = session.get(url, headers=headers, cookies=cookies, timeout=timeout)
     r.encoding = 'utf-8'
     elapsed = r.elapsed.total_seconds()
-    if verbose:
-        if bar:
-            bar.write('{} in {:.3f}s'.format(r.status_code, elapsed))
-        else:
-            print('{} in {:.3f}s'.format(r.status_code, elapsed))
+    
+    if dynamic_cooldown:
+        dynamic_cooldown.update(elapsed)
+        if verbose:
+            if bar:
+                bar.write('{} in {:.3f}s (cooldown: {:.2f}s)'.format(r.status_code, elapsed, actual_cooldown))
+            else:
+                print('{} in {:.3f}s (cooldown: {:.2f}s)'.format(r.status_code, elapsed, actual_cooldown))
+    else:
+        if verbose:
+            if bar:
+                bar.write('{} in {:.3f}s'.format(r.status_code, elapsed))
+            else:
+                print('{} in {:.3f}s'.format(r.status_code, elapsed))
+    
     if r.status_code != 200:
-        if elapsed < cooldown:
-            time.sleep(cooldown - elapsed)
+        if elapsed < actual_cooldown:
+            time.sleep(actual_cooldown - elapsed)
         raise requests.HTTPError(request=r.request, response=r)
-    if elapsed < cooldown:
-        time.sleep(cooldown - elapsed)
+    if elapsed < actual_cooldown:
+        time.sleep(actual_cooldown - elapsed)
     return r
 
 
@@ -67,9 +127,14 @@ def safe_download(
     jitter: float = 0.5,
     verbose: bool = True,
     session: requests.Session | None = None,
+    dynamic_cooldown: DynamicCooldown | None = None,
 ):
-    if jitter > 0:
-        cooldown *= random.uniform(1 - jitter, 1 + jitter)
+    if dynamic_cooldown:
+        actual_cooldown = dynamic_cooldown.get()
+    elif jitter > 0:
+        actual_cooldown = cooldown * random.uniform(1 - jitter, 1 + jitter)
+    else:
+        actual_cooldown = cooldown
 
     if not session:
         global global_session
@@ -92,13 +157,23 @@ def safe_download(
             r.raw.decode_content = True
             shutil.copyfileobj(r.raw, f)
     elapsed = r.elapsed.total_seconds()
-    if verbose:
-        if bar:
-            bar.write('{:.3f}s'.format(elapsed))
-        else:
-            print('{:.3f}s'.format(elapsed))
-    if elapsed < cooldown:
-        time.sleep(cooldown - elapsed)
+    
+    if dynamic_cooldown:
+        dynamic_cooldown.update(elapsed)
+        if verbose:
+            if bar:
+                bar.write('{:.3f}s (cooldown: {:.2f}s)'.format(elapsed, actual_cooldown))
+            else:
+                print('{:.3f}s (cooldown: {:.2f}s)'.format(elapsed, actual_cooldown))
+    else:
+        if verbose:
+            if bar:
+                bar.write('{:.3f}s'.format(elapsed))
+            else:
+                print('{:.3f}s'.format(elapsed))
+    
+    if elapsed < actual_cooldown:
+        time.sleep(actual_cooldown - elapsed)
     return r
 
 

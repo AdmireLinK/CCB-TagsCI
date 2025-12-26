@@ -9,7 +9,7 @@ from tqdm import tqdm
 from urllib3 import Retry
 from requests.adapters import HTTPAdapter
 
-from utils.network import safe_get, safe_soup, safe_download
+from utils.network import safe_get, safe_soup, safe_download, DynamicCooldown
 from utils.file import save_json, chdir_project_root
 
 chdir_project_root()
@@ -21,7 +21,16 @@ headers = {
     'User-Agent': 'Zzzyt/MoeRanker (https://github.com/Zzzzzzyt/MoeRanker)',
     # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
-cooldown = 2
+dynamic_cooldown = DynamicCooldown(
+    initial=0.2,
+    min_cooldown=0.1,
+    max_cooldown=5.0,
+    slow_threshold=1.0,
+    fast_threshold=0.3,
+    increase_factor=1.5,
+    decrease_factor=0.95,
+    jitter=0.3
+)
 TIMEOUT = 10
 
 ses = requests.Session()
@@ -37,7 +46,7 @@ def crawl_index(count):
             soup = safe_soup(
                 f'https://bgm.tv/character?orderby=collects&page={i+1}',
                 bar,
-                cooldown=cooldown,
+                dynamic_cooldown=dynamic_cooldown,
                 headers=headers,
             )
             chars = soup.find(id='columnCrtBrowserB').find_all('div')[1]  # type: ignore
@@ -70,7 +79,7 @@ def crawl_characters(index):
                 f'https://api.bgm.tv/v0/characters/{id}',
                 bar,
                 headers=headers,
-                cooldown=cooldown,
+                dynamic_cooldown=dynamic_cooldown,
             )
             if res is None or res.status_code != 200:
                 bar.write(f'Failed to get character data for {id}')
@@ -100,7 +109,7 @@ def crawl_bangumi_id(index, url, ret: dict = {}):
                     bar,
                     headers=headers,
                     verbose=True,
-                    cooldown=cooldown,
+                    dynamic_cooldown=dynamic_cooldown,
                 )
                 if res is None or res.status_code != 200:
                     ret[i] = {}
@@ -143,12 +152,12 @@ def download_thumnail(index, chars):
             avatar = images['large'].replace(
                 'https://lain.bgm.tv/pic/crt/l/', 'https://lain.bgm.tv/pic/crt/g/'
             )
-            safe_download(avatar, 'bangumi/images/{}-avatar.jpg'.format(id), bar)
+            safe_download(avatar, 'bangumi/images/{}-avatar.jpg'.format(id), bar, dynamic_cooldown=dynamic_cooldown)
             # safe_download(images['small'], 'images/{}-small.jpg'.format(id),bar)
             # safe_download(images['grid'], 'images/{}-grid.jpg'.format(id),bar)
             # safe_download(images['medium'], 'images/{}-medium.jpg'.format(id),bar)
             safe_download(
-                images['large'], 'bangumi/images/{}-large.jpg'.format(id), bar
+                images['large'], 'bangumi/images/{}-large.jpg'.format(id), bar, dynamic_cooldown=dynamic_cooldown
             )
         except Exception as e:
             bar.write(str(e))

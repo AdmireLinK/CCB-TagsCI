@@ -8,7 +8,7 @@ from urllib3 import Retry
 from requests.adapters import HTTPAdapter
 
 from utils.file import *
-from utils.network import safe_soup, quote_all
+from utils.network import safe_soup, quote_all, DynamicCooldown
 
 chdir_project_root()
 
@@ -47,7 +47,16 @@ headers = {
     "accept-encoding": "gzip, deflate",
     "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
 }
-cooldown = 1.2
+dynamic_cooldown = DynamicCooldown(
+    initial=0.2,
+    min_cooldown=0.1,
+    max_cooldown=5.0,
+    slow_threshold=1.0,
+    fast_threshold=0.3,
+    increase_factor=1.5,
+    decrease_factor=0.95,
+    jitter=0.3
+)
 
 page_count = 0
 characters = {}
@@ -146,7 +155,7 @@ def parse_index(url, ret, stk=[], filter_function=None):
                 soup = safe_soup(
                     url_now,
                     headers=headers,
-                    cooldown=cooldown,
+                    dynamic_cooldown=dynamic_cooldown,
                 )
                 soup = soup.find('div', id='mw-content-text')
                 assert soup is not None

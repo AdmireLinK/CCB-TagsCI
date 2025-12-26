@@ -10,7 +10,7 @@ from tqdm import tqdm
 import PIL.Image as Image
 
 from utils.file import chdir_project_root
-from utils.network import safe_download, safe_get, title_to_url
+from utils.network import safe_download, safe_get, title_to_url, DynamicCooldown
 
 chdir_project_root()
 
@@ -36,7 +36,16 @@ headers = {
     "sec-ch-ua-platform": '"Windows"',
 }
 
-cooldown = 5
+dynamic_cooldown = DynamicCooldown(
+    initial=0.2,
+    min_cooldown=0.1,
+    max_cooldown=5.0,
+    slow_threshold=1.0,
+    fast_threshold=0.3,
+    increase_factor=1.5,
+    decrease_factor=0.95,
+    jitter=0.3
+)
 
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
@@ -100,7 +109,7 @@ for idx, i in enumerate(bar):
                 fname2,
                 bar,
                 headers=headers,
-                cooldown=cooldown,
+                dynamic_cooldown=dynamic_cooldown,
             )
         else:
             res = safe_get(
@@ -110,7 +119,7 @@ for idx, i in enumerate(bar):
                 ),
                 bar=bar,
                 headers=headers,
-                cooldown=cooldown,
+                dynamic_cooldown=dynamic_cooldown,
             )
             if res is None or res.status_code != 200:
                 bar.write(f"Failed to get URL for {url}")
@@ -132,7 +141,7 @@ for idx, i in enumerate(bar):
                 fname2,
                 bar,
                 headers=headers,
-                cooldown=cooldown,
+                dynamic_cooldown=dynamic_cooldown,
             )
     except Exception as e:
         # print(e)
