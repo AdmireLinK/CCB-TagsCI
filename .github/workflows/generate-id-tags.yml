@@ -38,8 +38,8 @@ jobs:
       
       - name: Commit and push id_tags.json
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "${{ github.repository_owner }}@users.noreply.github.com"
+          git config --local user.name "${{ github.repository_owner }}"
           git add Outputs/id_tags.json
-          git diff --staged --quiet || git commit -m "Update id_tags.json [skip ci]"
+          git diff --staged --quiet || git commit -m "CI：更新 id_tags.json"
           git push
