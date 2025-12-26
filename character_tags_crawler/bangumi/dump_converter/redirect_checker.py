@@ -1,6 +1,7 @@
 from tqdm import tqdm
 from utils.file import load_json, save_json, chdir_project_root
 from utils.network import safe_get, safe_soup, safe_download
+import requests
 
 chdir_project_root()
 
@@ -16,19 +17,25 @@ cooldown = 2
 def get_id(id, bar, chars):
     url = f"https://api.bgm.tv/v0/characters/{id}"
     try:
-        response = safe_get(url, headers=headers, cooldown=cooldown, bar=bar)
+        response = safe_get(url, headers=headers, cooldown=cooldown, bar=bar, verbose=False)
         if response is None:
             bar.write(f'{id} {chars[id]["name"]} -> No response')
             return None
         try:
             data = response.json()
         except Exception as e:
-            bar.write(f'{id} {chars[id]["name"]} -> JSON parse error: {str(e)}')
+            content_preview = response.text[:100] if response.text else '(empty)'
+            bar.write(f'{id} {chars[id]["name"]} -> JSON parse error: {str(e)} | Response: {content_preview}')
             return None
         if 'id' not in data:
             bar.write(f'{id} {chars[id]["name"]} -> Invalid response format')
             return None
         return data['id']
+    except requests.HTTPError as e:
+        status_code = e.response.status_code if e.response else 'Unknown'
+        content_preview = e.response.text[:100] if e.response and e.response.text else '(empty)'
+        bar.write(f'{id} {chars[id]["name"]} -> HTTP {status_code} | Response: {content_preview}')
+        return None
     except Exception as e:
         bar.write(f'{id} {chars[id]["name"]} -> Error: {str(e)}')
         return None

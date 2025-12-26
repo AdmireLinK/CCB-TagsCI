@@ -152,16 +152,28 @@ def crawl(name, bar):
         return
     url = base_url + "/index.php?title={}&action=edit".format(title_to_url(name))
     try:
-        res = safe_get(url, bar, headers=headers, cooldown=cooldown).text
-        # print(res)
+        response = safe_get(url, bar, headers=headers, cooldown=cooldown)
+        if response is None:
+            bar.write(f'{name} -> No response from server')
+            return
+        res = response.text
+        if not res or len(res) < 100:
+            bar.write(f'{name} -> Empty or too short response (length: {len(res)})')
+            return
         soup = BeautifulSoup(res, features="html.parser")
-        # print(soup)
-        t = soup.find('textarea').contents[0]  # type: ignore
+        textarea = soup.find('textarea')
+        if textarea is None:
+            bar.write(f'{name} -> No textarea found in response')
+            return
+        if not textarea.contents or len(textarea.contents) == 0:
+            bar.write(f'{name} -> Textarea found but empty')
+            return
+        t = textarea.contents[0]  # type: ignore
 
         open(cache_path, 'w', encoding='utf8').write(t)
     except Exception as e:
+        bar.write(f'{name} -> Error: {str(e)}')
         traceback.print_exc()
-        # print(soup)
     # print(t)
 
 
