@@ -38,9 +38,6 @@ headers = {
 
 cooldown = 5
 
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv(raise_error_if_not_found=True), verbose=True)
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
     print('cookies:', cookies)
