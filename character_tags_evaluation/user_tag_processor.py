@@ -200,7 +200,7 @@ class UserTagProcessor:
 
     def load_id_tags_from_json(self, json_path: str = None) -> Dict[str, List[str]]:
         if json_path is None:
-            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Outputs', 'id_tags.json')
+            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'outputs', 'id_tags.json')
         
         with open(json_path, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -219,7 +219,7 @@ class UserTagProcessor:
                 merged_tags[bgmid] = tags
         
         if output_js_path is None:
-            output_js_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Outputs', 'id_tags.js')
+            output_js_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'outputs', 'id_tags.js')
         
         if output_js_path is not None:
             self.save_to_js(merged_tags, output_js_path)

@@ -160,4 +160,4 @@ for k, v in bgm2moegirl.items():
 bgm2attr.sort(key=lambda x: bgm_entry[x[0]]['rank'])
 bgm2attr = dict(bgm2attr)
 print('mapped:', len(bgm2attr))
-save_json(bgm2attr, 'Outputs/id_tags.json')
+save_json(bgm2attr, 'outputs/id_tags.json')

@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'Character Tags Crawler'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'character_tags_crawler'))
 
 from user_tag_processor import UserTagProcessor
 
@@ -14,7 +14,7 @@ def main():
     
     merged_tags = processor.merge_and_save_tags(user_tags)
     print(f'Merged tags for {len(merged_tags)} characters')
-    print(f'Saved to: Outputs/id_tags.js')
+    print(f'Saved to: outputs/id_tags.js')
 
 
 if __name__ == '__main__':

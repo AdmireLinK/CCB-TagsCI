@@ -43,8 +43,8 @@ clean:
 	rm -rf bangumi/bgm2moegirl.json
 	rm -rf bangumi/bgm_info.json
 	rm -rf bangumi/subset/subset/*
-	rm -rf Outputs/id_tags.js
-	rm -rf Outputs/id_tags.json
+	rm -rf outputs/id_tags.js
+	rm -rf outputs/id_tags.json
 
 .PHONY: clean
 clean_generated: 
@@ -82,11 +82,11 @@ clean_generated:
 	rm -rf bangumi/bgm2moegirl.json
 	rm -rf bangumi/bgm_info.json
 	rm -rf bangumi/subset/subset/*
-	rm -rf Outputs/id_tags.js
-	rm -rf Outputs/id_tags.json
+	rm -rf outputs/id_tags.js
+	rm -rf outputs/id_tags.json
 
 .PHONY: all
-all: moegirl/crawler/attrs.json moegirl/crawler/subjects.json moegirl/preprocess/attr_index.json moegirl/preprocess/attr2char.json moegirl/preprocess/attr2article.json moegirl/preprocess/char_index.json moegirl/preprocess/char2attr.json moegirl/preprocess/char2cv.json moegirl/preprocess/cv_index.json moegirl/preprocess/cv2char.json  moegirl/preprocess/char2subject.json moegirl/preprocess/subject_index.json moegirl/preprocess/fundamental_attr.json moegirl/crawler_extra/extra_processed.json moegirl/subsets moegirl/analyze/intersection.npy moegirl/analyze/cross.npy moegirl/analyze/count.npy moegirl/analyze/contain.npy moegirl/analyze/gain.npy moegirl/analyze/chi2.npy moegirl/analyze/gender.json moegirl/moeranker/data_min.json moegirl/moeranker/importance.json bangumi/bgm_chars_full.json bangumi/bgm_index_full.json bangumi/bgm_redirects_full.json bangumi/bgm_subjects_full.json bangumi/moegirl2bgm.json bangumi/bgm2moegirl.json bangumi/bgm_info.json bangumi/subsets Outputs/id_tags.json Outputs/id_tags.js
+all: moegirl/crawler/attrs.json moegirl/crawler/subjects.json moegirl/preprocess/attr_index.json moegirl/preprocess/attr2char.json moegirl/preprocess/attr2article.json moegirl/preprocess/char_index.json moegirl/preprocess/char2attr.json moegirl/preprocess/char2cv.json moegirl/preprocess/cv_index.json moegirl/preprocess/cv2char.json  moegirl/preprocess/char2subject.json moegirl/preprocess/subject_index.json moegirl/preprocess/fundamental_attr.json moegirl/crawler_extra/extra_processed.json moegirl/subsets moegirl/analyze/intersection.npy moegirl/analyze/cross.npy moegirl/analyze/count.npy moegirl/analyze/contain.npy moegirl/analyze/gain.npy moegirl/analyze/chi2.npy moegirl/analyze/gender.json moegirl/moeranker/data_min.json moegirl/moeranker/importance.json bangumi/bgm_chars_full.json bangumi/bgm_index_full.json bangumi/bgm_redirects_full.json bangumi/bgm_subjects_full.json bangumi/moegirl2bgm.json bangumi/bgm2moegirl.json bangumi/bgm_info.json bangumi/subsets outputs/id_tags.json outputs/id_tags.js
 
 moegirl/crawler/attrs.json moegirl/crawler/subjects.json &:
 	PYTHONPATH=$(PROJECT_ROOT) $(PYTHON) moegirl/crawler/crawler.py
@@ -150,8 +150,8 @@ bangumi/bgm_images_medium_mapped.json &: bangumi/subsets moegirl/subsets bangumi
 bangumi/subsets: bangumi/bgm_index_full.json bangumi/bgm2moegirl.json bangumi/moegirl2bgm.json moegirl/preprocess/char_index.json
 	PYTHONPATH=$(PROJECT_ROOT) $(PYTHON) bangumi/subset/subsetter.py
 
-Outputs/id_tags.json &: bangumi/bgm2moegirl.json bangumi/bgm_index_full.json moegirl/preprocess/char2attr.json moegirl/preprocess/attr2char.json moegirl/preprocess/fundamental_attr.json
+outputs/id_tags.json &: bangumi/bgm2moegirl.json bangumi/bgm_index_full.json moegirl/preprocess/char2attr.json moegirl/preprocess/attr2char.json moegirl/preprocess/fundamental_attr.json
 	PYTHONPATH=$(PROJECT_ROOT) $(PYTHON) bangumi/anime_character_guessr/anime_character_guessr_mapper.py
 
 .PHONY: anime_character_guessr
-anime_character_guessr: Outputs/id_tags.json
+anime_character_guessr: outputs/id_tags.json
