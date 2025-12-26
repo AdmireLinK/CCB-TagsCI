@@ -13,10 +13,18 @@ headers = {
 cooldown = 2
 
 
-def get_id(id, bar):
+def get_id(id, bar, chars):
     url = f"https://api.bgm.tv/v0/characters/{id}"
-    data = safe_get(url, headers=headers, cooldown=cooldown, bar=bar).json()
-    return data['id']
+    try:
+        response = safe_get(url, headers=headers, cooldown=cooldown, bar=bar)
+        if response.status_code != 200:
+            bar.write(f'{id} {chars[id]["name"]} -> HTTP {response.status_code}')
+            return None
+        data = response.json()
+        return data['id']
+    except Exception as e:
+        bar.write(f'{id} {chars[id]["name"]} -> Error: {str(e)}')
+        return None
 
 
 index = load_json('bangumi/bgm_index_full.json')
@@ -38,8 +46,8 @@ try:
     bar = tqdm(sus)
     for k in bar:
         bar.set_description(f'{k} {chars[k]["name"]}')
-        realid = str(get_id(k, bar))
-        if realid != k:
+        realid = get_id(k, bar, chars)
+        if realid is not None and realid != k:
             redirects[k] = realid
             bar.write(f'{k} {chars[k]["name"]} -> {realid} {chars[realid]["name"]}')
 except KeyboardInterrupt:
