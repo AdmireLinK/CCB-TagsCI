@@ -11,7 +11,7 @@ from threading import Lock
 import threading
 
 from utils.file import *
-from utils.network import safe_soup, quote_all, DynamicCooldown
+from utils.network import safe_soup, quote_all, DynamicCooldown, RateLimiter
 
 chdir_project_root()
 
@@ -60,6 +60,7 @@ dynamic_cooldown = DynamicCooldown(
     decrease_factor=0.95,
     jitter=0.3
 )
+rate_limiter = RateLimiter(max_requests_per_second=30)
 
 page_count = 0
 characters = {}
@@ -162,6 +163,7 @@ def parse_index(url, ret, stk=[], filter_function=None):
                     url_now,
                     headers=headers,
                     dynamic_cooldown=dynamic_cooldown,
+                    rate_limiter=rate_limiter,
                 )
                 soup = soup.find('div', id='mw-content-text')
                 assert soup is not None

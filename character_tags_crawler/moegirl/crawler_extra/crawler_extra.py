@@ -10,7 +10,7 @@ from bs4 import MarkupResemblesLocatorWarning
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 
-from utils.network import safe_get, title_to_url
+from utils.network import safe_get, title_to_url, DynamicCooldown, RateLimiter
 from utils.file import save_json, chdir_project_root
 from moegirl.crawler_extra.mwutils import remove_style
 
@@ -60,6 +60,8 @@ if cookies:
     headers['Cookie'] = cookies
 
 file_write_lock = Lock()
+dynamic_cooldown = DynamicCooldown()
+rate_limiter = RateLimiter(max_requests_per_second=30)
 
 
 def gen_cache_path(name):
@@ -155,7 +157,7 @@ def crawl(name, bar):
         return
     url = base_url + "/index.php?title={}&action=edit".format(title_to_url(name))
     try:
-        response = safe_get(url, bar, headers=headers, cooldown=cooldown)
+        response = safe_get(url, bar, headers=headers, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter)
         if response is None:
             bar.write(f'{name} -> No response from server')
             return

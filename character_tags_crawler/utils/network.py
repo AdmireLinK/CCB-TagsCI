@@ -7,6 +7,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 from urllib3 import Retry
 from requests.adapters import HTTPAdapter
+from threading import Lock
 
 requests.adapters.DEFAULT_RETRIES = 3  # type: ignore
 
@@ -61,6 +62,29 @@ class DynamicCooldown:
 default_dynamic_cooldown = DynamicCooldown()
 
 
+class RateLimiter:
+    def __init__(self, max_requests_per_second=30):
+        self.max_requests_per_second = max_requests_per_second
+        self.min_interval = 1.0 / max_requests_per_second
+        self.last_request_time = 0
+        self.lock = Lock()
+
+    def acquire(self):
+        with self.lock:
+            current_time = time.time()
+            elapsed = current_time - self.last_request_time
+            if elapsed < self.min_interval:
+                time.sleep(self.min_interval - elapsed)
+            self.last_request_time = time.time()
+
+    def reset(self):
+        with self.lock:
+            self.last_request_time = 0
+
+
+default_rate_limiter = RateLimiter()
+
+
 def safe_get(
     url: str,
     bar: tqdm | None = None,
@@ -72,6 +96,7 @@ def safe_get(
     verbose: bool = True,
     session: requests.Session | None = None,
     dynamic_cooldown: DynamicCooldown | None = None,
+    rate_limiter: RateLimiter | None = None,
 ) -> requests.Response:
     if dynamic_cooldown:
         actual_cooldown = dynamic_cooldown.get()
@@ -79,6 +104,9 @@ def safe_get(
         actual_cooldown = cooldown * random.uniform(1 - jitter, 1 + jitter)
     else:
         actual_cooldown = cooldown
+
+    if rate_limiter:
+        rate_limiter.acquire()
 
     if not session:
         global global_session
@@ -128,6 +156,7 @@ def safe_download(
     verbose: bool = True,
     session: requests.Session | None = None,
     dynamic_cooldown: DynamicCooldown | None = None,
+    rate_limiter: RateLimiter | None = None,
 ):
     if dynamic_cooldown:
         actual_cooldown = dynamic_cooldown.get()
@@ -135,6 +164,9 @@ def safe_download(
         actual_cooldown = cooldown * random.uniform(1 - jitter, 1 + jitter)
     else:
         actual_cooldown = cooldown
+
+    if rate_limiter:
+        rate_limiter.acquire()
 
     if not session:
         global global_session
@@ -186,6 +218,8 @@ def safe_soup(
     cooldown: float = 3,
     verbose: bool = True,
     session: requests.Session | None = None,
+    dynamic_cooldown: DynamicCooldown | None = None,
+    rate_limiter: RateLimiter | None = None,
 ) -> BeautifulSoup:
     return BeautifulSoup(
         safe_get(
@@ -197,6 +231,8 @@ def safe_soup(
             cooldown=cooldown,
             verbose=verbose,
             session=session,
+            dynamic_cooldown=dynamic_cooldown,
+            rate_limiter=rate_limiter,
         ).text,
         'html.parser',
     )
