@@ -3,6 +3,7 @@ import os
 import re
 import traceback
 import warnings
+import requests
 from bs4 import BeautifulSoup
 import mwparserfromhell as mwp
 from tqdm import tqdm
@@ -51,13 +52,10 @@ headers = {
     "accept-encoding": "gzip, deflate",
     "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
 }
-cooldown = 3
 
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
     try:
-        # Try to parse as JSON
-        import json
         cookie_dict = json.loads(cookies)
         cookie_str = '; '.join([f'{key}={value}' for key, value in cookie_dict.items()])
         print('Parsed cookies:', cookie_str)
@@ -75,6 +73,8 @@ success_count_lock = Lock()
 
 
 def gen_cache_path(name):
+    if not name or not name.strip():
+        raise ValueError(f"Invalid name: {name}")
     name = name.replace("/", "")
     name = name.replace("\\", "")
     name = name.replace("?", "")
@@ -187,6 +187,7 @@ def crawl(name, bar):
         t = textarea.contents[0]  # type: ignore
 
         with file_write_lock:
+            os.makedirs(os.path.dirname(cache_path), exist_ok=True)
             open(cache_path, 'w', encoding='utf8').write(t)
         
         with success_count_lock:
@@ -227,7 +228,8 @@ for idx, name in enumerate(bar):
     try:
         cache_path = gen_cache_path(name)
         if os.path.exists(cache_path):
-            wikitext = open(cache_path, encoding="utf-8").read()
+            with open(cache_path, encoding="utf-8") as f:
+                wikitext = f.read()
         else:
             continue
         p = parse(wikitext)
@@ -242,4 +244,5 @@ for idx, name in enumerate(bar):
         traceback.print_exc()
 bar.close()
 print('Valid extra:', len(extra_info))
+os.makedirs(os.path.dirname('moegirl/crawler_extra/extra_info.json'), exist_ok=True)
 save_json(extra_info, 'moegirl/crawler_extra/extra_info.json')
