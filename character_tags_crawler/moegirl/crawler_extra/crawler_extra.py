@@ -70,6 +70,8 @@ if cookies:
 file_write_lock = Lock()
 dynamic_cooldown = DynamicCooldown()
 rate_limiter = RateLimiter(max_requests_per_second=30)
+success_count = 0
+success_count_lock = Lock()
 
 
 def gen_cache_path(name):
@@ -160,6 +162,7 @@ def parse(raw):
 
 
 def crawl(name, bar):
+    global success_count
     cache_path = gen_cache_path(name)
     if os.path.exists(cache_path):
         return
@@ -185,6 +188,11 @@ def crawl(name, bar):
 
         with file_write_lock:
             open(cache_path, 'w', encoding='utf8').write(t)
+        
+        with success_count_lock:
+            success_count += 1
+            if success_count % 1000 == 0:
+                bar.write(f'Progress: {success_count} items successfully crawled')
     except Exception as e:
         bar.write(f'{name} -> Error: {str(e)}')
         traceback.print_exc()
@@ -196,7 +204,6 @@ with ThreadPoolExecutor(max_workers=8) as executor:
     futures = {}
     with tqdm(char_index) as bar:
         for i in bar:
-            bar.set_description(i)
             future = executor.submit(crawl, i, bar)
             futures[future] = i
         
@@ -211,7 +218,6 @@ with ThreadPoolExecutor(max_workers=8) as executor:
 extra_info = {}
 bar = tqdm(char_index)
 for idx, name in enumerate(bar):
-    bar.display(name)
     try:
         cache_path = gen_cache_path(name)
         if os.path.exists(cache_path):
@@ -225,6 +231,9 @@ for idx, name in enumerate(bar):
             bar.write(f'No output: {name}')
     except KeyboardInterrupt as e:
         break
+    except Exception as e:
+        bar.write(f'Error processing {name}: {str(e)}')
+        traceback.print_exc()
 bar.close()
 print('Valid extra:', len(extra_info))
 save_json(extra_info, 'moegirl/crawler_extra/extra_info.json')

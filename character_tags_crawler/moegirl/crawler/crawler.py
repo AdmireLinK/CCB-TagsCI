@@ -264,6 +264,8 @@ def parse_index(url, ret, stk=[], filter_function=None):
                         ret['pages'].append(tmp)
                         with page_count_lock:
                             page_count += 1
+                            if page_count % 1000 == 0:
+                                print_debug(f'Progress: {page_count} pages crawled', color=GREEN)
 
                     if retry_cnt is not None:
                         diff = len(ret['pages']) - prev_pages_count
