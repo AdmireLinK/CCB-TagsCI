@@ -168,7 +168,7 @@ def crawl(name, bar):
         return
     url = base_url + "/index.php?title={}&action=edit".format(title_to_url(name))
     try:
-        response = safe_get(url, bar, headers=headers, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter)
+        response = safe_get(url, bar, headers=headers, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter, timeout=30)
         if response is None:
             bar.write(f'{name} -> No response from server')
             return
@@ -193,6 +193,12 @@ def crawl(name, bar):
             success_count += 1
             if success_count % 1000 == 0:
                 bar.write(f'Progress: {success_count} items successfully crawled')
+    except requests.exceptions.Timeout as e:
+        bar.write(f'{name} -> Timeout error: {str(e)}')
+    except requests.exceptions.ConnectionError as e:
+        bar.write(f'{name} -> Connection error: {str(e)}')
+    except requests.exceptions.RequestException as e:
+        bar.write(f'{name} -> Request error: {str(e)}')
     except Exception as e:
         bar.write(f'{name} -> Error: {str(e)}')
         traceback.print_exc()
