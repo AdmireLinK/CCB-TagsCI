@@ -55,9 +55,17 @@ cooldown = 3
 
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
-    print('cookies:', cookies)
-    print()
-    headers['Cookie'] = cookies
+    try:
+        # Try to parse as JSON
+        import json
+        cookie_dict = json.loads(cookies)
+        cookie_str = '; '.join([f'{key}={value}' for key, value in cookie_dict.items()])
+        print('Parsed cookies:', cookie_str)
+        headers['Cookie'] = cookie_str
+    except json.JSONDecodeError:
+        # If not JSON, use as-is
+        print('Using raw cookies:', cookies)
+        headers['Cookie'] = cookies
 
 file_write_lock = Lock()
 dynamic_cooldown = DynamicCooldown()
