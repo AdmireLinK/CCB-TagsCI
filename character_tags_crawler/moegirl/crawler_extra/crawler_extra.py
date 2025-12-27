@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 import mwparserfromhell as mwp
 from tqdm import tqdm
 from bs4 import MarkupResemblesLocatorWarning
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 
 from utils.network import safe_get, title_to_url
 from utils.file import save_json, chdir_project_root
@@ -56,6 +58,8 @@ if cookies:
     print('cookies:', cookies)
     print()
     headers['Cookie'] = cookies
+
+file_write_lock = Lock()
 
 
 def gen_cache_path(name):
@@ -148,7 +152,6 @@ def parse(raw):
 def crawl(name, bar):
     cache_path = gen_cache_path(name)
     if os.path.exists(cache_path):
-        # bar.write(name + ' exists.')
         return
     url = base_url + "/index.php?title={}&action=edit".format(title_to_url(name))
     try:
@@ -170,18 +173,30 @@ def crawl(name, bar):
             return
         t = textarea.contents[0]  # type: ignore
 
-        open(cache_path, 'w', encoding='utf8').write(t)
+        with file_write_lock:
+            open(cache_path, 'w', encoding='utf8').write(t)
     except Exception as e:
         bar.write(f'{name} -> Error: {str(e)}')
         traceback.print_exc()
-    # print(t)
 
 
 char_index = json.load(open("moegirl/preprocess/char_index.json", encoding="utf-8"))
-with tqdm(char_index) as bar:
-    for i in bar:
-        bar.set_description(i)
-        crawl(i, bar)
+
+with ThreadPoolExecutor(max_workers=8) as executor:
+    futures = {}
+    with tqdm(char_index) as bar:
+        for i in bar:
+            bar.set_description(i)
+            future = executor.submit(crawl, i, bar)
+            futures[future] = i
+        
+        for future in as_completed(futures):
+            name = futures[future]
+            try:
+                future.result()
+            except Exception as e:
+                bar.write(f'Error processing {name}: {str(e)}')
+                traceback.print_exc()
 
 extra_info = {}
 bar = tqdm(char_index)
@@ -190,7 +205,6 @@ for idx, name in enumerate(bar):
     try:
         cache_path = gen_cache_path(name)
         if os.path.exists(cache_path):
-            # print('cache hit: '+cache_name)
             wikitext = open(cache_path, encoding="utf-8").read()
         else:
             continue

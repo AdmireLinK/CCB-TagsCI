@@ -6,6 +6,9 @@ import time
 from bs4 import BeautifulSoup
 from urllib3 import Retry
 from requests.adapters import HTTPAdapter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
+import threading
 
 from utils.file import *
 from utils.network import safe_soup, quote_all, DynamicCooldown
@@ -60,6 +63,9 @@ dynamic_cooldown = DynamicCooldown(
 
 page_count = 0
 characters = {}
+page_count_lock = Lock()
+characters_lock = Lock()
+dynamic_cooldown_lock = Lock()
 
 
 def unique(l):
@@ -254,7 +260,8 @@ def parse_index(url, ret, stk=[], filter_function=None):
                             continue
                         pages_set.add(tmp['url'])
                         ret['pages'].append(tmp)
-                        page_count += 1
+                        with page_count_lock:
+                            page_count += 1
 
                     if retry_cnt is not None:
                         diff = len(ret['pages']) - prev_pages_count
@@ -417,14 +424,27 @@ def parse_index(url, ret, stk=[], filter_function=None):
             print_debug('already finish2. return', color=GREY)
         else:
             ret['subcategories'] = unique(ret['subcategories'])
-            for i in ret['subcategories']:
-                name = i['name']
-                parse_index(
-                    i['url'],
-                    i,
-                    stk2,
-                    filter_function=filter_function,
-                )
+            
+            with ThreadPoolExecutor(max_workers=8) as executor:
+                futures = {}
+                for i in ret['subcategories']:
+                    name = i['name']
+                    future = executor.submit(
+                        parse_index,
+                        i['url'],
+                        i,
+                        stk2,
+                        filter_function=filter_function,
+                    )
+                    futures[future] = name
+                
+                for future in as_completed(futures):
+                    name = futures[future]
+                    try:
+                        future.result()
+                    except Exception as e:
+                        print_debug(f'Error processing {name}: {str(e)}', color=ERROR)
+                        traceback.print_exc()
 
             flag = True
             for i in ret['subcategories']:
@@ -432,7 +452,6 @@ def parse_index(url, ret, stk=[], filter_function=None):
                     flag = False
             if flag:
                 ret['finish2'] = True
-                # print_debug('finish2', color=GREY)
             else:
                 print_debug('what happened? why not finish2? anyway', color=ERROR)
 
