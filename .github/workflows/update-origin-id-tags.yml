@@ -1,4 +1,4 @@
-name: Generate ID Tags
+name: Update Origin ID Tags
 
 on:
   workflow_dispatch:
