@@ -263,6 +263,69 @@ class UserTagProcessor:
             logger.error(f"Error parsing existing JS file: {e}")
             return {}
 
+    def parse_js_id_tags_from_history(self, js_path: str) -> Dict[str, List[str]]:
+        if not os.path.exists(js_path):
+            logger.warning(f"Existing JS file not found at {js_path}")
+            return {}
+            
+        # Try reading the current file first
+        existing_tags = self.parse_js_id_tags(js_path)
+        if len(existing_tags) > 31000:
+            logger.info(f"Current JS file contains complete tag set ({len(existing_tags)} characters). Using it directly.")
+            return existing_tags
+            
+        # If current file has fewer characters (e.g. due to previous failed run), walk back git history
+        logger.info("Current JS file appears incomplete. Walking back git history of the file...")
+        import subprocess
+        try:
+            repo_dir = os.path.normpath(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(js_path)))))
+            relative_file_path = os.path.relpath(js_path, repo_dir).replace('\\', '/')
+            logger.info(f"Checking history for file: {relative_file_path} in repo: {repo_dir}")
+            
+            commits_raw = subprocess.check_output(
+                ["git", "log", "--format=%H", "--", relative_file_path],
+                cwd=repo_dir,
+                text=True,
+                encoding='utf-8'
+            )
+            commits = [c.strip() for c in commits_raw.strip().split('\n') if c.strip()]
+            
+            for commit in commits:
+                logger.info(f"Checking commit {commit} for complete tag set...")
+                content = subprocess.check_output(
+                    ["git", "show", f"{commit}:{relative_file_path}"],
+                    cwd=repo_dir,
+                    text=True,
+                    encoding='utf-8'
+                )
+                
+                # Parse the file content from this commit
+                tags = {}
+                import re
+                match = re.search(r'idToTags\s*=\s*\{(.*?)\};', content, re.DOTALL)
+                if not match:
+                    match = re.search(r'idToTags\s*=\s*\{(.*?)\}', content, re.DOTALL)
+                if match:
+                    body = match.group(1)
+                    for item in re.finditer(r'(\d+)\s*:\s*\[(.*?)\]', body):
+                        char_id = item.group(1)
+                        tags_str = item.group(2)
+                        tags_lst = []
+                        if tags_str.strip():
+                            tags_lst = [t.strip(' "\'') for t in tags_str.split(',')]
+                            tags_lst = [t for t in tags_lst if t]
+                        tags[char_id] = tags_lst
+                        
+                if len(tags) > 31000:
+                    logger.info(f"Found complete tag set ({len(tags)} characters) in commit {commit}!")
+                    return tags
+                    
+        except Exception as e:
+            logger.error(f"Error walking back git history of JS file: {e}")
+            
+        # Fallback to current if history retrieval fails
+        return existing_tags
+
     def merge_user(self, bgmid: str, tags: List[str], user_tags: Dict[str, int]) -> List[str]:
         multicolor_hair = False
 
@@ -395,11 +458,11 @@ class UserTagProcessor:
         with open(base_tags_path, 'r', encoding='utf-8') as f:
             original_tags = json.load(f)
 
-        # Load existing JS tags as fallback for missing characters
+        # Load existing JS tags as fallback for missing characters (walk git history if current file is incomplete)
         existing_tags = {}
         if existing_js_path and os.path.exists(existing_js_path):
             logger.info(f"Loading existing JS tags from {existing_js_path} as fallback...")
-            existing_tags = self.parse_js_id_tags(existing_js_path)
+            existing_tags = self.parse_js_id_tags_from_history(existing_js_path)
 
         # Merge base tags and existing tags (retaining characters not in original_tags)
         merged_base_tags = original_tags.copy()

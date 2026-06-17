@@ -14,6 +14,11 @@ sys.path.insert(0, file_dir)
 
 # Load environment variables from guesser repo's server/.env file
 guesser_env_path = os.path.normpath(os.path.join(project_root, '..', 'anime-character-guessr', 'server', '.env'))
+if not os.path.exists(guesser_env_path):
+    fallback_env_path = os.path.normpath(os.path.join(project_root, 'anime-character-guessr', 'server', '.env'))
+    if os.path.exists(fallback_env_path):
+        guesser_env_path = fallback_env_path
+
 if os.path.exists(guesser_env_path):
     logger.info(f"Loading environment variables from {guesser_env_path}")
     load_dotenv(dotenv_path=guesser_env_path)
@@ -57,6 +62,12 @@ def main():
     existing_js_path = os.path.normpath(os.path.join(
         project_root, '..', 'anime-character-guessr', 'client', 'src', 'data', 'id_tags.js'
     ))
+    if not os.path.exists(existing_js_path):
+        fallback_js_path = os.path.normpath(os.path.join(
+            project_root, 'anime-character-guessr', 'client', 'src', 'data', 'id_tags.js'
+        ))
+        if os.path.exists(fallback_js_path):
+            existing_js_path = fallback_js_path
     
     # Merge and optimize tags
     processor.merge_and_save(
