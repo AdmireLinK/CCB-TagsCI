@@ -6,6 +6,9 @@ on:
     - cron: '0 20 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   merge-feedback:
     runs-on: ubuntu-latest
@@ -13,6 +16,15 @@ jobs:
     steps:
       - name: Checkout CCB-TagsCI
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+      
+      - name: Checkout Guesser Repository
+        uses: actions/checkout@v4
+        with:
+          repository: AdmireLinK/anime-character-guessr
+          token: ${{ secrets.CI_TOKEN }}
+          path: anime-character-guessr
       
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -38,13 +50,6 @@ jobs:
           git diff --staged --quiet || git commit -m "CI：user feedback tags update"
           git push
  
-      - name: Checkout Guesser Repository
-        uses: actions/checkout@v4
-        with:
-          repository: AdmireLinK/anime-character-guessr
-          token: ${{ secrets.CI_TOKEN }}
-          path: anime-character-guessr
-
       - name: Copy outputs to Guesser Repository
         run: |
           # 创建目标文件夹以防不存在
