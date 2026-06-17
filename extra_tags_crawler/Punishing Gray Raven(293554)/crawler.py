@@ -177,10 +177,11 @@ def process_pns():
     pns_assets_dir = OUTPUT_ASSETS_DIR / PNS_ID
     pns_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    # 获取本地所有的资源列表，以便按需拼接 HTML 还是纯文本
     local_pns_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "pns"
     available_icons = set()
-    if local_pns_tags.exists():
+    if pns_assets_dir.exists() and any(pns_assets_dir.glob("*.png")):
+        available_icons = {f.name.rsplit(".", 1)[0] for f in pns_assets_dir.glob("*.png")}
+    elif local_pns_tags.exists():
         available_icons = {f.rsplit(".", 1)[0] for f in os.listdir(local_pns_tags) if f.endswith(".png")}
 
     for cid, info in bgm_characters.items():

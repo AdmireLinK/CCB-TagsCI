@@ -165,10 +165,11 @@ def process_hsr():
     hsr_assets_dir = OUTPUT_ASSETS_DIR / HSR_ID
     hsr_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    # 获取本地所有的资源列表，以检查是否存在对应图标
     local_hsr_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "hsr"
     available_icons = set()
-    if local_hsr_tags.exists():
+    if hsr_assets_dir.exists() and any(hsr_assets_dir.glob("*.png")):
+        available_icons = {f.name.rsplit(".", 1)[0] for f in hsr_assets_dir.glob("*.png")}
+    elif local_hsr_tags.exists():
         available_icons = {f.rsplit(".", 1)[0] for f in os.listdir(local_hsr_tags) if f.endswith(".png")}
 
     for cid, info in bgm_characters.items():

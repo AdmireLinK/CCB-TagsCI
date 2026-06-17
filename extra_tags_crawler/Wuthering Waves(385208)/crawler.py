@@ -150,10 +150,11 @@ def process_mc():
     mc_assets_dir = OUTPUT_ASSETS_DIR / MC_ID
     mc_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    # 获取本地所有的资源列表，以便按需拼接 HTML 还是纯文本
     local_mc_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "mc"
     available_icons = set()
-    if local_mc_tags.exists():
+    if mc_assets_dir.exists() and any(mc_assets_dir.glob("*.png")):
+        available_icons = {f.name.rsplit(".", 1)[0] for f in mc_assets_dir.glob("*.png")}
+    elif local_mc_tags.exists():
         available_icons = {f.rsplit(".", 1)[0] for f in os.listdir(local_mc_tags) if f.endswith(".png")}
 
     for cid, info in bgm_characters.items():
