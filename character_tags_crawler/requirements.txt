@@ -1,7 +1,9 @@
-bs4
+beautifulsoup4
 requests
+brotli
 numpy
 tqdm
 mwparserfromhell
 pypinyin
 opencc
+dotenv

@@ -10,7 +10,7 @@ from tqdm import tqdm
 import PIL.Image as Image
 
 from utils.file import chdir_project_root
-from utils.network import safe_download, safe_get, title_to_url, DynamicCooldown
+from utils.network import safe_download, safe_get, title_to_url
 
 chdir_project_root()
 
@@ -36,17 +36,11 @@ headers = {
     "sec-ch-ua-platform": '"Windows"',
 }
 
-dynamic_cooldown = DynamicCooldown(
-    initial=0.2,
-    min_cooldown=0.1,
-    max_cooldown=5.0,
-    slow_threshold=1.0,
-    fast_threshold=0.3,
-    increase_factor=1.5,
-    decrease_factor=0.95,
-    jitter=0.3
-)
+cooldown = 5
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv(raise_error_if_not_found=True), verbose=True)
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
     print('cookies:', cookies)
@@ -109,7 +103,7 @@ for idx, i in enumerate(bar):
                 fname2,
                 bar,
                 headers=headers,
-                dynamic_cooldown=dynamic_cooldown,
+                cooldown=cooldown,
             )
         else:
             res = safe_get(
@@ -119,20 +113,10 @@ for idx, i in enumerate(bar):
                 ),
                 bar=bar,
                 headers=headers,
-                dynamic_cooldown=dynamic_cooldown,
+                cooldown=cooldown,
             )
-            if res is None or res.status_code != 200:
-                bar.write(f"Failed to get URL for {url}")
-                continue
-            try:
-                data = res.json()
-            except Exception as e:
-                bar.write(f"Failed to parse JSON for {url}: {str(e)}")
-                continue
-            if "parse" not in data or "text" not in data["parse"]:
-                bar.write(f"Invalid response format for {url}")
-                continue
-            soup = BeautifulSoup(data["parse"]["text"]["*"], features="html.parser")
+            res = res.json()
+            soup = BeautifulSoup(res["parse"]["text"]["*"], features="html.parser")
             url2 = soup.find("img")
             assert url2 is not None
             url2 = url2.attrs["src"]
@@ -141,7 +125,7 @@ for idx, i in enumerate(bar):
                 fname2,
                 bar,
                 headers=headers,
-                dynamic_cooldown=dynamic_cooldown,
+                cooldown=cooldown,
             )
     except Exception as e:
         # print(e)

@@ -1,0 +1,712 @@
+{
+  "Airi": {
+    "stars": 2,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "Akane": {
+    "stars": 2,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "AkaneBunny": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Akari": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Ako": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Aris": {
+    "stars": 3,
+    "weapon": "RG",
+    "position": "后排"
+  },
+  "ArisMaid": {
+    "stars": 3,
+    "weapon": "RG",
+    "position": "后排"
+  },
+  "Aru": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "AruNewyear": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Asuna": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "AsunaBunny": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Atsuko": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Ayane": {
+    "stars": 2,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "AyaneSwimsuit": {
+    "stars": 1,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Azusa": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "AzusaSwimsuit": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Cherino": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "CherinoHotspring": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Chihiro": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Chinatsu": {
+    "stars": 1,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "ChinatsuHotspring": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Chise": {
+    "stars": 2,
+    "weapon": "GL",
+    "position": "中排"
+  },
+  "ChiseSwimsuit": {
+    "stars": 3,
+    "weapon": "GL",
+    "position": "中排"
+  },
+  "Eimi": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Fubuki": {
+    "stars": 1,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Fuuka": {
+    "stars": 2,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "FuukaNewyear": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "Hanae": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "HanaeChristmas": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Hanako": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Hare": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Haruka": {
+    "stars": 1,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "HarukaNewyear": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "后排"
+  },
+  "Haruna": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "HarunaNewyear": {
+    "stars": 3,
+    "weapon": "sr",
+    "position": "后排"
+  },
+  "Hasumi": {
+    "stars": 2,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "HasumiTrack": {
+    "stars": 1,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "HatsuneMiku": {
+    "stars": 3,
+    "weapon": "GL",
+    "position": "后排"
+  },
+  "Hibiki": {
+    "stars": 3,
+    "weapon": "MT",
+    "position": "后排"
+  },
+  "HibikiCheerleader": {
+    "stars": 1,
+    "weapon": "MT",
+    "position": "后排"
+  },
+  "Hifumi": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "HifumiSwimsuit": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Himari": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Hina": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "HinaSwimsuit": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Hinata": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Hiyori": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Hoshino": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "HoshinoSwimsuit": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Iori": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "IoriSwimsuit": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Iroha": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Izumi": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "IzumiSwimsuit": {
+    "stars": 1,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Izuna": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "IzunaSwimsuit": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Junko": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "JunkoNewyear": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Juri": {
+    "stars": 1,
+    "weapon": "SG",
+    "position": "后排"
+  },
+  "Kaede": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Kaho": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Kanna": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Karin": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "KarinBunny": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Kayoko": {
+    "stars": 2,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "KayokoNewyear": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Kazusa": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Kirino": {
+    "stars": 2,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Koharu": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Kokona": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Kotama": {
+    "stars": 1,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Kotori": {
+    "stars": 1,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Koyuki": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Maki": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Mari": {
+    "stars": 2,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "MariTrack": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Marina": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Mashiro": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "MashiroSwimsuit": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Megu": {
+    "stars": 3,
+    "weapon": "FT",
+    "position": "前排"
+  },
+  "Michiru": {
+    "stars": 1,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Midori": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Mika": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Mimori": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Mine": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Misaki": {
+    "stars": 3,
+    "weapon": "RL",
+    "position": "后排"
+  },
+  "Miyako": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Miyu": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Moe": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Momoi": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Mutsuki": {
+    "stars": 2,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "MutsukiNewyear": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Nagisa": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Natsu": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Neru": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "NeruBunny": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Noa": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Nodoka": {
+    "stars": 1,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "NodokaHotspring": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "Nonomi": {
+    "stars": 2,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "NonomiSwimsuit": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Pina": {
+    "stars": 1,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Reisa": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Saki": {
+    "stars": 3,
+    "weapon": "MG",
+    "position": "后排"
+  },
+  "Sakurako": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Saori": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Saya": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "SayaCasual": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "后排"
+  },
+  "Sena": {
+    "stars": 3,
+    "weapon": "GL",
+    "position": "后排"
+  },
+  "Serika": {
+    "stars": 2,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "SerikaNewyear": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Serina": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "SerinaChristmas": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Shigure": {
+    "stars": 3,
+    "weapon": "GL",
+    "position": "中排"
+  },
+  "Shimiko": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Shiroko": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "ShirokoRiding": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Shizuko": {
+    "stars": 2,
+    "weapon": "SG",
+    "position": "后排"
+  },
+  "ShizukoSwimsuit": {
+    "stars": 1,
+    "weapon": "SG",
+    "position": "后排"
+  },
+  "Shun": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "ShunYoung": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Sumire": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Suzumi": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Toki": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "TokiBunny": {
+    "stars": 3,
+    "weapon": "AR",
+    "position": "中排"
+  },
+  "Tomoe": {
+    "stars": 1,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Tsubaki": {
+    "stars": 2,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Tsukuyo": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Tsurugi": {
+    "stars": 3,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "TsurugiSwimsuit": {
+    "stars": 1,
+    "weapon": "SG",
+    "position": "前排"
+  },
+  "Ui": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Utaha": {
+    "stars": 2,
+    "weapon": "SMG",
+    "position": "后排"
+  },
+  "UtahaCheerleader": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Wakamo": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "WakamoSwimsuit": {
+    "stars": 3,
+    "weapon": "SR",
+    "position": "后排"
+  },
+  "Yoshimi": {
+    "stars": 1,
+    "weapon": "AR",
+    "position": "后排"
+  },
+  "Yuuka": {
+    "stars": 2,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "YuukaTrack": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  },
+  "Yuzu": {
+    "stars": 3,
+    "weapon": "GL",
+    "position": "中排"
+  },
+  "YuzuMaid": {
+    "stars": 1,
+    "weapon": "GL",
+    "position": "后排"
+  },
+  "Mina": {
+    "stars": 3,
+    "weapon": "HG",
+    "position": "中排"
+  },
+  "Rumi": {
+    "stars": 3,
+    "weapon": "SMG",
+    "position": "前排"
+  }
+}

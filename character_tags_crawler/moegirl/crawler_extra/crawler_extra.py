@@ -3,15 +3,12 @@ import os
 import re
 import traceback
 import warnings
-import requests
 from bs4 import BeautifulSoup
 import mwparserfromhell as mwp
 from tqdm import tqdm
 from bs4 import MarkupResemblesLocatorWarning
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from threading import Lock
 
-from utils.network import safe_get, title_to_url, DynamicCooldown, RateLimiter
+from utils.network import safe_get, title_to_url
 from utils.file import save_json, chdir_project_root
 from moegirl.crawler_extra.mwutils import remove_style
 
@@ -52,29 +49,19 @@ headers = {
     "accept-encoding": "gzip, deflate",
     "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
 }
+cooldown = 3
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv(raise_error_if_not_found=True), verbose=True)
 cookies = os.getenv("MOEGIRL_COOKIES")
 if cookies:
-    try:
-        cookie_dict = json.loads(cookies)
-        cookie_str = '; '.join([f'{key}={value}' for key, value in cookie_dict.items()])
-        print('Parsed cookies:', cookie_str)
-        headers['Cookie'] = cookie_str
-    except json.JSONDecodeError:
-        # If not JSON, use as-is
-        print('Using raw cookies:', cookies)
-        headers['Cookie'] = cookies
-
-file_write_lock = Lock()
-dynamic_cooldown = DynamicCooldown()
-rate_limiter = RateLimiter(max_requests_per_second=30)
-success_count = 0
-success_count_lock = Lock()
+    print('cookies:', cookies)
+    print()
+    headers['Cookie'] = cookies
 
 
 def gen_cache_path(name):
-    if not name or not name.strip():
-        raise ValueError(f"Invalid name: {name}")
     name = name.replace("/", "")
     name = name.replace("\\", "")
     name = name.replace("?", "")
@@ -162,74 +149,37 @@ def parse(raw):
 
 
 def crawl(name, bar):
-    global success_count
     cache_path = gen_cache_path(name)
     if os.path.exists(cache_path):
+        # bar.write(name + ' exists.')
         return
     url = base_url + "/index.php?title={}&action=edit".format(title_to_url(name))
-    try:
-        response = safe_get(url, bar, headers=headers, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter, timeout=30)
-        if response is None:
-            bar.write(f'{name} -> No response from server')
-            return
-        res = response.text
-        if not res or len(res) < 100:
-            bar.write(f'{name} -> Empty or too short response (length: {len(res)})')
-            return
-        soup = BeautifulSoup(res, features="html.parser")
-        textarea = soup.find('textarea')
-        if textarea is None:
-            bar.write(f'{name} -> No textarea found in response')
-            return
-        if not textarea.contents or len(textarea.contents) == 0:
-            bar.write(f'{name} -> Textarea found but empty')
-            return
-        t = textarea.contents[0]  # type: ignore
+    res = safe_get(url, bar, headers=headers, cooldown=cooldown).text
+    # print(res)
+    soup = BeautifulSoup(res, features="html.parser")
+    # print(soup)
+    t = soup.find('textarea').contents[0]  # type: ignore
 
-        with file_write_lock:
-            os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-            open(cache_path, 'w', encoding='utf8').write(t)
-        
-        with success_count_lock:
-            success_count += 1
-            if success_count % 1000 == 0:
-                bar.write(f'Progress: {success_count} items successfully crawled')
-    except requests.exceptions.Timeout as e:
-        bar.write(f'{name} -> Timeout error: {str(e)}')
-    except requests.exceptions.ConnectionError as e:
-        bar.write(f'{name} -> Connection error: {str(e)}')
-    except requests.exceptions.RequestException as e:
-        bar.write(f'{name} -> Request error: {str(e)}')
-    except Exception as e:
-        bar.write(f'{name} -> Error: {str(e)}')
-        traceback.print_exc()
+    open(cache_path, 'w', encoding='utf8').write(t)
+    # print(soup)
+    # print(t)
 
-
+os.makedirs("moegirl/crawler_extra/raw", exist_ok=True)
 char_index = json.load(open("moegirl/preprocess/char_index.json", encoding="utf-8"))
-
-with ThreadPoolExecutor(max_workers=8) as executor:
-    futures = {}
-    with tqdm(char_index) as bar:
-        for i in bar:
-            future = executor.submit(crawl, i, bar)
-            futures[future] = i
-        
-        for future in as_completed(futures):
-            name = futures[future]
-            try:
-                future.result()
-            except Exception as e:
-                bar.write(f'Error processing {name}: {str(e)}')
-                traceback.print_exc()
+with tqdm(char_index) as bar:
+    for i in bar:
+        bar.set_description(i)
+        crawl(i, bar)
 
 extra_info = {}
 bar = tqdm(char_index)
 for idx, name in enumerate(bar):
+    bar.set_description(name)
     try:
         cache_path = gen_cache_path(name)
         if os.path.exists(cache_path):
-            with open(cache_path, encoding="utf-8") as f:
-                wikitext = f.read()
+            # print('cache hit: '+cache_name)
+            wikitext = open(cache_path, encoding="utf-8").read()
         else:
             continue
         p = parse(wikitext)
@@ -239,10 +189,6 @@ for idx, name in enumerate(bar):
             bar.write(f'No output: {name}')
     except KeyboardInterrupt as e:
         break
-    except Exception as e:
-        bar.write(f'Error processing {name}: {str(e)}')
-        traceback.print_exc()
 bar.close()
 print('Valid extra:', len(extra_info))
-os.makedirs(os.path.dirname('moegirl/crawler_extra/extra_info.json'), exist_ok=True)
 save_json(extra_info, 'moegirl/crawler_extra/extra_info.json')

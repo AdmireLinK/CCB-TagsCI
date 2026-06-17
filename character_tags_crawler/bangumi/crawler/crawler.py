@@ -9,7 +9,7 @@ from tqdm import tqdm
 from urllib3 import Retry
 from requests.adapters import HTTPAdapter
 
-from utils.network import safe_get, safe_soup, safe_download, DynamicCooldown, RateLimiter
+from utils.network import safe_get, safe_soup, safe_download
 from utils.file import save_json, chdir_project_root
 
 chdir_project_root()
@@ -21,17 +21,7 @@ headers = {
     'User-Agent': 'Zzzyt/MoeRanker (https://github.com/Zzzzzzyt/MoeRanker)',
     # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
-dynamic_cooldown = DynamicCooldown(
-    initial=0.2,
-    min_cooldown=0.1,
-    max_cooldown=5.0,
-    slow_threshold=1.0,
-    fast_threshold=0.3,
-    increase_factor=1.5,
-    decrease_factor=0.95,
-    jitter=0.3
-)
-rate_limiter = RateLimiter(max_requests_per_second=30)
+cooldown = 2
 TIMEOUT = 10
 
 ses = requests.Session()
@@ -47,8 +37,7 @@ def crawl_index(count):
             soup = safe_soup(
                 f'https://bgm.tv/character?orderby=collects&page={i+1}',
                 bar,
-                dynamic_cooldown=dynamic_cooldown,
-                rate_limiter=rate_limiter,
+                cooldown=cooldown,
                 headers=headers,
             )
             chars = soup.find(id='columnCrtBrowserB').find_all('div')[1]  # type: ignore
@@ -77,21 +66,14 @@ def crawl_characters(index):
         for i in bar:
             id = i['id']
             bar.set_description('{} {}'.format(i['name'], id))
-            res = safe_get(
-                f'https://api.bgm.tv/v0/characters/{id}',
-                bar,
-                headers=headers,
-                dynamic_cooldown=dynamic_cooldown,
-                rate_limiter=rate_limiter,
+            data = json.loads(
+                safe_get(
+                    f'https://api.bgm.tv/v0/characters/{id}',
+                    bar,
+                    headers=headers,
+                    cooldown=cooldown,
+                ).text,
             )
-            if res is None or res.status_code != 200:
-                bar.write(f'Failed to get character data for {id}')
-                continue
-            try:
-                data = json.loads(res.text)
-            except Exception as e:
-                bar.write(f'Failed to parse JSON for {id}: {str(e)}')
-                continue
             ret[id] = data
     except BaseException as e:
         bar.write(str(e))
@@ -112,22 +94,16 @@ def crawl_bangumi_id(index, url, ret: dict = {}):
                     bar,
                     headers=headers,
                     verbose=True,
-                    dynamic_cooldown=dynamic_cooldown,
-                    rate_limiter=rate_limiter,
+                    cooldown=cooldown,
                 )
-                if res is None or res.status_code != 200:
-                    ret[i] = {}
-                    continue
-                try:
-                    ret[i] = res.json()
-                except Exception as e:
-                    bar.write(f'Failed to parse JSON for {i}: {str(e)}')
-                    ret[i] = {}
+                ret[i] = res.json()
             except KeyboardInterrupt as e:
                 raise e
             except requests.HTTPError as e:
                 if e.response.status_code == 404:
+                    # continue
                     ret[i] = {}
+                    # return {}, None
                 else:
                     raise e
     except BaseException as e:
@@ -156,12 +132,12 @@ def download_thumnail(index, chars):
             avatar = images['large'].replace(
                 'https://lain.bgm.tv/pic/crt/l/', 'https://lain.bgm.tv/pic/crt/g/'
             )
-            safe_download(avatar, 'bangumi/images/{}-avatar.jpg'.format(id), bar, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter)
+            safe_download(avatar, 'bangumi/images/{}-avatar.jpg'.format(id), bar)
             # safe_download(images['small'], 'images/{}-small.jpg'.format(id),bar)
             # safe_download(images['grid'], 'images/{}-grid.jpg'.format(id),bar)
             # safe_download(images['medium'], 'images/{}-medium.jpg'.format(id),bar)
             safe_download(
-                images['large'], 'bangumi/images/{}-large.jpg'.format(id), bar, dynamic_cooldown=dynamic_cooldown, rate_limiter=rate_limiter
+                images['large'], 'bangumi/images/{}-large.jpg'.format(id), bar
             )
         except Exception as e:
             bar.write(str(e))

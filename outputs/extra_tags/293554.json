@@ -1,767 +1,818 @@
 {
-    "86263": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>",
-            "B": "<img src='/assets/tag/pns/B.png' alt='B'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "光纹太刀": "<img src='/assets/tag/pns/光纹太刀.png' alt='光纹太刀'/>光纹太刀",
-            "太刀": "<img src='/assets/tag/pns/太刀.png' alt='太刀'/>太刀"
-        },
-        "属性": {
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "电束": "<img src='/assets/tag/pns/电束.png' alt='电束'/>电束"
-        },
-        "所属": {
-            "灰鸦小队": "<img src='/assets/tag/pns/灰鸦小队.png' alt='灰鸦小队'/>灰鸦小队"
-        }
+  "86263":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "B":"<img src='/assets/extra_tags/293554/B.png' alt='B' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
     },
-    "86264": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "复合兵装": "<img src='/assets/tag/pns/复合兵装.png' alt='复合兵装'/>复合兵装",
-            "双枪": "<img src='/assets/tag/pns/双枪.png' alt='双枪'/>双枪"
-        },
-        "属性": {
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "灰鸦小队": "<img src='/assets/tag/pns/灰鸦小队.png' alt='灰鸦小队'/>灰鸦小队"
-        }
+    "武器类型":{
+      "光纹太刀":"<img src='/assets/extra_tags/293554/光纹太刀.png'/>光纹太刀",
+      "转轮长刃":"转轮长刃",
+      "封刃太刀":"<img src='/assets/extra_tags/293554/封刃太刀.png'/>封刃太刀",
+      "太刀":"<img src='/assets/extra_tags/293554/太刀.png'/>太刀"
     },
-    "86265": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>",
-            "B": "<img src='/assets/tag/pns/B.png' alt='B'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型",
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "权杖": "<img src='/assets/tag/pns/权杖.png' alt='权杖'/>权杖",
-            "浮游炮": "<img src='/assets/tag/pns/浮游炮.png' alt='浮游炮'/>浮游炮"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "灰鸦小队": "<img src='/assets/tag/pns/灰鸦小队.png' alt='灰鸦小队'/>灰鸦小队"
-        }
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "黯衍":"<img src='/assets/extra_tags/293554/黯衍.png'/>黯衍",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧",
+      "无":"无",
+      "电束":"<img src='/assets/extra_tags/293554/电束.png'/>电束"
     },
-    "86605": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "双枪": "<img src='/assets/tag/pns/双枪.png' alt='双枪'/>双枪"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "阿迪莱商业联盟": "<img src='/assets/tag/pns/阿迪莱商业联盟.png' alt='阿迪莱商业联盟'/>阿迪莱商业联盟"
-        }
-    },
-    "86703": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型",
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "重破锤": "<img src='/assets/tag/pns/重破锤.png' alt='重破锤'/>重破锤",
-            "火炮": "<img src='/assets/tag/pns/火炮.png' alt='火炮'/>火炮"
-        },
-        "属性": {
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火"
-        },
-        "效应": {
-            "电束": "<img src='/assets/tag/pns/电束.png' alt='电束'/>电束"
-        },
-        "所属": {
-            "工程部队": "<img src='/assets/tag/pns/工程部队.png' alt='工程部队'/>工程部队"
-        }
-    },
-    "86945": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "剑杖": "<img src='/assets/tag/pns/剑杖.png' alt='剑杖'/>剑杖",
-            "弓": "<img src='/assets/tag/pns/弓.png' alt='弓'/>弓"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "真意斩": "<img src='/assets/tag/pns/真意斩.png' alt='真意斩'/>真意斩"
-        },
-        "所属": {
-            "清理部队": "<img src='/assets/tag/pns/清理部队.png' alt='清理部队'/>清理部队"
-        }
-    },
-    "87068": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "B": "<img src='/assets/tag/pns/B.png' alt='B'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "盾斧": "<img src='/assets/tag/pns/盾斧.png' alt='盾斧'/>盾斧",
-            "超电锯": "<img src='/assets/tag/pns/超电锯.png' alt='超电锯'/>超电锯",
-            "电锯": "<img src='/assets/tag/pns/电锯.png' alt='电锯'/>电锯"
-        },
-        "属性": {
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "焚烧": "<img src='/assets/tag/pns/焚烧.png' alt='焚烧'/>焚烧"
-        },
-        "所属": {
-            "机械教会": "<img src='/assets/tag/pns/机械教会.png' alt='机械教会'/>机械教会"
-        }
-    },
-    "87069": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型",
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "拓刀": "<img src='/assets/tag/pns/拓刀.png' alt='拓刀'/>拓刀",
-            "短刀": "<img src='/assets/tag/pns/短刀.png' alt='短刀'/>短刀"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "遗忘者": "<img src='/assets/tag/pns/遗忘者.png' alt='遗忘者'/>遗忘者"
-        }
-    },
-    "87070": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "大剑": "<img src='/assets/tag/pns/大剑.png' alt='大剑'/>大剑"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "突击鹰小队": "<img src='/assets/tag/pns/突击鹰小队.png' alt='突击鹰小队'/>突击鹰小队"
-        }
-    },
-    "87071": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "铳刃": "<img src='/assets/tag/pns/铳刃.png' alt='铳刃'/>铳刃",
-            "镰刀": "<img src='/assets/tag/pns/镰刀.png' alt='镰刀'/>镰刀"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "突击鹰小队": "<img src='/assets/tag/pns/突击鹰小队.png' alt='突击鹰小队'/>突击鹰小队"
-        }
-    },
-    "87072": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型",
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "光束铳枪": "<img src='/assets/tag/pns/光束铳枪.png' alt='光束铳枪'/>光束铳枪",
-            "镰刀": "<img src='/assets/tag/pns/镰刀.png' alt='镰刀'/>镰刀"
-        },
-        "属性": {
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "虹莺小队": "<img src='/assets/tag/pns/虹莺小队.png' alt='虹莺小队'/>虹莺小队",
-            "艺术协会": "<img src='/assets/tag/pns/艺术协会.png' alt='艺术协会'/>艺术协会"
-        }
-    },
-    "87073": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "独域·大剑": "<img src='/assets/tag/pns/独域·大剑.png' alt='独域·大剑'/>独域·大剑"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "突击鹰小队": "<img src='/assets/tag/pns/突击鹰小队.png' alt='突击鹰小队'/>突击鹰小队"
-        }
-    },
-    "87074": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型",
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型",
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "双刃枪": "<img src='/assets/tag/pns/双刃枪.png' alt='双刃枪'/>双刃枪",
-            "旗枪": "<img src='/assets/tag/pns/旗枪.png' alt='旗枪'/>旗枪",
-            "太刀": "<img src='/assets/tag/pns/太刀.png' alt='太刀'/>太刀"
-        },
-        "属性": {
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "黯衍": "<img src='/assets/tag/pns/黯衍.png' alt='黯衍'/>黯衍"
-        },
-        "所属": {
-            "三头犬小队": "<img src='/assets/tag/pns/三头犬小队.png' alt='三头犬小队'/>三头犬小队"
-        }
-    },
-    "87075": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "枪盾": "<img src='/assets/tag/pns/枪盾.png' alt='枪盾'/>枪盾"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "北极航线联合": "<img src='/assets/tag/pns/北极航线联合.png' alt='北极航线联合'/>北极航线联合"
-        }
-    },
-    "87076": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型",
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "长剑": "<img src='/assets/tag/pns/长剑.png' alt='长剑'/>长剑",
-            "独域·龙枪": "<img src='/assets/tag/pns/独域·龙枪.png' alt='独域·龙枪'/>独域·龙枪"
-        },
-        "属性": {
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "九龙商会": "<img src='/assets/tag/pns/九龙商会.png' alt='九龙商会'/>九龙商会"
-        }
-    },
-    "87544": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "湮灭型": "<img src='/assets/tag/pns/湮灭型.png' alt='湮灭型'/>湮灭型",
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "月轮": "<img src='/assets/tag/pns/月轮.png' alt='月轮'/>月轮",
-            "增幅器": "<img src='/assets/tag/pns/增幅器.png' alt='增幅器'/>增幅器"
-        },
-        "属性": {
-            "空": "<img src='/assets/tag/pns/空.png' alt='空'/>空",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "紊乱": "<img src='/assets/tag/pns/紊乱.png' alt='紊乱'/>紊乱"
-        },
-        "所属": {
-            "升格者": "<img src='/assets/tag/pns/升格者.png' alt='升格者'/>升格者"
-        }
-    },
-    "96115": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型",
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型",
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "弦剑": "<img src='/assets/tag/pns/弦剑.png' alt='弦剑'/>弦剑",
-            "笛剑": "<img src='/assets/tag/pns/笛剑.png' alt='笛剑'/>笛剑",
-            "独域·提琴剑": "<img src='/assets/tag/pns/独域·提琴剑.png' alt='独域·提琴剑'/>独域·提琴剑"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗",
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "覆冰": "<img src='/assets/tag/pns/覆冰.png' alt='覆冰'/>覆冰"
-        },
-        "所属": {
-            "艺术协会": "<img src='/assets/tag/pns/艺术协会.png' alt='艺术协会'/>艺术协会"
-        }
-    },
-    "96116": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型",
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "左轮手枪": "<img src='/assets/tag/pns/左轮手枪.png' alt='左轮手枪'/>左轮手枪",
-            "枪械组": "<img src='/assets/tag/pns/枪械组.png' alt='枪械组'/>枪械组"
-        },
-        "属性": {
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "覆冰": "<img src='/assets/tag/pns/覆冰.png' alt='覆冰'/>覆冰"
-        },
-        "所属": {
-            "突击鹰小队": "<img src='/assets/tag/pns/突击鹰小队.png' alt='突击鹰小队'/>突击鹰小队"
-        }
-    },
-    "99495": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型",
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "爪刃": "<img src='/assets/tag/pns/爪刃.png' alt='爪刃'/>爪刃",
-            "协作子机": "<img src='/assets/tag/pns/协作子机.png' alt='协作子机'/>协作子机"
-        },
-        "属性": {
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "三头犬小队": "<img src='/assets/tag/pns/三头犬小队.png' alt='三头犬小队'/>三头犬小队"
-        }
-    },
-    "124873": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "封刃太刀": "<img src='/assets/tag/pns/封刃太刀.png' alt='封刃太刀'/>封刃太刀",
-            "太刀": "<img src='/assets/tag/pns/太刀.png' alt='太刀'/>太刀"
-        },
-        "属性": {
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷",
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "黯衍": "<img src='/assets/tag/pns/黯衍.png' alt='黯衍'/>黯衍"
-        },
-        "所属": {
-            "升格者": "<img src='/assets/tag/pns/升格者.png' alt='升格者'/>升格者"
-        }
-    },
-    "124877": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "独域·回旋龙厄": "<img src='/assets/tag/pns/独域·回旋龙厄.png' alt='独域·回旋龙厄'/>独域·回旋龙厄"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "九龙商会": "<img src='/assets/tag/pns/九龙商会.png' alt='九龙商会'/>九龙商会"
-        }
-    },
-    "124878": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "独域·链刀": "<img src='/assets/tag/pns/独域·链刀.png' alt='独域·链刀'/>独域·链刀"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "不明": "<img src='/assets/tag/pns/不明.png' alt='不明'/>不明"
-        }
-    },
-    "124880": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "螳螂刃": "<img src='/assets/tag/pns/螳螂刃.png' alt='螳螂刃'/>螳螂刃"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "清庭白鹭": "<img src='/assets/tag/pns/清庭白鹭.png' alt='清庭白鹭'/>清庭白鹭"
-        }
-    },
-    "129128": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "机械臂": "<img src='/assets/tag/pns/机械臂.png' alt='机械臂'/>机械臂"
-        },
-        "属性": {
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "三头犬小队": "<img src='/assets/tag/pns/三头犬小队.png' alt='三头犬小队'/>三头犬小队"
-        }
-    },
-    "130786": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>",
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型",
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "琵琶": "<img src='/assets/tag/pns/琵琶.png' alt='琵琶'/>琵琶",
-            "折扇": "<img src='/assets/tag/pns/折扇.png' alt='折扇'/>折扇"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "真意斩": "<img src='/assets/tag/pns/真意斩.png' alt='真意斩'/>真意斩"
-        },
-        "所属": {
-            "九龙商会": "<img src='/assets/tag/pns/九龙商会.png' alt='九龙商会'/>九龙商会",
-            "机械教会": "<img src='/assets/tag/pns/机械教会.png' alt='机械教会'/>机械教会"
-        }
-    },
-    "150465": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "装甲型": "<img src='/assets/tag/pns/装甲型.png' alt='装甲型'/>装甲型"
-        },
-        "武器类型": {
-            "战术旋棍": "<img src='/assets/tag/pns/战术旋棍.png' alt='战术旋棍'/>战术旋棍"
-        },
-        "属性": {
-            "火": "<img src='/assets/tag/pns/火.png' alt='火'/>火"
-        },
-        "效应": {
-            "焚烧": "<img src='/assets/tag/pns/焚烧.png' alt='焚烧'/>焚烧"
-        },
-        "所属": {
-            "支援部队": "<img src='/assets/tag/pns/支援部队.png' alt='支援部队'/>支援部队"
-        }
-    },
-    "150466": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "异刃戟": "<img src='/assets/tag/pns/异刃戟.png' alt='异刃戟'/>异刃戟"
-        },
-        "属性": {
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "升格者": "<img src='/assets/tag/pns/升格者.png' alt='升格者'/>升格者"
-        }
-    },
-    "150468": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型"
-        },
-        "武器类型": {
-            "弓": "<img src='/assets/tag/pns/弓.png' alt='弓'/>弓"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理"
-        },
-        "效应": {
-            "覆冰": "<img src='/assets/tag/pns/覆冰.png' alt='覆冰'/>覆冰"
-        },
-        "所属": {
-            "不明": "<img src='/assets/tag/pns/不明.png' alt='不明'/>不明"
-        }
-    },
-    "150470": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "观测者": "<img src='/assets/tag/pns/观测者.png' alt='观测者'/>观测者"
-        },
-        "武器类型": {
-            "钥杖": "<img src='/assets/tag/pns/钥杖.png' alt='钥杖'/>钥杖"
-        },
-        "属性": {
-            "空": "<img src='/assets/tag/pns/空.png' alt='空'/>空"
-        },
-        "效应": {
-            "紊乱": "<img src='/assets/tag/pns/紊乱.png' alt='紊乱'/>紊乱"
-        },
-        "所属": {
-            "■■■": "<img src='/assets/tag/pns/■■■.png' alt='■■■'/>■■■"
-        }
-    },
-    "150471": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "动力臂组": "<img src='/assets/tag/pns/动力臂组.png' alt='动力臂组'/>动力臂组"
-        },
-        "属性": {
-            "雷": "<img src='/assets/tag/pns/雷.png' alt='雷'/>雷"
-        },
-        "效应": {
-            "覆冰": "<img src='/assets/tag/pns/覆冰.png' alt='覆冰'/>覆冰"
-        },
-        "所属": {
-            "圣甲虫小队": "<img src='/assets/tag/pns/圣甲虫小队.png' alt='圣甲虫小队'/>圣甲虫小队"
-        }
-    },
-    "150473": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "辅助型": "<img src='/assets/tag/pns/辅助型.png' alt='辅助型'/>辅助型"
-        },
-        "武器类型": {
-            "战术耳机": "<img src='/assets/tag/pns/战术耳机.png' alt='战术耳机'/>战术耳机"
-        },
-        "属性": {
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗",
-            "空": "<img src='/assets/tag/pns/空.png' alt='空'/>空"
-        },
-        "效应": {
-            "紊乱": "<img src='/assets/tag/pns/紊乱.png' alt='紊乱'/>紊乱"
-        },
-        "所属": {
-            "工程部队": "<img src='/assets/tag/pns/工程部队.png' alt='工程部队'/>工程部队"
-        }
-    },
-    "163802": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "增幅型": "<img src='/assets/tag/pns/增幅型.png' alt='增幅型'/>增幅型"
-        },
-        "武器类型": {
-            "月伞": "<img src='/assets/tag/pns/月伞.png' alt='月伞'/>月伞"
-        },
-        "属性": {
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "电束": "<img src='/assets/tag/pns/电束.png' alt='电束'/>电束"
-        },
-        "所属": {
-            "升格者": "<img src='/assets/tag/pns/升格者.png' alt='升格者'/>升格者"
-        }
-    },
-    "164270": {
-        "稀有度": {
-            "S": "<img src='/assets/tag/pns/S.png' alt='S'/>"
-        },
-        "机体类型": {
-            "先锋型": "<img src='/assets/tag/pns/先锋型.png' alt='先锋型'/>先锋型"
-        },
-        "武器类型": {
-            "镰刀": "<img src='/assets/tag/pns/镰刀.png' alt='镰刀'/>镰刀"
-        },
-        "属性": {
-            "物理": "<img src='/assets/tag/pns/物理.png' alt='物理'/>物理",
-            "冰": "<img src='/assets/tag/pns/冰.png' alt='冰'/>冰"
-        },
-        "效应": {
-            "无": "无"
-        },
-        "所属": {
-            "机械教会": "<img src='/assets/tag/pns/机械教会.png' alt='机械教会'/>机械教会"
-        }
-    },
-    "169591": {
-        "稀有度": {
-            "A": "<img src='/assets/tag/pns/A.png' alt='A'/>"
-        },
-        "机体类型": {
-            "进攻型": "<img src='/assets/tag/pns/进攻型.png' alt='进攻型'/>进攻型"
-        },
-        "武器类型": {
-            "聚能剑炮": "<img src='/assets/tag/pns/聚能剑炮.png' alt='聚能剑炮'/>聚能剑炮"
-        },
-        "属性": {
-            "暗": "<img src='/assets/tag/pns/暗.png' alt='暗'/>暗"
-        },
-        "效应": {
-            "焚烧": "<img src='/assets/tag/pns/焚烧.png' alt='焚烧'/>焚烧"
-        },
-        "所属": {
-            "不明": "<img src='/assets/tag/pns/不明.png' alt='不明'/>不明"
-        }
+    "阵营":{
+      "升格者":"<img src='/assets/extra_tags/293554/升格者.png'/>升格者",
+      "升格网络":"升格网络",
+      "灰鸦小队·高级":"灰鸦小队·高级",
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队":"<img src='/assets/extra_tags/293554/灰鸦小队.png'/>灰鸦小队"
     }
+  },
+  "86264":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "复合兵装":"<img src='/assets/extra_tags/293554/复合兵装.png'/>复合兵装",
+      "双枪":"<img src='/assets/extra_tags/293554/双枪.png'/>双枪"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "火, 混合":"火, 混合",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队·高级":"灰鸦小队·高级"
+    }
+  },
+  "86265":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "B":"<img src='/assets/extra_tags/293554/B.png' alt='B' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "权杖":"<img src='/assets/extra_tags/293554/权杖.png'/>权杖",
+      "浮游炮":"<img src='/assets/extra_tags/293554/浮游炮.png'/>浮游炮",
+      "悬浮镜轮":"悬浮镜轮"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "黯衍":"<img src='/assets/extra_tags/293554/黯衍.png'/>黯衍",
+      "无":"无"
+    },
+    "阵营":{
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队":"<img src='/assets/extra_tags/293554/灰鸦小队.png'/>灰鸦小队",
+      "灰鸦小队·高级":"灰鸦小队·高级"
+    }
+  },
+  "86945":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "蛇腹剑":"蛇腹剑",
+      "剑杖":"<img src='/assets/extra_tags/293554/剑杖.png'/>剑杖",
+      "弓":"<img src='/assets/extra_tags/293554/弓.png'/>弓"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "雷, 主物理":"雷, 主物理",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "熠光":"熠光",
+      "无":"无",
+      "真意斩":"<img src='/assets/extra_tags/293554/真意斩.png'/>真意斩"
+    },
+    "阵营":{
+      "清理部队":"<img src='/assets/extra_tags/293554/清理部队.png'/>清理部队"
+    }
+  },
+  "86703":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "重破锤":"<img src='/assets/extra_tags/293554/重破锤.png'/>重破锤",
+      "火炮":"<img src='/assets/extra_tags/293554/火炮.png'/>火炮"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无",
+      "电束":"<img src='/assets/extra_tags/293554/电束.png'/>电束"
+    },
+    "阵营":{
+      "工程部队":"<img src='/assets/extra_tags/293554/工程部队.png'/>工程部队"
+    }
+  },
+  "96115":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·提琴剑":"<img src='/assets/extra_tags/293554/独域·提琴剑.png'/>独域·提琴剑",
+      "笛剑":"<img src='/assets/extra_tags/293554/笛剑.png'/>笛剑",
+      "弦剑":"<img src='/assets/extra_tags/293554/弦剑.png'/>弦剑"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "覆冰":"<img src='/assets/extra_tags/293554/覆冰.png'/>覆冰",
+      "无":"无"
+    },
+    "阵营":{
+      "不明":"<img src='/assets/extra_tags/293554/不明.png'/>不明",
+      "艺术协会":"<img src='/assets/extra_tags/293554/艺术协会.png'/>艺术协会"
+    }
+  },
+  "87074":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "太刀":"<img src='/assets/extra_tags/293554/太刀.png'/>太刀",
+      "旗枪":"<img src='/assets/extra_tags/293554/旗枪.png'/>旗枪",
+      "双刃枪":"<img src='/assets/extra_tags/293554/双刃枪.png'/>双刃枪"
+    },
+    "标签":{
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "黯衍":"<img src='/assets/extra_tags/293554/黯衍.png'/>黯衍",
+      "无":"无"
+    },
+    "阵营":{
+      "三头犬小队":"<img src='/assets/extra_tags/293554/三头犬小队.png'/>三头犬小队"
+    }
+  },
+  "87072":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "镰刀":"<img src='/assets/extra_tags/293554/镰刀.png'/>镰刀",
+      "光束铳枪":"<img src='/assets/extra_tags/293554/光束铳枪.png'/>光束铳枪"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "虹莺小队":"<img src='/assets/extra_tags/293554/虹莺小队.png'/>虹莺小队",
+      "艺术协会":"<img src='/assets/extra_tags/293554/艺术协会.png'/>艺术协会"
+    }
+  },
+  "87071":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "镰刀":"<img src='/assets/extra_tags/293554/镰刀.png'/>镰刀",
+      "铳刃":"<img src='/assets/extra_tags/293554/铳刃.png'/>铳刃"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "无":"无"
+    },
+    "阵营":{
+      "突击鹰小队":"<img src='/assets/extra_tags/293554/突击鹰小队.png'/>突击鹰小队"
+    }
+  },
+  "87070":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "大剑":"<img src='/assets/extra_tags/293554/大剑.png'/>大剑",
+      "爆能巨剑":"爆能巨剑"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "暗, 混合":"暗, 混合",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无",
+      "电束":"<img src='/assets/extra_tags/293554/电束.png'/>电束"
+    },
+    "阵营":{
+      "突击鹰小队":"<img src='/assets/extra_tags/293554/突击鹰小队.png'/>突击鹰小队"
+    }
+  },
+  "87069":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "短刀":"<img src='/assets/extra_tags/293554/短刀.png'/>短刀",
+      "拓刀":"<img src='/assets/extra_tags/293554/拓刀.png'/>拓刀"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "黯衍":"<img src='/assets/extra_tags/293554/黯衍.png'/>黯衍",
+      "无":"无"
+    },
+    "阵营":{
+      "遗忘者":"<img src='/assets/extra_tags/293554/遗忘者.png'/>遗忘者"
+    }
+  },
+  "87068":{
+    "稀有度":{
+      "B":"<img src='/assets/extra_tags/293554/B.png' alt='B' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "盾斧":"<img src='/assets/extra_tags/293554/盾斧.png'/>盾斧",
+      "电锯":"<img src='/assets/extra_tags/293554/电锯.png'/>电锯",
+      "超电锯":"<img src='/assets/extra_tags/293554/超电锯.png'/>超电锯"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧",
+      "无":"无"
+    },
+    "阵营":{
+      "机械教会":"<img src='/assets/extra_tags/293554/机械教会.png'/>机械教会"
+    }
+  },
+  "87076":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·龙枪":"<img src='/assets/extra_tags/293554/独域·龙枪.png'/>独域·龙枪",
+      "长剑":"<img src='/assets/extra_tags/293554/长剑.png'/>长剑"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "九龙商会":"<img src='/assets/extra_tags/293554/九龙商会.png'/>九龙商会"
+    }
+  },
+  "87544":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "增幅器":"<img src='/assets/extra_tags/293554/增幅器.png'/>增幅器",
+      "月轮":"<img src='/assets/extra_tags/293554/月轮.png'/>月轮"
+    },
+    "标签":{
+      "湮灭型":"<img src='/assets/extra_tags/293554/湮灭型.png'/>湮灭型",
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "空":"<img src='/assets/extra_tags/293554/空.png'/>空",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "无":"无",
+      "紊乱":"<img src='/assets/extra_tags/293554/紊乱.png'/>紊乱"
+    },
+    "阵营":{
+      "升格者":"<img src='/assets/extra_tags/293554/升格者.png'/>升格者"
+    }
+  },
+  "99495":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "爪刃":"<img src='/assets/extra_tags/293554/爪刃.png'/>爪刃",
+      "协作子机":"<img src='/assets/extra_tags/293554/协作子机.png'/>协作子机"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "无":"无"
+    },
+    "阵营":{
+      "三头犬小队":"<img src='/assets/extra_tags/293554/三头犬小队.png'/>三头犬小队"
+    }
+  },
+  "124878":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·链刀":"<img src='/assets/extra_tags/293554/独域·链刀.png'/>独域·链刀"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "无":"无"
+    },
+    "阵营":{
+      "不明":"<img src='/assets/extra_tags/293554/不明.png'/>不明"
+    }
+  },
+  "124877":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·回旋龙厄":"<img src='/assets/extra_tags/293554/独域·回旋龙厄.png'/>独域·回旋龙厄"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "九龙商会":"<img src='/assets/extra_tags/293554/九龙商会.png'/>九龙商会"
+    }
+  },
+  "124880":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "螳螂刃":"<img src='/assets/extra_tags/293554/螳螂刃.png'/>螳螂刃"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "无":"无"
+    },
+    "阵营":{
+      "清庭白鹭":"<img src='/assets/extra_tags/293554/清庭白鹭.png'/>清庭白鹭"
+    }
+  },
+  "87073":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·大剑":"<img src='/assets/extra_tags/293554/独域·大剑.png'/>独域·大剑"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "无":"无"
+    },
+    "阵营":{
+      "突击鹰小队":"<img src='/assets/extra_tags/293554/突击鹰小队.png'/>突击鹰小队"
+    }
+  },
+  "96116":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "枪械组":"<img src='/assets/extra_tags/293554/枪械组.png'/>枪械组",
+      "左轮手枪":"<img src='/assets/extra_tags/293554/左轮手枪.png'/>左轮手枪"
+    },
+    "标签":{
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "覆冰":"<img src='/assets/extra_tags/293554/覆冰.png'/>覆冰",
+      "无":"无"
+    },
+    "阵营":{
+      "突击鹰小队":"<img src='/assets/extra_tags/293554/突击鹰小队.png'/>突击鹰小队"
+    }
+  },
+  "86604":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "拳套":"<img src='/assets/extra_tags/293554/拳套.png'/>拳套"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "无":"无"
+    },
+    "阵营":{
+      "阿迪莱商业联盟":"<img src='/assets/extra_tags/293554/阿迪莱商业联盟.png'/>阿迪莱商业联盟"
+    }
+  },
+  "86605":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "双枪":"<img src='/assets/extra_tags/293554/双枪.png'/>双枪"
+    },
+    "标签":{
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "无":"无"
+    },
+    "阵营":{
+      "阿迪莱商业联盟":"<img src='/assets/extra_tags/293554/阿迪莱商业联盟.png'/>阿迪莱商业联盟"
+    }
+  },
+  "87075":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "辉光战戟":"辉光战戟",
+      "枪盾":"<img src='/assets/extra_tags/293554/枪盾.png'/>枪盾"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无",
+      "真意斩":"<img src='/assets/extra_tags/293554/真意斩.png'/>真意斩"
+    },
+    "阵营":{
+      "北极航线联合":"<img src='/assets/extra_tags/293554/北极航线联合.png'/>北极航线联合"
+    }
+  },
+  "129128":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "机械臂":"<img src='/assets/extra_tags/293554/机械臂.png'/>机械臂"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "无":"无"
+    },
+    "阵营":{
+      "三头犬小队":"<img src='/assets/extra_tags/293554/三头犬小队.png'/>三头犬小队"
+    }
+  },
+  "130786":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "折扇":"<img src='/assets/extra_tags/293554/折扇.png'/>折扇",
+      "琵琶":"<img src='/assets/extra_tags/293554/琵琶.png'/>琵琶"
+    },
+    "标签":{
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无",
+      "真意斩":"<img src='/assets/extra_tags/293554/真意斩.png'/>真意斩"
+    },
+    "阵营":{
+      "九龙商会":"<img src='/assets/extra_tags/293554/九龙商会.png'/>九龙商会",
+      "机械教会":"<img src='/assets/extra_tags/293554/机械教会.png'/>机械教会"
+    }
+  },
+  "150466":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "异刃戟":"<img src='/assets/extra_tags/293554/异刃戟.png'/>异刃戟"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "无":"无"
+    },
+    "阵营":{
+      "升格者":"<img src='/assets/extra_tags/293554/升格者.png'/>升格者"
+    }
+  },
+  "164270":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "镰刀":"<img src='/assets/extra_tags/293554/镰刀.png'/>镰刀"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "无":"无"
+    },
+    "阵营":{
+      "机械教会":"<img src='/assets/extra_tags/293554/机械教会.png'/>机械教会"
+    }
+  },
+  "164271":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "独域·释能剑":"<img src='/assets/extra_tags/293554/独域·释能剑.png'/>独域·释能剑"
+    },
+    "标签":{
+      "先锋型":"<img src='/assets/extra_tags/293554/先锋型.png'/>先锋型",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "无":"无"
+    },
+    "阵营":{
+      "寒羊小队":"<img src='/assets/extra_tags/293554/寒羊小队.png'/>寒羊小队"
+    }
+  },
+  "163802":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "月伞":"<img src='/assets/extra_tags/293554/月伞.png'/>月伞"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "电束":"<img src='/assets/extra_tags/293554/电束.png'/>电束"
+    },
+    "阵营":{
+      "升格者":"<img src='/assets/extra_tags/293554/升格者.png'/>升格者"
+    }
+  },
+  "163798":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "剪刀":"剪刀"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "真意斩":"<img src='/assets/extra_tags/293554/真意斩.png'/>真意斩"
+    },
+    "阵营":{
+      "圣甲虫小队":"圣甲虫小队"
+    }
+  },
+  "150468":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "弓":"<img src='/assets/extra_tags/293554/弓.png'/>弓"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "覆冰":"<img src='/assets/extra_tags/293554/覆冰.png'/>覆冰"
+    },
+    "阵营":{
+      "不明":"<img src='/assets/extra_tags/293554/不明.png'/>不明"
+    }
+  },
+  "150470":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "钥杖":"<img src='/assets/extra_tags/293554/钥杖.png'/>钥杖"
+    },
+    "标签":{
+      "观测者":"<img src='/assets/extra_tags/293554/观测者.png'/>观测者",
+      "空":"<img src='/assets/extra_tags/293554/空.png'/>空",
+      "紊乱":"<img src='/assets/extra_tags/293554/紊乱.png'/>紊乱"
+    },
+    "阵营":{
+      "■■■":"<img src='/assets/extra_tags/293554/■■■.png'/>■■■"
+    }
+  },
+  "150473":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "战术耳机":"<img src='/assets/extra_tags/293554/战术耳机.png'/>战术耳机",
+      "数码战靴":"数码战靴"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "辅助型":"<img src='/assets/extra_tags/293554/辅助型.png'/>辅助型",
+      "冰":"<img src='/assets/extra_tags/293554/冰.png'/>冰",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "熠光":"熠光",
+      "紊乱":"<img src='/assets/extra_tags/293554/紊乱.png'/>紊乱"
+    },
+    "阵营":{
+      "工程部队":"<img src='/assets/extra_tags/293554/工程部队.png'/>工程部队"
+    }
+  },
+  "150471":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "动力臂组":"<img src='/assets/extra_tags/293554/动力臂组.png'/>动力臂组"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "雷":"<img src='/assets/extra_tags/293554/雷.png'/>雷",
+      "覆冰":"<img src='/assets/extra_tags/293554/覆冰.png'/>覆冰"
+    },
+    "阵营":{
+      "圣甲虫小队":"圣甲虫小队"
+    }
+  },
+  "150465":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "战术旋棍":"<img src='/assets/extra_tags/293554/战术旋棍.png'/>战术旋棍"
+    },
+    "标签":{
+      "装甲型":"<img src='/assets/extra_tags/293554/装甲型.png'/>装甲型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧"
+    },
+    "阵营":{
+      "支援部队":"<img src='/assets/extra_tags/293554/支援部队.png'/>支援部队"
+    }
+  },
+  "163820":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "复合兵装":"<img src='/assets/extra_tags/293554/复合兵装.png'/>复合兵装",
+      "双枪":"<img src='/assets/extra_tags/293554/双枪.png'/>双枪"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "火, 混合":"火, 混合",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队·高级":"灰鸦小队·高级"
+    }
+  },
+  "164660":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "复合兵装":"<img src='/assets/extra_tags/293554/复合兵装.png'/>复合兵装",
+      "双枪":"<img src='/assets/extra_tags/293554/双枪.png'/>双枪"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "火, 混合":"火, 混合",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队·高级":"灰鸦小队·高级"
+    }
+  },
+  "169591":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />"
+    },
+    "武器类型":{
+      "聚能剑炮":"<img src='/assets/extra_tags/293554/聚能剑炮.png'/>聚能剑炮"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "暗":"<img src='/assets/extra_tags/293554/暗.png'/>暗",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧"
+    },
+    "阵营":{
+      "不明":"<img src='/assets/extra_tags/293554/不明.png'/>不明"
+    }
+  },
+  "179007":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "骑枪":"骑枪"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧"
+    },
+    "阵营":{
+      "机械教会":"<img src='/assets/extra_tags/293554/机械教会.png'/>机械教会"
+    }
+  },
+  "189735":{
+    "稀有度":{
+      "A":"<img src='/assets/extra_tags/293554/A.png' alt='A' />",
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "复合兵装":"<img src='/assets/extra_tags/293554/复合兵装.png'/>复合兵装",
+      "双枪":"<img src='/assets/extra_tags/293554/双枪.png'/>双枪"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "火, 混合":"火, 混合",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "无":"无"
+    },
+    "阵营":{
+      "灰鸦小队·中级":"灰鸦小队·中级",
+      "灰鸦小队·高级":"灰鸦小队·高级"
+    }
+  },
+  "190901":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "裁决镰刃":"裁决镰刃"
+    },
+    "标签":{
+      "增幅型":"<img src='/assets/extra_tags/293554/增幅型.png'/>增幅型",
+      "空":"<img src='/assets/extra_tags/293554/空.png'/>空",
+      "紊乱":"<img src='/assets/extra_tags/293554/紊乱.png'/>紊乱"
+    },
+    "阵营":{
+      "科学理事会":"科学理事会"
+    }
+  },
+  "6794":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "魔剑":"<img src='/assets/extra_tags/293554/魔剑.png'/>魔剑"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "火":"<img src='/assets/extra_tags/293554/火.png'/>火",
+      "焚烧":"<img src='/assets/extra_tags/293554/焚烧.png'/>焚烧"
+    },
+    "阵营":{
+      "DevilMayCry":"DevilMayCry"
+    }
+  },
+  "19790":{
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/293554/S.png' alt='S' />"
+    },
+    "武器类型":{
+      "阎魔刀":"<img src='/assets/extra_tags/293554/阎魔刀.png'/>阎魔刀"
+    },
+    "标签":{
+      "进攻型":"<img src='/assets/extra_tags/293554/进攻型.png'/>进攻型",
+      "物理":"<img src='/assets/extra_tags/293554/物理.png'/>物理",
+      "真意斩":"<img src='/assets/extra_tags/293554/真意斩.png'/>真意斩"
+    },
+    "阵营":{
+      "DevilMayCry":"DevilMayCry"
+    }
+  }
 }

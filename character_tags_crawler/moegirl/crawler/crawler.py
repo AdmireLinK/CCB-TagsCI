@@ -6,12 +6,9 @@ import time
 from bs4 import BeautifulSoup
 from urllib3 import Retry
 from requests.adapters import HTTPAdapter
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from threading import Lock
-import threading
 
 from utils.file import *
-from utils.network import safe_soup, quote_all, DynamicCooldown, RateLimiter
+from utils.network import safe_soup, quote_all
 
 chdir_project_root()
 
@@ -50,23 +47,10 @@ headers = {
     "accept-encoding": "gzip, deflate",
     "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
 }
-dynamic_cooldown = DynamicCooldown(
-    initial=0.2,
-    min_cooldown=0.1,
-    max_cooldown=5.0,
-    slow_threshold=1.0,
-    fast_threshold=0.3,
-    increase_factor=1.5,
-    decrease_factor=0.95,
-    jitter=0.3
-)
-rate_limiter = RateLimiter(max_requests_per_second=30)
+cooldown = 1.2
 
 page_count = 0
 characters = {}
-page_count_lock = Lock()
-characters_lock = Lock()
-dynamic_cooldown_lock = Lock()
 
 
 def unique(l):
@@ -162,14 +146,13 @@ def parse_index(url, ret, stk=[], filter_function=None):
                 soup = safe_soup(
                     url_now,
                     headers=headers,
-                    dynamic_cooldown=dynamic_cooldown,
-                    rate_limiter=rate_limiter,
+                    cooldown=cooldown,
                 )
                 soup = soup.find('div', id='mw-content-text')
                 assert soup is not None
 
                 if 'article' not in ret:
-                    article = soup.find(text='这个分类的对应条目是')
+                    article = soup.find(string='这个分类的对应条目是')
                     if article != None:
                         a = article.parent.find('a')
                         url2 = urllib.parse.unquote(a['href'])
@@ -262,10 +245,7 @@ def parse_index(url, ret, stk=[], filter_function=None):
                             continue
                         pages_set.add(tmp['url'])
                         ret['pages'].append(tmp)
-                        with page_count_lock:
-                            page_count += 1
-                            if page_count % 1000 == 0:
-                                print_debug(f'Progress: {page_count} pages crawled', color=GREEN)
+                        page_count += 1
 
                     if retry_cnt is not None:
                         diff = len(ret['pages']) - prev_pages_count
@@ -276,7 +256,7 @@ def parse_index(url, ret, stk=[], filter_function=None):
                             )
                             retry_cnt = None
 
-                next = soup.find_all('a', text='下一页')
+                next = soup.find_all('a', string='下一页')
                 if len(next) != 0 and retry_cnt is None:
                     if len(next) != 2:
                         print_debug('UNEXPECTED NEXT COUNT!!!', color=ERROR)
@@ -428,27 +408,14 @@ def parse_index(url, ret, stk=[], filter_function=None):
             print_debug('already finish2. return', color=GREY)
         else:
             ret['subcategories'] = unique(ret['subcategories'])
-            
-            with ThreadPoolExecutor(max_workers=8) as executor:
-                futures = {}
-                for i in ret['subcategories']:
-                    name = i['name']
-                    future = executor.submit(
-                        parse_index,
-                        i['url'],
-                        i,
-                        stk2,
-                        filter_function=filter_function,
-                    )
-                    futures[future] = name
-                
-                for future in as_completed(futures):
-                    name = futures[future]
-                    try:
-                        future.result()
-                    except Exception as e:
-                        print_debug(f'Error processing {name}: {str(e)}', color=ERROR)
-                        traceback.print_exc()
+            for i in ret['subcategories']:
+                name = i['name']
+                parse_index(
+                    i['url'],
+                    i,
+                    stk2,
+                    filter_function=filter_function,
+                )
 
             flag = True
             for i in ret['subcategories']:
@@ -456,6 +423,7 @@ def parse_index(url, ret, stk=[], filter_function=None):
                     flag = False
             if flag:
                 ret['finish2'] = True
+                # print_debug('finish2', color=GREY)
             else:
                 print_debug('what happened? why not finish2? anyway', color=ERROR)
 
@@ -566,7 +534,8 @@ def crawl(root: str, path: str, filter_function=None):
             print('skip and save partial result')
         else:
             raise e
-    save_json(ret, path)
+    finally:
+        save_json(ret, path)
 
 
 def filter_func_subjects(stk):
