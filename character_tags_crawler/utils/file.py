@@ -74,9 +74,20 @@ def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_pat
             except Exception as e:
                 print(f"警告: 无法载入主仓库已有的 JSON: {e}")
                 
-    # 3. 合并新抓取的数据
+    # 3. 合并新抓取的数据 (深度合并，防止覆盖历史手动录入的标签)
     for cid, tags in new_tags.items():
-        final_tags[cid] = tags
+        if cid not in final_tags:
+            final_tags[cid] = tags
+        else:
+            for section, section_data in tags.items():
+                if section not in final_tags[cid]:
+                    final_tags[cid][section] = section_data
+                else:
+                    if isinstance(final_tags[cid][section], dict) and isinstance(section_data, dict):
+                        for tag_key, tag_val in section_data.items():
+                            final_tags[cid][section][tag_key] = tag_val
+                    else:
+                        final_tags[cid][section] = section_data
         
     # 4. 统一图片资产路径替换 (把 /assets/tag/ 转换为 /assets/extra_tags/)
     reverse_map = {

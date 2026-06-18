@@ -154,12 +154,24 @@ def process_bluearchive():
     print("[碧蓝档案] 正在抓取 Bwiki 学生列表 JSON 数据库...")
     bwiki_url = "https://wiki.biligame.com/ba/index.php?title=MediaWiki:StudentList.jp.json&action=raw"
     headers = {"User-Agent": "Mozilla/5.0"}
+    bwiki_cache_file = Path(__file__).resolve().parent / "student_list_cache.json"
     try:
         r = safe_get(bwiki_url, headers=headers, cooldown=1)
         bwiki_data = r.json()
+        # 写入缓存文件
+        bwiki_cache_file.write_text(json.dumps(bwiki_data, ensure_ascii=False, indent=2), encoding="utf-8")
     except Exception as e:
-        print(f"错误: 无法获取 Bwiki 学生列表 JSON: {e}")
-        return
+        print(f"警告: 无法获取 Bwiki 学生列表 JSON: {e}。将尝试从本地缓存加载...")
+        if bwiki_cache_file.exists():
+            try:
+                bwiki_data = json.loads(bwiki_cache_file.read_text(encoding="utf-8"))
+                print("[碧蓝档案] 成功从本地缓存加载 Bwiki 学生列表。")
+            except Exception as ex:
+                print(f"错误: 无法加载本地 Bwiki 缓存: {ex}")
+                return
+        else:
+            print("错误: 未找到本地 Bwiki 缓存。")
+            return
 
     # 3. 学校、战斗职业、属性的名称映射字典
     SCHOOL_MAP = {
@@ -218,6 +230,8 @@ def process_bluearchive():
         "叶渚": "康娜",
         "佳代": "卡娅",
         "明里": "明莉",
+        "阳奈": "希奈",
+        "真纪": "真姬",
     }
 
     def clean_wiki_name(name_str):
@@ -244,14 +258,14 @@ def process_bluearchive():
         
         student_info = {
             "name": base_name,
-            "stars": [details["stars"]],
-            "weapon": details["weapon"],
+            "stars": {details["stars"]},
+            "weapon": {details["weapon"]},
             "school": school_name,
-            "squad": squad,
-            "role": role_name,
-            "attackType": (atk_type, atk_color),
-            "defenseType": (def_type, def_color),
-            "position": details["position"]
+            "squad": {squad},
+            "role": {role_name},
+            "attackType": {(atk_type, atk_color)},
+            "defenseType": {(def_type, def_color)},
+            "position": {details["position"]}
         }
         
         # 合并不同形态学生的属性 (多版本角色星级及某些属性可能存在交集)
@@ -259,20 +273,13 @@ def process_bluearchive():
             wiki_students[base_name] = student_info
         else:
             existing = wiki_students[base_name]
-            if details["stars"] not in existing["stars"]:
-                existing["stars"].append(details["stars"])
-            # 攻击装甲形态可能有多种
-            if isinstance(existing["attackType"], list):
-                if (atk_type, atk_color) not in existing["attackType"]:
-                    existing["attackType"].append((atk_type, atk_color))
-            elif existing["attackType"] != (atk_type, atk_color):
-                existing["attackType"] = [existing["attackType"], (atk_type, atk_color)]
-                
-            if isinstance(existing["defenseType"], list):
-                if (def_type, def_color) not in existing["defenseType"]:
-                    existing["defenseType"].append((def_type, def_color))
-            elif existing["defenseType"] != (def_type, def_color):
-                existing["defenseType"] = [existing["defenseType"], (def_type, def_color)]
+            existing["stars"].add(details["stars"])
+            existing["weapon"].add(details["weapon"])
+            existing["squad"].add(squad)
+            existing["role"].add(role_name)
+            existing["attackType"].add((atk_type, atk_color))
+            existing["defenseType"].add((def_type, def_color))
+            existing["position"].add(details["position"])
 
     # 保存抓取缓存以利于后续快速执行
     save_cache(cache)
@@ -321,33 +328,30 @@ def process_bluearchive():
                 rarity_dict[star_str] = f"<img src='/assets/extra_tags/{BA_ID}/{star_str}.png' alt='{star_str}' />"
                 
             # 武器类型
-            weapon_dict = {
-                weapon: f"<img src='/assets/extra_tags/{BA_ID}/{weapon}.png'/>{weapon}"
-            }
+            weapon_dict = {}
+            for w in sorted(weapon):
+                weapon_dict[w] = f"<img src='/assets/extra_tags/{BA_ID}/{w}.png'/>{w}"
             
             # 标签拼装
             tags_dict = {}
             
             # 攻击与装甲着色样式
-            def add_color_tag(types_data):
-                if isinstance(types_data, list):
-                    for t_name, t_col in types_data:
-                        tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
-                else:
-                    t_name, t_col = types_data
-                    tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
-            
-            add_color_tag(matched_student["attackType"])
-            add_color_tag(matched_student["defenseType"])
+            for t_name, t_col in sorted(matched_student["attackType"]):
+                tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
+            for t_name, t_col in sorted(matched_student["defenseType"]):
+                tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
             
             # Squad 战术类型
-            tags_dict[squad] = f"<span style='font-style: italic; font-weight: bold;'>{squad}</span>"
+            for sq in sorted(squad):
+                tags_dict[sq] = f"<span style='font-style: italic; font-weight: bold;'>{sq}</span>"
             
             # 战斗职业
-            tags_dict[role] = f"<img src='/assets/extra_tags/{BA_ID}/{role}.png'/>{role}"
+            for ro in sorted(role):
+                tags_dict[ro] = f"<img src='/assets/extra_tags/{BA_ID}/{ro}.png'/>{ro}"
             
             # 站位 (纯文本形式)
-            tags_dict[position] = position
+            for pos in sorted(position):
+                tags_dict[pos] = pos
             
             # 学校所属
             school_dict = {}
