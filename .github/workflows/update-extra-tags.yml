@@ -36,7 +36,7 @@ jobs:
           git config user.name "AdmireLinK"
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add outputs/
-          git diff --staged --quiet || git commit -m "CI：extra_tags update"
+          git diff --staged --quiet || git commit -m "CI：extra_tags auto update"
           git push
 
       - name: Checkout Guesser Repository
@@ -65,5 +65,5 @@ jobs:
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add client/public/data/extra_tags/
           git add client/public/assets/extra_tags/
-          git diff --staged --quiet || git commit -m "CI：extra_tags update"
+          git diff --staged --quiet || git commit -m "CI：extra_tags auto update"
           git push
