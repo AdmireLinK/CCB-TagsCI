@@ -272,7 +272,8 @@ def process_umamusume():
 
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
     out_json_file = OUTPUT_JSON_DIR / f"{UMAMUSUME_ID}.json"
-    out_json_file.write_text(json.dumps(tags, ensure_ascii=False, indent=2), encoding="utf-8")
+    from character_tags_crawler.utils.file import merge_and_save_extra_tags
+    merge_and_save_extra_tags(UMAMUSUME_ID, tags, str(out_json_file), str(GUESSER_WORKSPACE))
     print(f"[赛马娘] 成功写入 {len(tags)} 个角色属性到 {out_json_file}")
 
 def main():

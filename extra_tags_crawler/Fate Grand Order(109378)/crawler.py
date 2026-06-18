@@ -290,7 +290,8 @@ def process_fgo():
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
     out_json_file = OUTPUT_JSON_DIR / f"{FGO_ID}.json"
-    save_json_pretty(extra_tags, str(out_json_file))
+    from character_tags_crawler.utils.file import merge_and_save_extra_tags
+    merge_and_save_extra_tags(FGO_ID, extra_tags, str(out_json_file), str(GUESSER_WORKSPACE))
     print(f"[FGO] 成功写入 {len(extra_tags)} 个从者属性到 {out_json_file}")
 
 def main():

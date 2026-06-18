@@ -18,8 +18,8 @@
     "标签":{
       "存护":"<img src='/assets/extra_tags/360097/存护.png'/>存护",
       "巡猎":"<img src='/assets/extra_tags/360097/巡猎.png'/>巡猎",
-      "冰":"<img src='/assets/extra_tags/360097/冰.png'/>冰",
-      "虚数":"<img src='/assets/extra_tags/360097/虚数.png'/>虚数"
+      "虚数":"<img src='/assets/extra_tags/360097/虚数.png'/>虚数",
+      "冰":"<img src='/assets/extra_tags/360097/冰.png'/>冰"
     },
     "阵营":{
       "星穹列车":"星穹列车"
@@ -32,16 +32,16 @@
     },
     "标签":{
       "存护":"<img src='/assets/extra_tags/360097/存护.png'/>存护",
-      "毁灭":"<img src='/assets/extra_tags/360097/毁灭.png'/>毁灭",
       "巡猎":"<img src='/assets/extra_tags/360097/巡猎.png'/>巡猎",
-      "风":"<img src='/assets/extra_tags/360097/风.png'/>风",
+      "毁灭":"<img src='/assets/extra_tags/360097/毁灭.png'/>毁灭",
       "物理":"<img src='/assets/extra_tags/360097/物理.png'/>物理",
-      "虚数":"<img src='/assets/extra_tags/360097/虚数.png'/>虚数"
+      "虚数":"<img src='/assets/extra_tags/360097/虚数.png'/>虚数",
+      "风":"<img src='/assets/extra_tags/360097/风.png'/>风"
     },
     "阵营":{
-      "星穹列车":"星穹列车",
       "仙舟「罗浮」":"仙舟「罗浮」",
-      "翁法罗斯":"翁法罗斯"
+      "翁法罗斯":"翁法罗斯",
+      "星穹列车":"星穹列车"
     }
   },
   "111043":{
