@@ -209,8 +209,7 @@ def main():
         process_azurlane()
     except Exception as e:
         print(f"执行碧蓝航线爬取时发生错误: {e}")
-        import traceback
-        traceback.print_exc()
+        raise
     print("=== 执行完毕 ===")
 
 if __name__ == "__main__":

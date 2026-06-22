@@ -282,8 +282,7 @@ def main():
         process_umamusume()
     except Exception as e:
         print(f"执行赛马娘爬取时发生错误: {e}")
-        import traceback
-        traceback.print_exc()
+        raise
     print("=== 执行完毕 ===")
 
 if __name__ == "__main__":

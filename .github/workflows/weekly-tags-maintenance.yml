@@ -27,7 +27,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Guesser Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: AdmireLinK/anime-character-guessr
           ref: main

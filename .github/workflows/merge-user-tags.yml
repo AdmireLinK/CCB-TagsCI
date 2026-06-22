@@ -21,13 +21,13 @@ jobs:
     
     steps:
       - name: Checkout CCB-TagsCI
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.ref_name }}
           token: ${{ secrets.CI_TOKEN }}
       
       - name: Checkout Guesser Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: AdmireLinK/anime-character-guessr
           ref: main
@@ -35,7 +35,7 @@ jobs:
           path: anime-character-guessr
       
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
       

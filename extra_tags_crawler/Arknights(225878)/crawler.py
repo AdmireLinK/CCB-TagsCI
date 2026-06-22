@@ -222,8 +222,7 @@ def main():
         process_arknights()
     except Exception as e:
         print(f"执行明日方舟爬取时发生错误: {e}")
-        import traceback
-        traceback.print_exc()
+        raise
     print("=== 执行完毕 ===")
 
 if __name__ == "__main__":

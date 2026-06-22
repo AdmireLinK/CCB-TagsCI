@@ -268,8 +268,7 @@ def main():
         process_hsr()
     except Exception as e:
         print(f"执行星穹铁道爬取时发生错误: {e}")
-        import traceback
-        traceback.print_exc()
+        raise
     print("=== 执行完毕 ===")
 
 if __name__ == "__main__":
