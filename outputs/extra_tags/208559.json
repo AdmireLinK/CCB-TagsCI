@@ -1,4 +1,477 @@
 {
+  "257":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
+    }
+  },
+  "258":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
+    }
+  },
+  "265":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
+    }
+  },
+  "5922":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "5923":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "5925":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "5927":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "运输":"<img src='/assets/extra_tags/208559/运输.png'/>运输"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "5928":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "7192":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
+    },
+    "阵营":{
+      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
+    }
+  },
+  "9995":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
+    }
+  },
+  "16817":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
+    }
+  },
+  "17449":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "18546":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "18548":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "18554":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "19525":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
+    }
+  },
+  "19526":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
+    }
+  },
+  "19527":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
+    }
+  },
+  "19529":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
+    }
+  },
+  "20590":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "海王星":"<img src='/assets/extra_tags/208559/海王星.png'/>海王星"
+    }
+  },
+  "20592":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "海王星":"<img src='/assets/extra_tags/208559/海王星.png'/>海王星"
+    }
+  },
+  "21789":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "25523":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "29212":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "维修":"<img src='/assets/extra_tags/208559/维修.png'/>维修"
+    },
+    "阵营":{
+      "DanMachiV":"<img src='/assets/extra_tags/208559/DanMachiV.png'/>DanMachiV"
+    }
+  },
+  "32074":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "33173":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
+    }
+  },
+  "35098":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
+    }
+  },
+  "35099":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
+    }
+  },
+  "39843":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "39845":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "44228":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
+    }
+  },
+  "53208":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "KizunaAI":"<img src='/assets/extra_tags/208559/KizunaAI.png'/>KizunaAI"
+    }
+  },
+  "64640":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
+    }
+  },
+  "64641":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
+    }
+  },
+  "67418":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "70227":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
+    }
+  },
+  "70437":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "70438":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "70439":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "70466":{
+    "稀有度":{
+      "5星":"海上传奇"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "70467":{
+    "稀有度":{
+      "5星":"海上传奇"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "70468":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "70469":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
   "70470":{
     "稀有度":{
       "4星":"超稀有"
@@ -8,6 +481,61 @@
     },
     "阵营":{
       "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "70471":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
+  "72054":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "72055":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "72074":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "72229":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
     }
   },
   "72230":{
@@ -32,6 +560,336 @@
       "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
     }
   },
+  "72232":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
+  "72233":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "72234":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "72235":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "72236":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "72559":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "75962":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "75971":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "75972":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
+    }
+  },
+  "75973":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "75974":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
+    }
+  },
+  "75993":{
+    "稀有度":{
+      "2星":"稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "76049":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "76118":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "76119":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "76120":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "76239":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
+    }
+  },
+  "76740":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "77543":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "77591":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "77592":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "78058":{
+    "稀有度":{
+      "5星":"海上传奇"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "78191":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78447":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "撒丁帝国":"<img src='/assets/extra_tags/208559/撒丁帝国.png'/>撒丁帝国"
+    }
+  },
+  "78448":{
+    "稀有度":{
+      "2星":"稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "78449":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "自由鸢尾":"<img src='/assets/extra_tags/208559/自由鸢尾.png'/>自由鸢尾"
+    }
+  },
+  "78450":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
+    }
+  },
+  "78707":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78708":{
+    "稀有度":{
+      "5星":"决战方案"
+    },
+    "类型":{
+      "超巡":"<img src='/assets/extra_tags/208559/超巡.png'/>超巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78709":{
+    "稀有度":{
+      "5星":"决战方案"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
   "78719":{
     "稀有度":{
       "5星":"海上传奇"
@@ -41,6 +899,270 @@
     },
     "阵营":{
       "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78720":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "78721":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "78722":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "东煌":"<img src='/assets/extra_tags/208559/东煌.png'/>东煌"
+    }
+  },
+  "78724":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "东煌":"<img src='/assets/extra_tags/208559/东煌.png'/>东煌"
+    }
+  },
+  "78725":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "78726":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航战":"<img src='/assets/extra_tags/208559/航战.png'/>航战"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78727":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "维修":"<img src='/assets/extra_tags/208559/维修.png'/>维修"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "78728":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
+  "78729":{
+    "稀有度":{
+      "5星":"海上传奇"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "78730":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
+    }
+  },
+  "78731":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
+    }
+  },
+  "78732":{
+    "稀有度":{
+      "2星":"稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "78733":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
+    }
+  },
+  "80865":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
+    }
+  },
+  "80866":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "80867":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "80868":{
+    "稀有度":{
+      "4星":"最高方案"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "80869":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
+    }
+  },
+  "80870":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
+    }
+  },
+  "87192":{
+    "稀有度":{
+      "4星":"最高方案"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
+    }
+  },
+  "88130":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
+    }
+  },
+  "88132":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
+    }
+  },
+  "88255":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
+    }
+  },
+  "88261":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
+    },
+    "阵营":{
+      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
     }
   },
   "90540":{
@@ -54,6 +1176,39 @@
       "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
     }
   },
+  "91373":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "114350":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
+  "114359":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
+    },
+    "阵营":{
+      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
+    }
+  },
   "115897":{
     "稀有度":{
       "4星":"超稀有"
@@ -63,6 +1218,39 @@
     },
     "阵营":{
       "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
+  },
+  "151971":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "超巡":"<img src='/assets/extra_tags/208559/超巡.png'/>超巡"
+    },
+    "阵营":{
+      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
+    }
+  },
+  "155273":{
+    "稀有度":{
+      "3星":"精锐"
+    },
+    "类型":{
+      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
+    },
+    "阵营":{
+      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
+    }
+  },
+  "163907":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "Atelier Yumia":"<img src='/assets/extra_tags/208559/Atelier Yumia.png'/>Atelier Yumia"
     }
   },
   "166107":{
@@ -2329,1194 +3517,6 @@
     },
     "阵营":{
       "飓风":"<img src='/assets/extra_tags/208559/飓风.png'/>飓风"
-    }
-  },
-  "78733":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "70466":{
-    "稀有度":{
-      "5星":"海上传奇"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "72055":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "75962":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "78721":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "72054":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "76049":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "70439":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "78720":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "76120":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "72559":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "72229":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "78725":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "72234":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "78729":{
-    "稀有度":{
-      "5星":"海上传奇"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "72074":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "70437":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "72233":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "76118":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "70438":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "70467":{
-    "稀有度":{
-      "5星":"海上传奇"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "70468":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "78707":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "76119":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "78191":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "78726":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航战":"<img src='/assets/extra_tags/208559/航战.png'/>航战"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "80867":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "72235":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "72236":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "77591":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "78727":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "维修":"<img src='/assets/extra_tags/208559/维修.png'/>维修"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "70471":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "78728":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "72232":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "70469":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "75972":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
-    }
-  },
-  "75973":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "75974":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
-    }
-  },
-  "75993":{
-    "稀有度":{
-      "2星":"稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "76239":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "北方联合":"<img src='/assets/extra_tags/208559/北方联合.png'/>北方联合"
-    }
-  },
-  "76740":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "77592":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "78058":{
-    "稀有度":{
-      "5星":"海上传奇"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "78447":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "撒丁帝国":"<img src='/assets/extra_tags/208559/撒丁帝国.png'/>撒丁帝国"
-    }
-  },
-  "78448":{
-    "稀有度":{
-      "2星":"稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "78449":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "自由鸢尾":"<img src='/assets/extra_tags/208559/自由鸢尾.png'/>自由鸢尾"
-    }
-  },
-  "78450":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
-    }
-  },
-  "78708":{
-    "稀有度":{
-      "5星":"决战方案"
-    },
-    "类型":{
-      "超巡":"<img src='/assets/extra_tags/208559/超巡.png'/>超巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "78709":{
-    "稀有度":{
-      "5星":"决战方案"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "78722":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "东煌":"<img src='/assets/extra_tags/208559/东煌.png'/>东煌"
-    }
-  },
-  "78724":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "东煌":"<img src='/assets/extra_tags/208559/东煌.png'/>东煌"
-    }
-  },
-  "78730":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "铁血":"<img src='/assets/extra_tags/208559/铁血.png'/>铁血"
-    }
-  },
-  "78731":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
-    }
-  },
-  "78732":{
-    "稀有度":{
-      "2星":"稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "白鹰":"<img src='/assets/extra_tags/208559/白鹰.png'/>白鹰"
-    }
-  },
-  "80865":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
-    }
-  },
-  "80866":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "80868":{
-    "稀有度":{
-      "4星":"最高方案"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "80869":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
-    }
-  },
-  "80870":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "维希教廷":"<img src='/assets/extra_tags/208559/维希教廷.png'/>维希教廷"
-    }
-  },
-  "87192":{
-    "稀有度":{
-      "4星":"最高方案"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "皇家":"<img src='/assets/extra_tags/208559/皇家.png'/>皇家"
-    }
-  },
-  "257":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
-    }
-  },
-  "258":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
-    }
-  },
-  "265":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
-    }
-  },
-  "5922":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "5923":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "5925":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "5927":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "运输":"<img src='/assets/extra_tags/208559/运输.png'/>运输"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "5928":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "7192":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
-    },
-    "阵营":{
-      "偶像大师":"<img src='/assets/extra_tags/208559/偶像大师.png'/>偶像大师"
-    }
-  },
-  "9995":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
-    }
-  },
-  "16817":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "To LOVE-Ru":"<img src='/assets/extra_tags/208559/To LOVE-Ru.png'/>To LOVE-Ru"
-    }
-  },
-  "17449":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
-    }
-  },
-  "18546":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "18548":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "18554":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "潜艇":"<img src='/assets/extra_tags/208559/潜艇.png'/>潜艇"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "19525":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
-    }
-  },
-  "19526":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
-    }
-  },
-  "19527":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
-    }
-  },
-  "19529":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "DateALiveV":"<img src='/assets/extra_tags/208559/DateALiveV.png'/>DateALiveV"
-    }
-  },
-  "20590":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "海王星":"<img src='/assets/extra_tags/208559/海王星.png'/>海王星"
-    }
-  },
-  "20592":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "海王星":"<img src='/assets/extra_tags/208559/海王星.png'/>海王星"
-    }
-  },
-  "21789":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "25523":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "29212":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "维修":"<img src='/assets/extra_tags/208559/维修.png'/>维修"
-    },
-    "阵营":{
-      "DanMachiV":"<img src='/assets/extra_tags/208559/DanMachiV.png'/>DanMachiV"
-    }
-  },
-  "32074":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "39843":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "39845":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "44228":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
-    }
-  },
-  "64640":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
-    }
-  },
-  "64641":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
-    }
-  },
-  "67418":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "70227":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
-    }
-  },
-  "75971":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战巡":"<img src='/assets/extra_tags/208559/战巡.png'/>战巡"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "77543":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "88130":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
-    }
-  },
-  "88132":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "SSSS":"<img src='/assets/extra_tags/208559/SSSS.png'/>SSSS"
-    }
-  },
-  "88255":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
-    }
-  },
-  "88261":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "航母":"<img src='/assets/extra_tags/208559/航母.png'/>航母"
-    },
-    "阵营":{
-      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
-    }
-  },
-  "91373":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "战列":"<img src='/assets/extra_tags/208559/战列.png'/>战列"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "114350":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "114359":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻航":"<img src='/assets/extra_tags/208559/轻航.png'/>轻航"
-    },
-    "阵营":{
-      "维纳斯假期":"<img src='/assets/extra_tags/208559/维纳斯假期.png'/>维纳斯假期"
-    }
-  },
-  "151971":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "超巡":"<img src='/assets/extra_tags/208559/超巡.png'/>超巡"
-    },
-    "阵营":{
-      "Atelier Ryza":"<img src='/assets/extra_tags/208559/Atelier Ryza.png'/>Atelier Ryza"
-    }
-  },
-  "155273":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "闪乱神乐NL":"<img src='/assets/extra_tags/208559/闪乱神乐NL.png'/>闪乱神乐NL"
-    }
-  },
-  "163907":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "Atelier Yumia":"<img src='/assets/extra_tags/208559/Atelier Yumia.png'/>Atelier Yumia"
-    }
-  },
-  "33173":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "重巡":"<img src='/assets/extra_tags/208559/重巡.png'/>重巡"
-    },
-    "阵营":{
-      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
-    }
-  },
-  "35099":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "轻巡":"<img src='/assets/extra_tags/208559/轻巡.png'/>轻巡"
-    },
-    "阵营":{
-      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
-    }
-  },
-  "35098":{
-    "稀有度":{
-      "4星":"超稀有"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "传颂之物":"<img src='/assets/extra_tags/208559/传颂之物.png'/>传颂之物"
-    }
-  },
-  "53208":{
-    "稀有度":{
-      "3星":"精锐"
-    },
-    "类型":{
-      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
-    },
-    "阵营":{
-      "KizunaAI":"<img src='/assets/extra_tags/208559/KizunaAI.png'/>KizunaAI"
     }
   }
 }
