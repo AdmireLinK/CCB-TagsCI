@@ -1,0 +1,96 @@
+name: Weekly Tags Maintenance
+
+on:
+  schedule:
+    # 北京时间每周一凌晨 4:00 执行 (UTC 时间每周日 20:00)
+    - cron: '0 20 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: weekly-tags-maintenance-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  GUESSER_BRANCH: main
+  GUESSER_UPSTREAM_REPOSITORY: kennylimz/anime-character-guessr
+  PR_MESSAGE: CI：tags auto update
+
+jobs:
+  sync-guesser-fork:
+    name: Sync Guesser Fork
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Guesser Repository
+        uses: actions/checkout@v4
+        with:
+          repository: AdmireLinK/anime-character-guessr
+          ref: main
+          token: ${{ secrets.CI_TOKEN }}
+
+      - name: Sync fork with upstream
+        run: |
+          git config user.name "AdmireLinK"
+          git config user.email "AdmireLinK@users.noreply.github.com"
+          git remote add upstream "https://github.com/$GUESSER_UPSTREAM_REPOSITORY.git"
+          git fetch upstream "$GUESSER_BRANCH"
+          git merge --no-edit "upstream/$GUESSER_BRANCH"
+          git push origin "HEAD:$GUESSER_BRANCH"
+
+  merge-user-feedback:
+    name: Merge User Feedback Tags
+    needs: sync-guesser-fork
+    uses: ./.github/workflows/merge-user-tags.yml
+    permissions:
+      contents: write
+    secrets: inherit
+
+  update-extra-tags:
+    name: Update Extra Tags
+    needs: merge-user-feedback
+    uses: ./.github/workflows/update-extra-tags.yml
+    permissions:
+      contents: write
+    secrets: inherit
+
+  open-upstream-pr:
+    name: Open Upstream Pull Request
+    needs:
+      - sync-guesser-fork
+      - merge-user-feedback
+      - update-extra-tags
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Open or update upstream pull request
+        env:
+          GH_TOKEN: ${{ secrets.CI_TOKEN }}
+        run: |
+          pr_number="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/pulls" -f state=open -f head="AdmireLinK:$GUESSER_BRANCH" -f base="$GUESSER_BRANCH" --jq '.[0].number // ""')"
+          if [ -n "$pr_number" ]; then
+            gh pr edit "$pr_number" \
+              --repo "$GUESSER_UPSTREAM_REPOSITORY" \
+              --title "$PR_MESSAGE" \
+              --body "$PR_MESSAGE"
+            echo "Updated upstream PR #$pr_number."
+            exit 0
+          fi
+
+          ahead_by="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/compare/$GUESSER_BRANCH...AdmireLinK:$GUESSER_BRANCH" --jq '.ahead_by')"
+          if [ "$ahead_by" = "0" ]; then
+            echo "No Guesser Repository changes to open as an upstream PR."
+            exit 0
+          fi
+
+          gh pr create \
+            --repo "$GUESSER_UPSTREAM_REPOSITORY" \
+            --head "AdmireLinK:$GUESSER_BRANCH" \
+            --base "$GUESSER_BRANCH" \
+            --title "$PR_MESSAGE" \
+            --body "$PR_MESSAGE"

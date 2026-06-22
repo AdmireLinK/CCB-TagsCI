@@ -1,13 +1,19 @@
 name: Merge User Feedback Tags
 
 on:
-  schedule:
-    # 北京时间每周一至周日凌晨 4:00 执行 (UTC 时间每日 20:00)
-    - cron: '0 20 * * *'
   workflow_dispatch:
+  workflow_call:
+    secrets:
+      CI_TOKEN:
+        required: true
+      MONGODB_URI:
+        required: true
 
 permissions:
   contents: write
+
+env:
+  GUESSER_BRANCH: main
 
 jobs:
   merge-feedback:
@@ -17,12 +23,14 @@ jobs:
       - name: Checkout CCB-TagsCI
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref_name }}
           token: ${{ secrets.CI_TOKEN }}
       
       - name: Checkout Guesser Repository
         uses: actions/checkout@v4
         with:
           repository: AdmireLinK/anime-character-guessr
+          ref: main
           token: ${{ secrets.CI_TOKEN }}
           path: anime-character-guessr
       
@@ -47,8 +55,14 @@ jobs:
           git config user.name "AdmireLinK"
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add outputs/
-          git diff --staged --quiet || git commit -m "CI：id_tags auto update"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "CI：id_tags auto update"
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase FETCH_HEAD
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          else
+            echo "No id tag changes for CCB-TagsCI."
+          fi
  
       - name: Copy outputs to Guesser Repository
         run: |
@@ -64,5 +78,11 @@ jobs:
           git config user.name "AdmireLinK"
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add client/src/data/id_tags.js
-          git diff --staged --quiet || git commit -m "CI：id_tags auto update"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "CI：id_tags auto update"
+            git fetch origin "$GUESSER_BRANCH"
+            git rebase FETCH_HEAD
+            git push origin "HEAD:$GUESSER_BRANCH"
+          else
+            echo "No id tag changes for Guesser Repository."
+          fi

@@ -1,10 +1,17 @@
 name: Update Extra Tags
 
 on:
-  schedule:
-    # 北京时间每周一凌晨 4:00 执行 (UTC 时间每周日 20:00)
-    - cron: '0 20 * * 0'
   workflow_dispatch:
+  workflow_call:
+    secrets:
+      CI_TOKEN:
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  GUESSER_BRANCH: main
 
 jobs:
   update-tags:
@@ -13,6 +20,9 @@ jobs:
     steps:
       - name: Checkout CCB-TagsCI
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.CI_TOKEN }}
       
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,13 +46,20 @@ jobs:
           git config user.name "AdmireLinK"
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add outputs/
-          git diff --staged --quiet || git commit -m "CI：extra_tags auto update"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "CI：extra_tags auto update"
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase FETCH_HEAD
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          else
+            echo "No extra tag changes for CCB-TagsCI."
+          fi
 
       - name: Checkout Guesser Repository
         uses: actions/checkout@v4
         with:
           repository: AdmireLinK/anime-character-guessr
+          ref: main
           token: ${{ secrets.CI_TOKEN }}
           path: anime-character-guessr
 
@@ -65,5 +82,11 @@ jobs:
           git config user.email "AdmireLinK@users.noreply.github.com"
           git add client/public/data/extra_tags/
           git add client/public/assets/extra_tags/
-          git diff --staged --quiet || git commit -m "CI：extra_tags auto update"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "CI：extra_tags auto update"
+            git fetch origin "$GUESSER_BRANCH"
+            git rebase FETCH_HEAD
+            git push origin "HEAD:$GUESSER_BRANCH"
+          else
+            echo "No extra tag changes for Guesser Repository."
+          fi
