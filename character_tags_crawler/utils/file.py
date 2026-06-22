@@ -45,6 +45,23 @@ def load_json_or_none(path: str):
     return json.load(open(path, encoding='utf8'))
 
 
+def _extra_tags_sort_key(value: object):
+    text = str(value)
+    if text.isdecimal():
+        return (0, int(text), text)
+    return (1, text)
+
+
+def sort_extra_tags_entries(data: object):
+    if isinstance(data, dict):
+        return {
+            key: sort_extra_tags_entries(data[key])
+            for key in sorted(data, key=_extra_tags_sort_key)
+        }
+    if isinstance(data, list):
+        return [sort_extra_tags_entries(item) for item in data]
+    return data
+
 def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_path: str, guesser_workspace_path: str, verbose: bool = True):
     from pathlib import Path
     
@@ -119,7 +136,7 @@ def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_pat
         final_str = final_str.replace(f'/assets/tag/{code}/', f'/assets/extra_tags/{sid}/')
         final_str = final_str.replace(f'/assets/extra_tags/{code}/', f'/assets/extra_tags/{sid}/')
         
-    final_tags = json.loads(final_str)
+    final_tags = sort_extra_tags_entries(json.loads(final_str))
     
     # 5. 保存 JSON 文件
     save_json_pretty(final_tags, str(out_json_file), verbose=verbose)
