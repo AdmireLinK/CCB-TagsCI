@@ -52,15 +52,25 @@ def _extra_tags_sort_key(value: object):
     return (1, text)
 
 
-def sort_extra_tags_entries(data: object):
-    if isinstance(data, dict):
+def _sort_extra_tags_section(section_data: object):
+    if isinstance(section_data, dict):
         return {
-            key: sort_extra_tags_entries(data[key])
-            for key in sorted(data, key=_extra_tags_sort_key)
+            key: section_data[key]
+            for key in sorted(section_data, key=_extra_tags_sort_key)
         }
-    if isinstance(data, list):
-        return [sort_extra_tags_entries(item) for item in data]
-    return data
+    return section_data
+
+
+def sort_extra_tags_entries(data: object):
+    if not isinstance(data, dict):
+        return data
+    return {
+        character_id: {
+            section: _sort_extra_tags_section(section_data)
+            for section, section_data in character_tags.items()
+        } if isinstance(character_tags, dict) else character_tags
+        for character_id, character_tags in data.items()
+    }
 
 def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_path: str, guesser_workspace_path: str, verbose: bool = True):
     from pathlib import Path
