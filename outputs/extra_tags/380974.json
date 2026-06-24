@@ -715,5 +715,26 @@
     "阵营":{
       "防卫军·奥波勒斯小队":"<img src='/assets/extra_tags/380974/防卫军·奥波勒斯小队.png'/>防卫军·奥波勒斯小队"
     }
+  },
+  "209791":{
+    "标签":{
+      "以太":"<img src='/assets/extra_tags/380974/以太.png'/>以太",
+      "强攻":"<img src='/assets/extra_tags/380974/强攻.png'/>强攻"
+    },
+    "阵营":{
+      "法厄同":"<img src='/assets/extra_tags/380974/法厄同.png'/>法厄同"
+    }
+  },
+  "201864":{
+    "标签":{
+      "击破":"<img src='/assets/extra_tags/380974/击破.png'/>击破",
+      "火":"<img src='/assets/extra_tags/380974/火.png'/>火"
+    },
+    "阵营":{
+      "罗斯凯利法·外务筹策局":"<img src='/assets/extra_tags/380974/罗斯凯利法·外务筹策局.png'/>罗斯凯利法·外务筹策局"
+    },
+    "稀有度":{
+      "S":"<img src='/assets/extra_tags/380974/S.png' alt='S' />"
+    }
   }
 }

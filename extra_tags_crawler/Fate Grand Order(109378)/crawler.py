@@ -273,19 +273,42 @@ def process_fgo():
                 "宝具": np_dict
             }
 
-    # 4. 复制本地图片资产
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://fgo.wiki/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://fgo.wiki/"
+    }
     fgo_assets_dir = OUTPUT_ASSETS_DIR / FGO_ID
-    fgo_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_fgo_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "fgo"
-    if local_fgo_tags.exists():
-        # 复制所有本地星级、色卡与职阶图标
-        for filename in os.listdir(local_fgo_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_fgo_tags / filename, fgo_assets_dir / filename)
-        print("[FGO] 成功复制本地职阶、宝具色卡及星级图标资产。")
-    else:
-        print("警告: 未找到本地 FGO tags 图标文件夹，跳过资产复制。")
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            referenced_icons.add(f"{r}.png")
+        for a in char.get("属性", {}).keys():
+            # Alignments could be plain text but let's query just in case
+            referenced_icons.add(f"{a}.png")
+        for c in char.get("职阶", {}).keys():
+            referenced_icons.add(f"{c}.png")
+        for np in char.get("宝具", {}).keys():
+            referenced_icons.add(f"{np}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png",
+            f"File:职阶-{name}.png",
+            f"File:配卡-{name}.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, fgo_assets_dir, headers)
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

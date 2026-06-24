@@ -99,7 +99,10 @@ def process_genshin():
     # 2. 爬取原神 BWiki
     print("[原神] 正在抓取原神 Bwiki 角色筛选数据库...")
     bwiki_url = "https://wiki.biligame.com/ys/%E8%A7%92%E8%89%B2%E7%AD%9B%E9%80%89"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "Referer": "https://wiki.biligame.com/ys/"
+    }
     soup = safe_soup(bwiki_url, headers=headers, cooldown=2)
     
     # 初始化特例角色的手动映射
@@ -221,16 +224,26 @@ def process_genshin():
         except Exception as e:
             print(f"下载标签 {tag} 图标失败: {e}")
 
-    # 本地兜底逻辑：若本地猜角色仓库中存在对应图标而下载失败，则复制本地资源
-    local_ys_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "ys"
-    if local_ys_tags.exists():
-        for tag in tags_to_download:
-            dest_path = genshin_assets_dir / f"{tag}.png"
-            if not dest_path.exists():
-                src_path = local_ys_tags / f"{tag}.png"
-                if src_path.exists():
-                    print(f"[原神] 检测到本地兜底图片，正在复制 {tag}.png")
-                    shutil.copy(src_path, dest_path)
+    # 自动下载从页面没抓取到的缺失图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/ys/api.php"
+    
+    missing_assets = {}
+    for tag in tags_to_download:
+        dest_path = genshin_assets_dir / f"{tag}.png"
+        if not dest_path.exists():
+            missing_assets[f"{tag}.png"] = [
+                f"File:图标-{tag}.png",
+                f"File:Logo-{tag}.png",
+                f"File:Logo-阵营图标-{tag}.png",
+                f"File:{tag}.png",
+                f"File:角色稀有度{tag}.png",
+                f"File:{tag}级.png",
+                f"File:{tag}star.png",
+                f"File:{tag}星.png"
+            ]
+            
+    download_bwiki_missing_assets(api_url, missing_assets, genshin_assets_dir, headers)
 
     # 4. 生成规范的 JSON 输出
     def make_tag_img(value):

@@ -208,18 +208,40 @@ def process_umamusume():
                 if value not in current_values:
                     current_values.append(value)
 
-    # 3. 处理星级资产图标（从本地猜角色静态资源中复制组合星级图标）
+    # 3. 自动下载缺失的图片资产
     umamusume_assets_dir = OUTPUT_ASSETS_DIR / UMAMUSUME_ID
     umamusume_assets_dir.mkdir(parents=True, exist_ok=True)
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/umamusume/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/umamusume/"
+    }
     
-    local_uma_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "umamusume"
-    if local_uma_tags.exists():
-        for rarity in range(1, 4):
-            src_path = local_uma_tags / f"{rarity}star.png"
-            dest_path = umamusume_assets_dir / f"{rarity}star.png"
-            if src_path.exists():
-                print(f"[赛马娘] 发现本地星级资源，正在复制 {rarity}star.png")
-                shutil.copy(src_path, dest_path)
+    referenced_icons = set()
+    for rarity in range(1, 4):
+        referenced_icons.add(f"{rarity}star.png")
+        
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        num_map = {"1": "一", "2": "二", "3": "三"}
+        digit = name.replace("star", "")
+        zh_num = num_map.get(digit, digit)
+        candidates = [
+            f"File:星级_{digit}.png",
+            f"File:星级-{digit}.png",
+            f"File:星级{digit}.png",
+            f"File:{digit}星.png",
+            f"File:{digit}star.png",
+            f"File:{zh_num}星.png",
+            f"File:等级-{digit}.png",
+            f"File:{digit}.png",
+            f"File:{digit}.svg"
+        ]
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, umamusume_assets_dir, headers)
 
     # 4. 生成规范的 JSON 数据格式
     terrain_columns = ["草地", "泥地"]

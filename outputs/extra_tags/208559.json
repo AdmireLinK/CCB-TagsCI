@@ -3518,5 +3518,16 @@
     "阵营":{
       "KizunaAI":"<img src='/assets/extra_tags/208559/KizunaAI.png'/>KizunaAI"
     }
+  },
+  "215492":{
+    "稀有度":{
+      "4星":"超稀有"
+    },
+    "类型":{
+      "驱逐":"<img src='/assets/extra_tags/208559/驱逐.png'/>驱逐"
+    },
+    "阵营":{
+      "重樱":"<img src='/assets/extra_tags/208559/重樱.png'/>重樱"
+    }
   }
 }

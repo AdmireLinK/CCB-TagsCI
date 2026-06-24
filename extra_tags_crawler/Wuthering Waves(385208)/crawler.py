@@ -198,22 +198,13 @@ def process_mc():
 
             # 稀有度
             rarity_file = f"{rarity_num}星" if rarity_num.isdigit() else rarity
-            if rarity_file in available_icons:
-                rarity_html = f"<img src='/assets/extra_tags/{MC_ID}/{rarity_file}.png' alt='{rarity}' />"
-            else:
-                rarity_html = rarity
+            rarity_html = f"<img src='/assets/extra_tags/{MC_ID}/{rarity_file}.png' alt='{rarity}' />"
                 
             # 属性
-            if element in available_icons:
-                element_html = f"<img src='/assets/extra_tags/{MC_ID}/{element}.png'/>{element}"
-            else:
-                element_html = element
+            element_html = f"<img src='/assets/extra_tags/{MC_ID}/{element}.png'/>{element}"
                 
             # 武器
-            if weapon in available_icons:
-                weapon_html = f"<img src='/assets/extra_tags/{MC_ID}/{weapon}.png'/>{weapon}"
-            else:
-                weapon_html = weapon
+            weapon_html = f"<img src='/assets/extra_tags/{MC_ID}/{weapon}.png'/>{weapon}"
                 
             # 拼装属性与标签
             tags_dict = {
@@ -230,14 +221,57 @@ def process_mc():
                 "标签": tags_dict
             }
 
-    # 4. 复制本地图片资产
-    if local_mc_tags.exists():
-        for filename in os.listdir(local_mc_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_mc_tags / filename, mc_assets_dir / filename)
-        print("[鸣潮] 成功复制本地鸣潮图标资产。")
-    else:
-        print("警告: 未找到本地鸣潮 tags 图标文件夹，跳过资产复制。")
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/wutheringwaves/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/wutheringwaves/"
+    }
+    
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            r_num = re.sub(r'\D', '', r)
+            referenced_icons.add(f"{r_num}星.png")
+        for t in char.get("标签", {}).keys():
+            # Only element and weapon have img tags in tags_dict, but we can extract all keys.
+            # To be safe, we only try to download element and weapon icons which are 2 to 3 characters typically.
+            # Bwiki might not have icons for all text style tags.
+            # The keys that actually have images are the ones where we put an img tag.
+            # Let's check which keys in tags_dict have `<img src=` in their values.
+            pass
+            
+    # Let's extract those icons programmatically
+    for char in extra_tags.values():
+        for val in char.get("标签", {}).values():
+            if "<img src=" in val:
+                # extract file name from /assets/extra_tags/385208/xxx.png
+                match = re.search(r'/assets/extra_tags/[^/]+/([^/\'\"]+)', val)
+                if match:
+                    referenced_icons.add(match.group(1))
+                    
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:图标-{qn}.png",
+                f"File:Logo-{qn}.png",
+                f"File:{qn}.png",
+                f"File:属性-{qn}.png",
+                f"File:武器-{qn}.png",
+                f"File:声骸-{qn}.png",
+                f"File:星级_{qn}.png",
+                f"File:星级-{qn}.png",
+                f"File:{qn}.svg"
+            ])
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, mc_assets_dir, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

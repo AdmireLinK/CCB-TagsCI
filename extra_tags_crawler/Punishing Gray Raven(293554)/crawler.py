@@ -177,13 +177,6 @@ def process_pns():
     pns_assets_dir = OUTPUT_ASSETS_DIR / PNS_ID
     pns_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_pns_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "pns"
-    available_icons = set()
-    if pns_assets_dir.exists() and any(pns_assets_dir.glob("*.png")):
-        available_icons = {f.name.rsplit(".", 1)[0] for f in pns_assets_dir.glob("*.png")}
-    elif local_pns_tags.exists():
-        available_icons = {f.rsplit(".", 1)[0] for f in os.listdir(local_pns_tags) if f.endswith(".png")}
-
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
         bgm_zh = info["chinese_name"]
@@ -227,47 +220,28 @@ def process_pns():
             # 1. 稀有度
             rarity_dict = {}
             for r in sorted(rarities):
-                if r in available_icons:
-                    rarity_dict[r] = f"<img src='/assets/extra_tags/{PNS_ID}/{r}.png' alt='{r}' />"
-                else:
-                    rarity_dict[r] = r
+                rarity_dict[r] = f"<img src='/assets/extra_tags/{PNS_ID}/{r}.png' alt='{r}' />"
 
             # 2. 标签：机体类型、能量参数、效应标签
             tags_dict = {}
             for p in professions:
-                if p in available_icons:
-                    tags_dict[p] = f"<img src='/assets/extra_tags/{PNS_ID}/{p}.png'/>{p}"
-                else:
-                    tags_dict[p] = p
+                tags_dict[p] = f"<img src='/assets/extra_tags/{PNS_ID}/{p}.png'/>{p}"
                     
             for e in elements:
-                if e in available_icons:
-                    tags_dict[e] = f"<img src='/assets/extra_tags/{PNS_ID}/{e}.png'/>{e}"
-                else:
-                    tags_dict[e] = e
+                tags_dict[e] = f"<img src='/assets/extra_tags/{PNS_ID}/{e}.png'/>{e}"
                     
             for t in effect_tags:
-                if t in available_icons:
-                    tags_dict[t] = f"<img src='/assets/extra_tags/{PNS_ID}/{t}.png'/>{t}"
-                else:
-                    tags_dict[t] = t
+                tags_dict[t] = f"<img src='/assets/extra_tags/{PNS_ID}/{t}.png'/>{t}"
 
             # 3. 武器
             weapon_dict = {}
             for w in weapons:
-                # 武器种类很多，有图标的用图标，无图标的用纯文本
-                if w in available_icons:
-                    weapon_dict[w] = f"<img src='/assets/extra_tags/{PNS_ID}/{w}.png'/>{w}"
-                else:
-                    weapon_dict[w] = w
+                weapon_dict[w] = f"<img src='/assets/extra_tags/{PNS_ID}/{w}.png'/>{w}"
 
             # 4. 所属/阵营
             faction_dict = {}
             for f in factions:
-                if f in available_icons:
-                    faction_dict[f] = f"<img src='/assets/extra_tags/{PNS_ID}/{f}.png'/>{f}"
-                else:
-                    faction_dict[f] = f
+                faction_dict[f] = f"<img src='/assets/extra_tags/{PNS_ID}/{f}.png'/>{f}"
 
             extra_tags[cid] = {
                 "稀有度": rarity_dict,
@@ -276,14 +250,46 @@ def process_pns():
                 "阵营": faction_dict
             }
 
-    # 4. 复制本地图片资产
-    if local_pns_tags.exists():
-        for filename in os.listdir(local_pns_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_pns_tags / filename, pns_assets_dir / filename)
-        print("[战双帕弥什] 成功复制本地战双图标资产。")
-    else:
-        print("警告: 未找到本地战双 tags 图标文件夹，跳过资产复制。")
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/zspms/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/zspms/"
+    }
+    
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            referenced_icons.add(f"{r}.png")
+        for t in char.get("标签", {}).keys():
+            referenced_icons.add(f"{t}.png")
+        for w in char.get("武器类型", {}).keys():
+            referenced_icons.add(f"{w}.png")
+        for f in char.get("阵营", {}).keys():
+            referenced_icons.add(f"{f}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:图标-{qn}.png",
+                f"File:Logo-{qn}.png",
+                f"File:{qn}.png",
+                f"File:职业-{qn}.png",
+                f"File:属性-{qn}.png",
+                f"File:武器-{qn}.png",
+                f"File:效应-{qn}.png",
+                f"File:阵营-{qn}.png",
+                f"File:{qn}.svg"
+            ])
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, pns_assets_dir, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

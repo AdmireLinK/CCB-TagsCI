@@ -185,29 +185,70 @@ def process_arknights():
                 "是否感染": infected_dict
             }
 
-    # 4. 处理图片资产 (从本地猜角色静态资源中复制星星与职业图标)
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/arknights/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/arknights/"
+    }
     arknights_assets_dir = OUTPUT_ASSETS_DIR / ARKNIGHTS_ID
-    arknights_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_ark_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "arknights"
-    if local_ark_tags.exists():
-        # 复制星级图标
-        for star in range(1, 7):
-            src_path = local_ark_tags / "Star_Rating" / f"{star}star.png"
-            dest_path = arknights_assets_dir / f"{star}star.png"
-            if src_path.exists():
-                shutil.copy(src_path, dest_path)
-                
-        # 复制职业图标
-        occupations = ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种", "未知职业"]
-        for occ in occupations:
-            src_path = local_ark_tags / "Occupation" / f"{occ}.png"
-            dest_path = arknights_assets_dir / f"{occ}.png"
-            if src_path.exists():
-                shutil.copy(src_path, dest_path)
-        print("[明日方舟] 成功复制本地星星与职业图标资产。")
-    else:
-        print("警告: 未找到本地明日方舟 tags 图标文件夹，跳过资产复制。")
+    referenced_stars = set()
+    referenced_professions = set()
+    referenced_factions = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            star_num = re.sub(r'\D', '', r)
+            if star_num:
+                referenced_stars.add(f"{star_num}star.png")
+        for o in char.get("职业", {}).keys():
+            referenced_professions.add(f"{o}.png")
+        for f in char.get("阵营", {}).keys():
+            referenced_factions.add(f"{f}.png")
+            
+    # 4.1 下载星级与职业图标 (自 Bwiki)
+    missing_bwiki = {}
+    for icon_name in referenced_stars | referenced_professions:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        if name.endswith("star"):
+            star_num = name[:-4]
+            query_names.extend([f"Akn星级{star_num}", f"明日方舟星级{star_num}", f"{star_num}星", f"星级-{star_num}", f"{star_num}star"])
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:图标-{qn}.png",
+                f"File:Logo-{qn}.png",
+                f"File:{qn}.png",
+                f"File:{qn}star.png",
+                f"File:{qn}星.png",
+                f"File:职业-{qn}.png"
+            ])
+        missing_bwiki[icon_name] = candidates
+        
+    download_bwiki_missing_assets(api_url, missing_bwiki, arknights_assets_dir, headers)
+
+    # 4.2 下载阵营图标 (自 PRTS Wiki)
+    prts_api_url = "https://prts.wiki/api.php"
+    prts_headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://prts.wiki/"
+    }
+    
+    missing_prts = {}
+    for icon_name in referenced_factions:
+        name = icon_name.rsplit(".", 1)[0]
+        candidates = [
+            f"File:Logo_{name}.png",
+            f"File:Logo_{name}.PNG",
+            f"File:{name}.png",
+            f"File:{name}.PNG"
+        ]
+        missing_prts[icon_name] = candidates
+        
+    download_bwiki_missing_assets(prts_api_url, missing_prts, arknights_assets_dir, prts_headers)
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

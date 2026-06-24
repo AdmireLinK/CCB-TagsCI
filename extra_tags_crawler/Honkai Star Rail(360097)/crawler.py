@@ -165,13 +165,6 @@ def process_hsr():
     hsr_assets_dir = OUTPUT_ASSETS_DIR / HSR_ID
     hsr_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_hsr_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "hsr"
-    available_icons = set()
-    if hsr_assets_dir.exists() and any(hsr_assets_dir.glob("*.png")):
-        available_icons = {f.name.rsplit(".", 1)[0] for f in hsr_assets_dir.glob("*.png")}
-    elif local_hsr_tags.exists():
-        available_icons = {f.rsplit(".", 1)[0] for f in os.listdir(local_hsr_tags) if f.endswith(".png")}
-
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
         bgm_zh = info["chinese_name"]
@@ -213,32 +206,20 @@ def process_hsr():
             # 1. 稀有度
             rarity_dict = {}
             for r in sorted(rarities):
-                if r in available_icons:
-                    rarity_dict[r] = f"<img src='/assets/extra_tags/{HSR_ID}/{r}.png' alt='{r}' />"
-                else:
-                    rarity_dict[r] = r
+                rarity_dict[r] = f"<img src='/assets/extra_tags/{HSR_ID}/{r}.png' alt='{r}' />"
 
             # 2. 标签：命途类型、战斗属性
             tags_dict = {}
             for p in paths:
-                if p in available_icons:
-                    tags_dict[p] = f"<img src='/assets/extra_tags/{HSR_ID}/{p}.png'/>{p}"
-                else:
-                    tags_dict[p] = p
+                tags_dict[p] = f"<img src='/assets/extra_tags/{HSR_ID}/{p}.png'/>{p}"
                     
             for e in elements:
-                if e in available_icons:
-                    tags_dict[e] = f"<img src='/assets/extra_tags/{HSR_ID}/{e}.png'/>{e}"
-                else:
-                    tags_dict[e] = e
+                tags_dict[e] = f"<img src='/assets/extra_tags/{HSR_ID}/{e}.png'/>{e}"
 
             # 3. 阵营 / 所属
             faction_dict = {}
             for f in factions:
-                if f in available_icons:
-                    faction_dict[f] = f"<img src='/assets/extra_tags/{HSR_ID}/{f}.png'/>{f}"
-                else:
-                    faction_dict[f] = f
+                faction_dict[f] = f"<img src='/assets/extra_tags/{HSR_ID}/{f}.png'/>{f}"
 
             extra_tags[cid] = {
                 "稀有度": rarity_dict,
@@ -246,14 +227,48 @@ def process_hsr():
                 "阵营": faction_dict
             }
 
-    # 4. 复制本地图片资产
-    if local_hsr_tags.exists():
-        for filename in os.listdir(local_hsr_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_hsr_tags / filename, hsr_assets_dir / filename)
-        print("[星穹铁道] 成功复制本地星穹铁道图标资产。")
-    else:
-        print("警告: 未找到本地星穹铁道 tags 图标文件夹，跳过资产复制。")
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/sr/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/sr/"
+    }
+    
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            referenced_icons.add(f"{r}.png")
+        for t in char.get("标签", {}).keys():
+            referenced_icons.add(f"{t}.png")
+        for f in char.get("阵营", {}).keys():
+            referenced_icons.add(f"{f}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        if "星" in name:
+            star_num = name.replace("星", "")
+            query_names.extend([f"星级_{star_num}", f"星级-{star_num}", f"星级{star_num}", f"{star_num}星", f"{star_num}star"])
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:命途_{qn}.png",
+                f"File:命途-{qn}.png",
+                f"File:属性_{qn}.png",
+                f"File:属性-{qn}.png",
+                f"File:星级_{qn}.png",
+                f"File:星级-{qn}.png",
+                f"File:图标_{qn}.png",
+                f"File:Logo_{qn}.png",
+                f"File:{qn}.png",
+                f"File:{qn}.svg"
+            ])
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, hsr_assets_dir, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

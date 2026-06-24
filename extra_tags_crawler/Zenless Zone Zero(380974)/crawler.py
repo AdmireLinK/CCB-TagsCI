@@ -3,14 +3,15 @@ import sys
 import re
 import shutil
 import json
+import requests
 from pathlib import Path
 
 # 将项目根目录添加到 sys.path 中，以便能够导入项目中的通用模块
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root))
 
-from character_tags_crawler.utils.network import safe_soup
-from character_tags_crawler.utils.file import save_json_pretty
+from character_tags_crawler.utils.network import safe_soup, safe_download
+from character_tags_crawler.utils.file import merge_and_save_extra_tags
 
 # 全局配置
 ZZZ_ID = "380974"
@@ -66,73 +67,125 @@ def clean_wiki_name(name):
     """
     return re.sub(r'[\(（].*?[\)）]', '', name).strip()
 
+def clean_title(title):
+    return re.sub(r'^(File|文件|Image|图像):', '', title, flags=re.IGNORECASE).strip()
+
+def resolve_image_url(titles, headers=None):
+    if not titles:
+        return {}
+    url = "https://wiki.biligame.com/zzz/api.php"
+    if headers is None:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Referer": "https://wiki.biligame.com/zzz/"
+        }
+    
+    from urllib3 import Retry
+    from requests.adapters import HTTPAdapter
+    s = requests.Session()
+    retries = Retry(total=5, backoff_factor=1, status_forcelist=[500, 502, 503, 504])
+    s.mount('https://', HTTPAdapter(max_retries=retries))
+    s.mount('http://', HTTPAdapter(max_retries=retries))
+    
+    resolved = {}
+    for i in range(0, len(titles), 50):
+        batch = titles[i:i+50]
+        params = {
+            "action": "query",
+            "titles": "|".join(batch),
+            "prop": "imageinfo",
+            "iiprop": "url",
+            "format": "json"
+        }
+        try:
+            r = s.get(url, params=params, headers=headers, timeout=10)
+            data = r.json()
+            pages = data.get("query", {}).get("pages", {})
+            for pid, pinfo in pages.items():
+                title = pinfo.get("title")
+                ii = pinfo.get("imageinfo")
+                if ii:
+                    resolved[clean_title(title)] = ii[0]["url"]
+        except Exception as e:
+            print(f"警告: 批量查询图片 URL 失败: {e}")
+    return resolved
+
+def download_missing_assets(missing_assets, headers=None):
+    if not missing_assets:
+        return
+        
+    print(f"[绝区零] 发现 {len(missing_assets)} 个可能需要下载的素材。")
+    
+    # Collect all titles
+    all_titles = []
+    for titles in missing_assets.values():
+        all_titles.extend(titles)
+    all_titles = list(set(all_titles))
+    
+    # Resolve URLs
+    resolved = resolve_image_url(all_titles, headers)
+    
+    # Download
+    zzz_assets_dir = OUTPUT_ASSETS_DIR / ZZZ_ID
+    zzz_assets_dir.mkdir(parents=True, exist_ok=True)
+    
+    for filename, titles in missing_assets.items():
+        dest_path = zzz_assets_dir / filename
+        if dest_path.exists():
+            continue
+            
+        downloaded = False
+        for title in titles:
+            img_url = resolved.get(clean_title(title))
+            if img_url:
+                try:
+                    print(f"[绝区零] 正在下载 {filename} (自 {title})...")
+                    safe_download(img_url, str(dest_path), headers=headers, cooldown=0.5, verbose=True)
+                    downloaded = True
+                    break
+                except Exception as e:
+                    print(f"警告: 从 {title} 下载 {filename} 失败: {e}")
+        if not downloaded:
+            print(f"错误: 无法下载 {filename} (尝试过的标题: {titles})")
+
 def process_zzz():
-    """
-    绝区零 Extra Tags 自动爬取与处理核心逻辑：
-    1. 爬取 Bangumi 绝区零角色列表
-    2. 爬取绝区零 Bwiki 角色筛选页面数据
-    3. 将 Bwiki 角色数据与 Bangumi 进行名称匹配对齐
-    4. 复制本地 zzz tags 资产
-    5. 生成 JSON
-    """
     # 1. 爬取 Bangumi 数据
     bgm_characters = crawl_bangumi_characters(ZZZ_ID)
 
-    # 2. 爬取 ZZZ Bwiki
-    print("[绝区零] 正在抓取绝区零 Bwiki 角色筛选页...")
-    bwiki_url = "https://wiki.biligame.com/zzz/%E8%A7%92%E8%89%B2%E7%AD%9B%E9%80%89"
+    # 2. 从 Bwiki API 获取角色数据 (使用 SMW ask)
+    print("[绝区零] 正在通过 Bwiki API 获取角色数据...")
+    url_bwiki = "https://wiki.biligame.com/zzz/api.php"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Referer": "https://wiki.biligame.com/zzz/"
     }
-    soup = safe_soup(bwiki_url, headers=headers, cooldown=2)
+    params_ask = {
+        "action": "ask",
+        "query": "[[Category:角色]]|?稀有度|?属性|?特性|?阵营|?伤害类型|limit=100",
+        "format": "json"
+    }
+    
+    # Setup retry session for SMW ask
+    from urllib3 import Retry
+    from requests.adapters import HTTPAdapter
+    s = requests.Session()
+    retries = Retry(total=5, backoff_factor=1, status_forcelist=[500, 502, 503, 504])
+    s.mount('https://', HTTPAdapter(max_retries=retries))
+    s.mount('http://', HTTPAdapter(max_retries=retries))
+    
+    try:
+        r = s.get(url_bwiki, params=params_ask, headers=headers, timeout=10)
+        bwiki_data = r.json().get("query", {}).get("results", {})
+    except Exception as e:
+        print(f"错误: 无法从 Bwiki API 获取数据: {e}")
+        return
+
+    print(f"[绝区零] Bwiki 上共获取了 {len(bwiki_data)} 个角色的数据。")
 
     # 职业属性映射
     PROFESSION_MAP = {
-        "命破": "击破"  # 将 Bwiki 数据中的 "命破" 转换为本地的 "击破"
+        "命破": "击破"
     }
-
-    # Bwiki 数据解析
-    wiki_chars = {}
-    table = soup.find("table", class_="CardSelect")
-    if not table:
-        print("[绝区零] 未找到 CardSelect 表格！")
-        return
-
-    rows = table.find_all("tr")
-    for row in rows:
-        attrs = {k: v for k, v in row.attrs.items() if k.startswith("data-param")}
-        if not attrs or "data-param1" not in attrs:
-            continue
-        
-        tds = row.find_all("td")
-        if len(tds) < 2:
-            continue
-            
-        raw_name = tds[1].get_text(strip=True)
-        name = clean_wiki_name(raw_name)
-        
-        # 稀有度 S/A 等
-        rarity = attrs.get("data-param1", "").strip()
-        # 属性 (物理, 火, 冰, 电, 以太)
-        element = attrs.get("data-param4", "").strip()
-        # 特性 (强攻, 击破, 异常, 支援, 防护)
-        profession_raw = attrs.get("data-param5", "").strip()
-        profession = PROFESSION_MAP.get(profession_raw, profession_raw)
-        # 伤害类型 (斩击, 打击, 穿透)
-        dmg_type = attrs.get("data-param6", "").strip()
-        # 阵营
-        faction = attrs.get("data-param7", "").strip()
-
-        wiki_chars[name] = {
-            "rarity": rarity,
-            "element": element,
-            "profession": profession,
-            "dmg_type": dmg_type,
-            "faction": faction
-        }
-
-    print(f"[绝区零] Bwiki 上共获取了 {len(wiki_chars)} 个角色的数据。")
 
     # 别名映射词典
     ALIAS_MAP = {
@@ -162,6 +215,13 @@ def process_zzz():
 
     # 3. 匹配 Bangumi 角色
     extra_tags = {}
+    matched_assets = {
+        "rarities": set(),
+        "elements": set(),
+        "professions": set(),
+        "factions": set()
+    }
+
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
         bgm_zh = info["chinese_name"]
@@ -172,49 +232,67 @@ def process_zzz():
                 continue
             
             # 1. 精确与别名直接匹配
-            if candidate in wiki_chars:
-                matched_char = wiki_chars[candidate]
+            if candidate in bwiki_data:
+                matched_char = bwiki_data[candidate]["printouts"]
                 break
                 
             norm_candidate = normalize_name(candidate)
             # 2. 遍历 Bwiki 匹配
-            for w_name, data in wiki_chars.items():
+            for w_name, data in bwiki_data.items():
                 w_name_norm = normalize_name(w_name)
-                # 检查归一化后是否相等，或者子串
                 if norm_candidate == w_name_norm or w_name in candidate or candidate in w_name:
-                    matched_char = data
+                    matched_char = data["printouts"]
                     break
-                # 3. 检查 ALIAS_MAP 翻译映射
+                
                 alias_translated = ALIAS_MAP.get(w_name, w_name)
                 alias_norm = normalize_name(alias_translated)
                 if norm_candidate == alias_norm or alias_translated in candidate or candidate in alias_translated:
-                    matched_char = data
+                    matched_char = data["printouts"]
                     break
             
             if matched_char:
                 break
 
         if matched_char:
-            rarity = matched_char["rarity"]
-            element = matched_char["element"]
-            profession = matched_char["profession"]
-            dmg_type = matched_char["dmg_type"]
-            faction = matched_char["faction"]
+            rarities_raw = matched_char.get("稀有度", [])
+            rarity = rarities_raw[0] if rarities_raw else ""
+            
+            elements_raw = matched_char.get("属性", [])
+            element = elements_raw[0] if elements_raw else ""
+            
+            professions_raw = matched_char.get("特性", [])
+            profession_raw = professions_raw[0] if professions_raw else ""
+            profession = PROFESSION_MAP.get(profession_raw, profession_raw)
+            
+            dmg_type_list = matched_char.get("伤害类型", [])
+            
+            factions_raw = matched_char.get("阵营", [])
+            faction = factions_raw[0] if factions_raw else ""
+
+            # 收集匹配成功的资产以便后面下载
+            if rarity:
+                matched_assets["rarities"].add(rarity)
+            if element:
+                matched_assets["elements"].add(element)
+            if profession:
+                matched_assets["professions"].add(profession)
+            if faction:
+                matched_assets["factions"].add(faction)
 
             # 图像引用拼装
-            rarity_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{rarity}.png' alt='{rarity}' />"
-            element_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{element}.png'/>{element}"
-            prof_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{profession}.png'/>{profession}"
+            rarity_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{rarity}.png' alt='{rarity}' />" if rarity else ""
+            element_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{element}.png'/>{element}" if element else ""
+            prof_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{profession}.png'/>{profession}" if profession else ""
             
-            tags_dict = {
-                element: element_html,
-                profession: prof_html
-            }
+            tags_dict = {}
+            if element:
+                tags_dict[element] = element_html
+            if profession:
+                tags_dict[profession] = prof_html
             
             # 添加伤害类型 (纯文本)
-            if dmg_type:
-                # 某些角色有多个伤害类型 (如 席德 有 打击, 斩击)
-                for dt in [d.strip() for d in dmg_type.split(",") if d.strip()]:
+            if dmg_type_list:
+                for dt in dmg_type_list:
                     tags_dict[dt] = dt
                     
             # 阵营
@@ -223,28 +301,32 @@ def process_zzz():
                 faction_dict[faction] = f"<img src='/assets/extra_tags/{ZZZ_ID}/{faction}.png'/>{faction}"
                 
             extra_tags[cid] = {
-                "稀有度": {rarity: rarity_html},
                 "标签": tags_dict,
                 "阵营": faction_dict
             }
+            if rarity:
+                extra_tags[cid]["稀有度"] = {rarity: rarity_html}
 
-    # 4. 复制本地图片资产
-    zzz_assets_dir = OUTPUT_ASSETS_DIR / ZZZ_ID
-    zzz_assets_dir.mkdir(parents=True, exist_ok=True)
-    
-    local_zzz_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "zzz"
-    if local_zzz_tags.exists():
-        for filename in os.listdir(local_zzz_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_zzz_tags / filename, zzz_assets_dir / filename)
-        print("[绝区零] 成功复制本地绝区零图标资产。")
-    else:
-        print("警告: 未找到本地绝区零 tags 图标文件夹，跳过资产复制。")
+    # 4. 自动下载缺失的图片资产
+    missing_assets = {}
+    for r in matched_assets["rarities"]:
+        filename = f"{r}.png"
+        missing_assets[filename] = [f"File:角色稀有度{r}.png", f"File:{r}.png"]
+    for e in matched_assets["elements"]:
+        filename = f"{e}.png"
+        missing_assets[filename] = [f"File:图标-{e}.png", f"File:{e}.png"]
+    for p in matched_assets["professions"]:
+        filename = f"{p}.png"
+        missing_assets[filename] = [f"File:图标-{p}.png", f"File:{p}.png"]
+    for f in matched_assets["factions"]:
+        filename = f"{f}.png"
+        missing_assets[filename] = [f"File:Logo-阵营图标-{f}.png", f"File:{f}.png"]
+
+    download_missing_assets(missing_assets, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
     out_json_file = OUTPUT_JSON_DIR / f"{ZZZ_ID}.json"
-    from character_tags_crawler.utils.file import merge_and_save_extra_tags
     merge_and_save_extra_tags(ZZZ_ID, extra_tags, str(out_json_file), str(GUESSER_WORKSPACE))
     print(f"[绝区零] 成功写入 {len(extra_tags)} 个角色属性到 {out_json_file}")
 

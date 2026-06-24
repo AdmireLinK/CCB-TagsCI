@@ -367,18 +367,48 @@ def process_bluearchive():
                 "所属": school_dict
             }
 
-    # 5. 复制本地图片资产
+    # 5. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/ba/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/ba/"
+    }
     ba_assets_dir = OUTPUT_ASSETS_DIR / BA_ID
-    ba_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_ba_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "ba"
-    if local_ba_tags.exists():
-        for filename in os.listdir(local_ba_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_ba_tags / filename, ba_assets_dir / filename)
-        print("[碧蓝档案] 成功复制本地学校与武器职业图标资产。")
-    else:
-        print("警告: 未找到本地碧蓝档案 tags 图标文件夹，跳过资产复制。")
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            referenced_icons.add(f"{r}.png")
+        for w in char.get("武器类型", {}).keys():
+            referenced_icons.add(f"{w}.png")
+        for t in char.get("标签", {}).keys():
+            # Check if t is an icon like "FRONT", "MIDDLE", "BACK" or types
+            # Wait, let's look at what tags BA uses.
+            # In BA, tags can be FRONT/MIDDLE/BACK or Heavy/Light/Special etc.
+            # Let's add them as png icons
+            referenced_icons.add(f"{t}.png")
+        for s in char.get("所属", {}).keys():
+            referenced_icons.add(f"{s}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        # Some icons might not be on wiki, but let's query
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:Logo-阵营图标-{name}.png",
+            f"File:{name}.png",
+            f"File:角色稀有度{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png",
+            f"File:学校-{name}.png",
+            f"File:武器-{name}.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, ba_assets_dir, headers)
 
     # 6. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

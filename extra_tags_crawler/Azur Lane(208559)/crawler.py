@@ -182,19 +182,39 @@ def process_azurlane():
                 "阵营": {faction: faction_img}
             }
 
-    # 4. 复制本地图片资产
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/blhx/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/blhx/"
+    }
     al_assets_dir = OUTPUT_ASSETS_DIR / AL_ID
-    al_assets_dir.mkdir(parents=True, exist_ok=True)
     
-    local_al_tags = GUESSER_WORKSPACE / "client" / "public" / "assets" / "tag" / "al"
-    if local_al_tags.exists():
-        # 复制所有 .png 图标
-        for filename in os.listdir(local_al_tags):
-            if filename.endswith(".png"):
-                shutil.copy(local_al_tags / filename, al_assets_dir / filename)
-        print("[碧蓝航线] 成功复制本地阵营与类型图标资产。")
-    else:
-        print("警告: 未找到本地碧蓝航线 tags 图标文件夹，跳过资产复制。")
+    referenced_icons = set()
+    for char in extra_tags.values():
+        for r in char.get("稀有度", {}).keys():
+            referenced_icons.add(f"{r}.png")
+        for t in char.get("类型", {}).keys():
+            referenced_icons.add(f"{t}.png")
+        for f in char.get("阵营", {}).keys():
+            referenced_icons.add(f"{f}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:Logo-阵营图标-{name}.png",
+            f"File:{name}.png",
+            f"File:角色稀有度{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, al_assets_dir, headers)
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
