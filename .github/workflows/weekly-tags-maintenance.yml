@@ -39,7 +39,7 @@ jobs:
           git config user.email "AdmireLinK@users.noreply.github.com"
           git remote add upstream "https://github.com/$GUESSER_UPSTREAM_REPOSITORY.git"
           git fetch upstream "$GUESSER_BRANCH"
-          git merge --no-edit "upstream/$GUESSER_BRANCH"
+          git merge --no-edit --allow-unrelated-histories "upstream/$GUESSER_BRANCH"
           git push origin "HEAD:$GUESSER_BRANCH"
 
   merge-user-feedback:
