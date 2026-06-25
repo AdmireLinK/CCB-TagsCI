@@ -125,7 +125,8 @@ def process_pns():
         # 武器
         weapon = attrs.get("data-param4", "").strip()
         # 元素能量 (物理, 火, 冰, 雷, 暗, 空)
-        element = attrs.get("data-param5", "").strip()
+        element_raw = attrs.get("data-param5", "").strip()
+        elements = [e.strip() for e in re.split(r'[,，]', element_raw) if e.strip()]
         # 团队阵营
         faction = attrs.get("data-param6", "").strip()
         # 效应/标签 (焚烧, 电束, 紊乱, 真意斩, 黯衍, 覆冰等)
@@ -134,7 +135,10 @@ def process_pns():
 
         # 提取基础角色名字（例如 “露西亚·逆冕” -> “露西亚”）
         parts = name.split("·")
-        base_name = parts[0].strip()
+        if parts[0].strip() == "尼尔" and len(parts) > 1:
+            base_name = parts[1].strip()
+        else:
+            base_name = parts[0].strip()
 
         # 对同一个基础角色的多版本进行属性合并
         if base_name not in wiki_chars:
@@ -142,7 +146,7 @@ def process_pns():
                 "rarities": {rarity},
                 "professions": {profession},
                 "weapons": {weapon} if weapon else set(),
-                "elements": {element} if element else set(),
+                "elements": set(elements),
                 "factions": {faction} if faction else set(),
                 "effect_tags": set(effect_tags)
             }
@@ -152,8 +156,7 @@ def process_pns():
             existing["professions"].add(profession)
             if weapon:
                 existing["weapons"].add(weapon)
-            if element:
-                existing["elements"].add(element)
+            existing["elements"].update(elements)
             if faction:
                 existing["factions"].add(faction)
             existing["effect_tags"].update(effect_tags)
@@ -162,9 +165,10 @@ def process_pns():
 
     # 别名映射词典
     ALIAS_MAP = {
-        "2B": "YoRHa 2B",
-        "9S": "YoRHa 9S",
-        "A2": "YoRHa A2"
+        "2B": ["YoRHa 2B", "寄叶二号B型", "ヨルハ二号B型", "2B"],
+        "9S": ["YoRHa 9S", "寄叶九号S型", "ヨルハ九号S型", "9S"],
+        "A2": ["YoRHa A2", "寄叶A型二号", "ヨルハA型二号", "A2"],
+        "BRS": ["BLACK★ROCK SHOOTER", "黑岩射手", "BRS", "ブラック★ロックシューター"]
     }
 
     # 归一化名字辅助匹配
@@ -172,10 +176,75 @@ def process_pns():
         n = re.sub(r'[^\w\u4e00-\u9fa5]', '', n)
         return n
 
-    # 3. 匹配 Bangumi 角色
-    extra_tags = {}
+    # 3. 自动下载缺失的图片资产 (提前执行，以便在生成 HTML 标签时检查文件是否存在)
     pns_assets_dir = OUTPUT_ASSETS_DIR / PNS_ID
     pns_assets_dir.mkdir(parents=True, exist_ok=True)
+    
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/zspms/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/zspms/"
+    }
+    
+    referenced_icons = set()
+    for char_info in wiki_chars.values():
+        for r in char_info["rarities"]:
+            referenced_icons.add(f"{r}.png")
+        for p in char_info["professions"]:
+            referenced_icons.add(f"{p}.png")
+        for w in char_info["weapons"]:
+            referenced_icons.add(f"{w}.png")
+        for e in char_info["elements"]:
+            referenced_icons.add(f"{e}.png")
+        for f in char_info["factions"]:
+            referenced_icons.add(f"{f}.png")
+        for t in char_info["effect_tags"]:
+            referenced_icons.add(f"{t}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:图标-{qn}.png",
+                f"File:Logo-{qn}.png",
+                f"File:{qn}.png",
+                f"File:职业-{qn}.png",
+                f"File:属性-{qn}.png",
+                f"File:武器-{qn}.png",
+                f"File:效应-{qn}.png",
+                f"File:阵营-{qn}.png",
+                f"File:{qn}.svg"
+            ])
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, pns_assets_dir, headers)
+
+    # 辅助函数：根据本地资产文件存在性生成 HTML 标签或纯文本
+    def get_tag_html(tag_name):
+        if not tag_name:
+            return ""
+        if (pns_assets_dir / f"{tag_name}.png").exists():
+            return f"<img src='/assets/extra_tags/{PNS_ID}/{tag_name}.png'/>{tag_name}"
+        elif (pns_assets_dir / f"{tag_name}.svg").exists():
+            return f"<img src='/assets/extra_tags/{PNS_ID}/{tag_name}.svg'/>{tag_name}"
+        return tag_name
+
+    def get_rarity_html(r):
+        if not r:
+            return ""
+        if (pns_assets_dir / f"{r}.png").exists():
+            return f"<img src='/assets/extra_tags/{PNS_ID}/{r}.png' alt='{r}' />"
+        elif (pns_assets_dir / f"{r}.svg").exists():
+            return f"<img src='/assets/extra_tags/{PNS_ID}/{r}.svg' alt='{r}' />"
+        return r
+
+    # 4. 匹配 Bangumi 角色并生成规范的字典
+    extra_tags = {}
     
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
@@ -200,10 +269,17 @@ def process_pns():
                     matched_char = data
                     break
                 # 别名映射
-                alias_translated = ALIAS_MAP.get(w_name, w_name)
-                alias_norm = normalize_name(alias_translated)
-                if norm_candidate == alias_norm or alias_translated in candidate or candidate in alias_translated:
-                    matched_char = data
+                aliases = ALIAS_MAP.get(w_name, [w_name])
+                if isinstance(aliases, str):
+                    aliases = [aliases]
+                matched_alias = False
+                for alias in aliases:
+                    alias_norm = normalize_name(alias)
+                    if norm_candidate == alias_norm or alias_norm in norm_candidate or norm_candidate in alias_norm:
+                        matched_char = data
+                        matched_alias = True
+                        break
+                if matched_alias:
                     break
             
             if matched_char:
@@ -220,28 +296,28 @@ def process_pns():
             # 1. 稀有度
             rarity_dict = {}
             for r in sorted(rarities):
-                rarity_dict[r] = f"<img src='/assets/extra_tags/{PNS_ID}/{r}.png' alt='{r}' />"
+                rarity_dict[r] = get_rarity_html(r)
 
             # 2. 标签：机体类型、能量参数、效应标签
             tags_dict = {}
             for p in professions:
-                tags_dict[p] = f"<img src='/assets/extra_tags/{PNS_ID}/{p}.png'/>{p}"
+                tags_dict[p] = get_tag_html(p)
                     
             for e in elements:
-                tags_dict[e] = f"<img src='/assets/extra_tags/{PNS_ID}/{e}.png'/>{e}"
+                tags_dict[e] = get_tag_html(e)
                     
             for t in effect_tags:
-                tags_dict[t] = f"<img src='/assets/extra_tags/{PNS_ID}/{t}.png'/>{t}"
+                tags_dict[t] = get_tag_html(t)
 
             # 3. 武器
             weapon_dict = {}
             for w in weapons:
-                weapon_dict[w] = f"<img src='/assets/extra_tags/{PNS_ID}/{w}.png'/>{w}"
+                weapon_dict[w] = get_tag_html(w)
 
             # 4. 所属/阵营
             faction_dict = {}
             for f in factions:
-                faction_dict[f] = f"<img src='/assets/extra_tags/{PNS_ID}/{f}.png'/>{f}"
+                faction_dict[f] = get_tag_html(f)
 
             extra_tags[cid] = {
                 "稀有度": rarity_dict,
@@ -249,47 +325,6 @@ def process_pns():
                 "标签": tags_dict,
                 "阵营": faction_dict
             }
-
-    # 4. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://wiki.biligame.com/zspms/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://wiki.biligame.com/zspms/"
-    }
-    
-    referenced_icons = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            referenced_icons.add(f"{r}.png")
-        for t in char.get("标签", {}).keys():
-            referenced_icons.add(f"{t}.png")
-        for w in char.get("武器类型", {}).keys():
-            referenced_icons.add(f"{w}.png")
-        for f in char.get("阵营", {}).keys():
-            referenced_icons.add(f"{f}.png")
-            
-    missing_assets = {}
-    for icon_name in referenced_icons:
-        name = icon_name.rsplit(".", 1)[0]
-        query_names = [name]
-        
-        candidates = []
-        for qn in query_names:
-            candidates.extend([
-                f"File:图标-{qn}.png",
-                f"File:Logo-{qn}.png",
-                f"File:{qn}.png",
-                f"File:职业-{qn}.png",
-                f"File:属性-{qn}.png",
-                f"File:武器-{qn}.png",
-                f"File:效应-{qn}.png",
-                f"File:阵营-{qn}.png",
-                f"File:{qn}.svg"
-            ])
-        missing_assets[icon_name] = candidates
-
-    download_bwiki_missing_assets(api_url, missing_assets, pns_assets_dir, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
