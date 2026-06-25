@@ -26,21 +26,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout Guesser Repository
-        uses: actions/checkout@v7
-        with:
-          repository: AdmireLinK/anime-character-guessr
-          ref: main
-          token: ${{ secrets.CI_TOKEN }}
-
-      - name: Sync fork with upstream
+      - name: Sync Fork with Upstream via GitHub API
+        env:
+          GH_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          git config user.name "AdmireLinK"
-          git config user.email "AdmireLinK@users.noreply.github.com"
-          git remote add upstream "https://github.com/$GUESSER_UPSTREAM_REPOSITORY.git"
-          git fetch upstream "$GUESSER_BRANCH"
-          git merge --no-edit --allow-unrelated-histories "upstream/$GUESSER_BRANCH"
-          git push origin "HEAD:$GUESSER_BRANCH"
+          gh repo sync AdmireLinK/anime-character-guessr --branch "$GUESSER_BRANCH"
 
   merge-user-feedback:
     name: Merge User Feedback Tags
