@@ -135,56 +135,6 @@ def process_arknights():
 
     print(f"[明日方舟] Bwiki 上抓取并合并了 {len(wiki_ops)} 个干员的数据。")
 
-    # 3. 匹配 Bangumi ID 并生成规范的字典
-    extra_tags = {}
-    
-    # 匹配角色并分配
-    for cid, info in bgm_characters.items():
-        name = info["name"]
-        zh_name = info["chinese_name"]
-        
-        # 查找匹配的 Bwiki 干员
-        matched_op = None
-        for candidate in [name, zh_name]:
-            if not candidate:
-                continue
-            if candidate in wiki_ops:
-                matched_op = wiki_ops[candidate]
-                break
-                
-        # 协作活动干员兜底映射 (如 霜华、战车、闪击)
-        if not matched_op:
-            if name == "Frost" and "霜华" in wiki_ops:
-                matched_op = wiki_ops["霜华"]
-            elif name == "Tachanka" and "战车" in wiki_ops:
-                matched_op = wiki_ops["战车"]
-            elif name == "Blitz" and "闪击" in wiki_ops:
-                matched_op = wiki_ops["闪击"]
-            elif name == "Ash" and "灰烬" in wiki_ops:
-                matched_op = wiki_ops["灰烬"]
-
-        if matched_op:
-            rarity = matched_op["稀有度"]
-            rarity_num = rarity.replace("星", "")
-            rarity_img = f"<img src='/assets/extra_tags/{ARKNIGHTS_ID}/{rarity_num}star.png' alt='{rarity}' />"
-            
-            occs_dict = {}
-            for occ in matched_op["职业"]:
-                occs_dict[occ] = f"<img src='/assets/extra_tags/{ARKNIGHTS_ID}/{occ}.png' alt='{occ}' /> {occ}"
-                
-            tags_dict = {t: t for t in matched_op["标签"]}
-            factions_dict = {f: f for f in matched_op["阵营"]}
-            infected_dict = {matched_op["是否感染"]: matched_op["是否感染"]}
-            
-            extra_tags[cid] = {
-                "_name": name,
-                "稀有度": {rarity: rarity_img},
-                "职业": occs_dict,
-                "标签": tags_dict,
-                "阵营": factions_dict,
-                "是否感染": infected_dict
-            }
-
     # 4. 自动下载缺失的图片资产
     from character_tags_crawler.utils.network import download_bwiki_missing_assets
     api_url = "https://wiki.biligame.com/arknights/api.php"
@@ -197,14 +147,14 @@ def process_arknights():
     referenced_stars = set()
     referenced_professions = set()
     referenced_factions = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            star_num = re.sub(r'\D', '', r)
-            if star_num:
-                referenced_stars.add(f"{star_num}star.png")
-        for o in char.get("职业", {}).keys():
+    for op_info in wiki_ops.values():
+        r = op_info["稀有度"]
+        star_num = re.sub(r'\D', '', r)
+        if star_num:
+            referenced_stars.add(f"{star_num}star.png")
+        for o in op_info["职业"]:
             referenced_professions.add(f"{o}.png")
-        for f in char.get("阵营", {}).keys():
+        for f in op_info["阵营"]:
             referenced_factions.add(f"{f}.png")
             
     # 4.1 下载星级与职业图标 (自 Bwiki)
@@ -249,6 +199,77 @@ def process_arknights():
         missing_prts[icon_name] = candidates
         
     download_bwiki_missing_assets(prts_api_url, missing_prts, arknights_assets_dir, prts_headers)
+
+    # Helper functions for dynamic file existence checking
+    def get_star_html(r):
+        star_num = r.replace("星", "")
+        filename = f"{star_num}star.png"
+        if (arknights_assets_dir / filename).exists():
+            return f"<img src='/assets/extra_tags/{ARKNIGHTS_ID}/{filename}' alt='{r}' />"
+        return r
+
+    def get_occ_html(occ):
+        filename = f"{occ}.png"
+        if (arknights_assets_dir / filename).exists():
+            return f"<img src='/assets/extra_tags/{ARKNIGHTS_ID}/{filename}' alt='{occ}' /> {occ}"
+        return occ
+
+    def get_faction_html(faction):
+        filename = f"{faction}.png"
+        if (arknights_assets_dir / filename).exists():
+            return f"<img src='/assets/extra_tags/{ARKNIGHTS_ID}/{filename}' alt='{faction}' /> {faction}"
+        return faction
+
+    # 3. 匹配 Bangumi ID 并生成规范的字典
+    extra_tags = {}
+    
+    # 匹配角色并分配
+    for cid, info in bgm_characters.items():
+        name = info["name"]
+        zh_name = info["chinese_name"]
+        
+        # 查找匹配的 Bwiki 干员
+        matched_op = None
+        for candidate in [name, zh_name]:
+            if not candidate:
+                continue
+            if candidate in wiki_ops:
+                matched_op = wiki_ops[candidate]
+                break
+                
+        # 协作活动干员兜底映射 (如 霜华、战车、闪击)
+        if not matched_op:
+            if name == "Frost" and "霜华" in wiki_ops:
+                matched_op = wiki_ops["霜华"]
+            elif name == "Tachanka" and "战车" in wiki_ops:
+                matched_op = wiki_ops["战车"]
+            elif name == "Blitz" and "闪击" in wiki_ops:
+                matched_op = wiki_ops["闪击"]
+            elif name == "Ash" and "灰烬" in wiki_ops:
+                matched_op = wiki_ops["灰烬"]
+
+        if matched_op:
+            rarity = matched_op["稀有度"]
+            rarity_img = get_star_html(rarity)
+            
+            occs_dict = {}
+            for occ in matched_op["职业"]:
+                occs_dict[occ] = get_occ_html(occ)
+                
+            tags_dict = {t: t for t in matched_op["标签"]}
+            factions_dict = {}
+            for f in matched_op["阵营"]:
+                factions_dict[f] = get_faction_html(f)
+            infected_dict = {matched_op["是否感染"]: matched_op["是否感染"]}
+            
+            extra_tags[cid] = {
+                "_name": name,
+                "稀有度": {rarity: rarity_img},
+                "职业": occs_dict,
+                "标签": tags_dict,
+                "阵营": factions_dict,
+                "是否感染": infected_dict
+            }
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

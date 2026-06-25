@@ -321,16 +321,122 @@ def process_bluearchive():
             role = matched_student["role"]
             position = matched_student["position"]
             
+    # 5. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/ba/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/ba/"
+    }
+    ba_assets_dir = OUTPUT_ASSETS_DIR / BA_ID
+    
+    referenced_icons = set()
+    for student in wiki_students.values():
+        for star in student["stars"]:
+            referenced_icons.add(f"{star}星.png")
+        for w in student["weapon"]:
+            referenced_icons.add(f"{w}.png")
+        for ro in student["role"]:
+            referenced_icons.add(f"{ro}.png")
+        s = student["school"]
+        referenced_icons.add(f"{s}.png")
+        for sq in student["squad"]:
+            referenced_icons.add(f"{sq}.png")
+        for atk, _ in student["attackType"]:
+            referenced_icons.add(f"{atk}.png")
+        for df, _ in student["defenseType"]:
+            referenced_icons.add(f"{df}.png")
+        for pos in student["position"]:
+            referenced_icons.add(f"{pos}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:Logo-阵营图标-{name}.png",
+            f"File:{name}.png",
+            f"File:角色稀有度{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png",
+            f"File:学校-{name}.png",
+            f"File:武器-{name}.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, ba_assets_dir, headers)
+
+    # Helper functions for dynamic file existence checking
+    def get_rarity_html(star_str):
+        if (ba_assets_dir / f"{star_str}.png").exists():
+            return f"<img src='/assets/extra_tags/{BA_ID}/{star_str}.png' alt='{star_str}' />"
+        return star_str
+
+    def get_weapon_html(w):
+        if (ba_assets_dir / f"{w}.png").exists():
+            return f"<img src='/assets/extra_tags/{BA_ID}/{w}.png'/>{w}"
+        return w
+
+    def get_role_html(ro):
+        if (ba_assets_dir / f"{ro}.png").exists():
+            return f"<img src='/assets/extra_tags/{BA_ID}/{ro}.png'/>{ro}"
+        return ro
+
+    def get_school_html(school):
+        if school == "其它":
+            return school
+        if (ba_assets_dir / f"{school}.png").exists():
+            return f"<img src='/assets/extra_tags/{BA_ID}/{school}.png'/>{school}"
+        return school
+
+    # 4. 匹配 Bangumi 角色 ID
+    extra_tags = {}
+    for cid, info in bgm_characters.items():
+        name = info["name"]
+        zh_name = info["chinese_name"]
+        
+        # 查找匹配的 Bwiki 学生
+        matched_student = None
+        for candidate in [zh_name, name]:
+            if not candidate:
+                continue
+            
+            # 直接匹配
+            for wiki_name, s_info in wiki_students.items():
+                if candidate.endswith(wiki_name):
+                    matched_student = s_info
+                    break
+            if matched_student:
+                break
+                
+            # 别名匹配
+            for wiki_name, s_info in wiki_students.items():
+                mapped_wiki = ALIAS_MAP.get(wiki_name, wiki_name)
+                if candidate.endswith(mapped_wiki):
+                    matched_student = s_info
+                    break
+            if matched_student:
+                break
+
+        if matched_student:
+            stars = matched_student["stars"]
+            weapon = matched_student["weapon"]
+            school = matched_student["school"]
+            squad = matched_student["squad"]
+            role = matched_student["role"]
+            position = matched_student["position"]
+            
             # 稀有度星级标签字典
             rarity_dict = {}
             for star in sorted(stars):
                 star_str = f"{star}星"
-                rarity_dict[star_str] = f"<img src='/assets/extra_tags/{BA_ID}/{star_str}.png' alt='{star_str}' />"
+                rarity_dict[star_str] = get_rarity_html(star_str)
                 
             # 武器类型
             weapon_dict = {}
             for w in sorted(weapon):
-                weapon_dict[w] = f"<img src='/assets/extra_tags/{BA_ID}/{w}.png'/>{w}"
+                weapon_dict[w] = get_weapon_html(w)
             
             # 标签拼装
             tags_dict = {}
@@ -347,7 +453,7 @@ def process_bluearchive():
             
             # 战斗职业
             for ro in sorted(role):
-                tags_dict[ro] = f"<img src='/assets/extra_tags/{BA_ID}/{ro}.png'/>{ro}"
+                tags_dict[ro] = get_role_html(ro)
             
             # 站位 (纯文本形式)
             for pos in sorted(position):
@@ -355,10 +461,7 @@ def process_bluearchive():
             
             # 学校所属
             school_dict = {}
-            if school != "其它":
-                school_dict[school] = f"<img src='/assets/extra_tags/{BA_ID}/{school}.png'/>{school}"
-            else:
-                school_dict[school] = school
+            school_dict[school] = get_school_html(school)
                 
             extra_tags[cid] = {
                 "稀有度": rarity_dict,
@@ -366,49 +469,6 @@ def process_bluearchive():
                 "标签": tags_dict,
                 "所属": school_dict
             }
-
-    # 5. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://wiki.biligame.com/ba/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://wiki.biligame.com/ba/"
-    }
-    ba_assets_dir = OUTPUT_ASSETS_DIR / BA_ID
-    
-    referenced_icons = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            referenced_icons.add(f"{r}.png")
-        for w in char.get("武器类型", {}).keys():
-            referenced_icons.add(f"{w}.png")
-        for t in char.get("标签", {}).keys():
-            # Check if t is an icon like "FRONT", "MIDDLE", "BACK" or types
-            # Wait, let's look at what tags BA uses.
-            # In BA, tags can be FRONT/MIDDLE/BACK or Heavy/Light/Special etc.
-            # Let's add them as png icons
-            referenced_icons.add(f"{t}.png")
-        for s in char.get("所属", {}).keys():
-            referenced_icons.add(f"{s}.png")
-            
-    missing_assets = {}
-    for icon_name in referenced_icons:
-        name = icon_name.rsplit(".", 1)[0]
-        # Some icons might not be on wiki, but let's query
-        missing_assets[icon_name] = [
-            f"File:图标-{name}.png",
-            f"File:Logo-{name}.png",
-            f"File:Logo-阵营图标-{name}.png",
-            f"File:{name}.png",
-            f"File:角色稀有度{name}.png",
-            f"File:{name}级.png",
-            f"File:{name}star.png",
-            f"File:{name}星.png",
-            f"File:学校-{name}.png",
-            f"File:武器-{name}.png"
-        ]
-        
-    download_bwiki_missing_assets(api_url, missing_assets, ba_assets_dir, headers)
 
     # 6. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

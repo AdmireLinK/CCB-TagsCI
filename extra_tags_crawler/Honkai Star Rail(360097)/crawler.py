@@ -160,11 +160,72 @@ def process_hsr():
         n = re.sub(r'[^\w\u4e00-\u9fa5]', '', n)
         return n
 
-    # 3. 匹配 Bangumi 角色
-    extra_tags = {}
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/sr/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/sr/"
+    }
     hsr_assets_dir = OUTPUT_ASSETS_DIR / HSR_ID
     hsr_assets_dir.mkdir(parents=True, exist_ok=True)
     
+    referenced_icons = set()
+    for char in wiki_chars.values():
+        for r in char["rarities"]:
+            referenced_icons.add(f"{r}.png")
+        for p in char["paths"]:
+            referenced_icons.add(f"{p}.png")
+        for e in char["elements"]:
+            referenced_icons.add(f"{e}.png")
+        for f in char["factions"]:
+            referenced_icons.add(f"{f}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        query_names = [name]
+        if "星" in name:
+            star_num = name.replace("星", "")
+            query_names.extend([f"星级_{star_num}", f"星级-{star_num}", f"星级{star_num}", f"{star_num}星", f"{star_num}star"])
+        
+        candidates = []
+        for qn in query_names:
+            candidates.extend([
+                f"File:命途_{qn}.png",
+                f"File:命途-{qn}.png",
+                f"File:属性_{qn}.png",
+                f"File:属性-{qn}.png",
+                f"File:星级_{qn}.png",
+                f"File:星级-{qn}.png",
+                f"File:图标_{qn}.png",
+                f"File:Logo_{qn}.png",
+                f"File:{qn}.png",
+                f"File:{qn}.svg"
+            ])
+        missing_assets[icon_name] = candidates
+
+    download_bwiki_missing_assets(api_url, missing_assets, hsr_assets_dir, headers)
+
+    # Helper functions for dynamic file existence checking
+    def get_rarity_html(r):
+        if (hsr_assets_dir / f"{r}.png").exists():
+            return f"<img src='/assets/extra_tags/{HSR_ID}/{r}.png' alt='{r}' />"
+        elif (hsr_assets_dir / f"{r}.svg").exists():
+            return f"<img src='/assets/extra_tags/{HSR_ID}/{r}.svg' alt='{r}' />"
+        return r
+
+    def get_tag_html(tag_name):
+        if not tag_name:
+            return ""
+        if (hsr_assets_dir / f"{tag_name}.png").exists():
+            return f"<img src='/assets/extra_tags/{HSR_ID}/{tag_name}.png'/>{tag_name}"
+        elif (hsr_assets_dir / f"{tag_name}.svg").exists():
+            return f"<img src='/assets/extra_tags/{HSR_ID}/{tag_name}.svg'/>{tag_name}"
+        return tag_name
+
+    # 3. 匹配 Bangumi 角色
+    extra_tags = {}
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
         bgm_zh = info["chinese_name"]
@@ -206,69 +267,26 @@ def process_hsr():
             # 1. 稀有度
             rarity_dict = {}
             for r in sorted(rarities):
-                rarity_dict[r] = f"<img src='/assets/extra_tags/{HSR_ID}/{r}.png' alt='{r}' />"
+                rarity_dict[r] = get_rarity_html(r)
 
             # 2. 标签：命途类型、战斗属性
             tags_dict = {}
             for p in paths:
-                tags_dict[p] = f"<img src='/assets/extra_tags/{HSR_ID}/{p}.png'/>{p}"
+                tags_dict[p] = get_tag_html(p)
                     
             for e in elements:
-                tags_dict[e] = f"<img src='/assets/extra_tags/{HSR_ID}/{e}.png'/>{e}"
+                tags_dict[e] = get_tag_html(e)
 
             # 3. 阵营 / 所属
             faction_dict = {}
             for f in factions:
-                faction_dict[f] = f"<img src='/assets/extra_tags/{HSR_ID}/{f}.png'/>{f}"
+                faction_dict[f] = get_tag_html(f)
 
             extra_tags[cid] = {
                 "稀有度": rarity_dict,
                 "标签": tags_dict,
                 "阵营": faction_dict
             }
-
-    # 4. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://wiki.biligame.com/sr/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://wiki.biligame.com/sr/"
-    }
-    
-    referenced_icons = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            referenced_icons.add(f"{r}.png")
-        for t in char.get("标签", {}).keys():
-            referenced_icons.add(f"{t}.png")
-        for f in char.get("阵营", {}).keys():
-            referenced_icons.add(f"{f}.png")
-            
-    missing_assets = {}
-    for icon_name in referenced_icons:
-        name = icon_name.rsplit(".", 1)[0]
-        query_names = [name]
-        if "星" in name:
-            star_num = name.replace("星", "")
-            query_names.extend([f"星级_{star_num}", f"星级-{star_num}", f"星级{star_num}", f"{star_num}星", f"{star_num}star"])
-        
-        candidates = []
-        for qn in query_names:
-            candidates.extend([
-                f"File:命途_{qn}.png",
-                f"File:命途-{qn}.png",
-                f"File:属性_{qn}.png",
-                f"File:属性-{qn}.png",
-                f"File:星级_{qn}.png",
-                f"File:星级-{qn}.png",
-                f"File:图标_{qn}.png",
-                f"File:Logo_{qn}.png",
-                f"File:{qn}.png",
-                f"File:{qn}.svg"
-            ])
-        missing_assets[icon_name] = candidates
-
-    download_bwiki_missing_assets(api_url, missing_assets, hsr_assets_dir, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

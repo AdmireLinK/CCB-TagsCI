@@ -214,14 +214,62 @@ def process_zzz():
         return n
 
     # 3. 匹配 Bangumi 角色
-    extra_tags = {}
     matched_assets = {
         "rarities": set(),
         "elements": set(),
         "professions": set(),
         "factions": set()
     }
+    for char_name, char_data in bwiki_data.items():
+        matched_char = char_data["printouts"]
+        rarities_raw = matched_char.get("稀有度", [])
+        if rarities_raw:
+            matched_assets["rarities"].add(rarities_raw[0])
+        elements_raw = matched_char.get("属性", [])
+        if elements_raw:
+            matched_assets["elements"].add(elements_raw[0])
+        professions_raw = matched_char.get("特性", [])
+        if professions_raw:
+            p_raw = professions_raw[0]
+            matched_assets["professions"].add(PROFESSION_MAP.get(p_raw, p_raw))
+        factions_raw = matched_char.get("阵营", [])
+        if factions_raw:
+            matched_assets["factions"].add(factions_raw[0])
 
+    # 4. 自动下载缺失的图片资产
+    missing_assets = {}
+    for r in matched_assets["rarities"]:
+        filename = f"{r}.png"
+        missing_assets[filename] = [f"File:角色稀有度{r}.png", f"File:{r}.png"]
+    for e in matched_assets["elements"]:
+        filename = f"{e}.png"
+        missing_assets[filename] = [f"File:图标-{e}.png", f"File:{e}.png"]
+    for p in matched_assets["professions"]:
+        filename = f"{p}.png"
+        missing_assets[filename] = [f"File:图标-{p}.png", f"File:{p}.png"]
+    for f in matched_assets["factions"]:
+        filename = f"{f}.png"
+        missing_assets[filename] = [f"File:Logo-阵营图标-{f}.png", f"File:{f}.png"]
+
+    download_missing_assets(missing_assets, headers)
+
+    # Helper functions for dynamic file existence checking
+    zzz_assets_dir = OUTPUT_ASSETS_DIR / ZZZ_ID
+    def get_rarity_html(r):
+        if not r:
+            return ""
+        if (zzz_assets_dir / f"{r}.png").exists():
+            return f"<img src='/assets/extra_tags/{ZZZ_ID}/{r}.png' alt='{r}' />"
+        return r
+
+    def get_tag_html(tag_name):
+        if not tag_name:
+            return ""
+        if (zzz_assets_dir / f"{tag_name}.png").exists():
+            return f"<img src='/assets/extra_tags/{ZZZ_ID}/{tag_name}.png'/>{tag_name}"
+        return tag_name
+
+    extra_tags = {}
     for cid, info in bgm_characters.items():
         bgm_name = info["name"]
         bgm_zh = info["chinese_name"]
@@ -269,20 +317,10 @@ def process_zzz():
             factions_raw = matched_char.get("阵营", [])
             faction = factions_raw[0] if factions_raw else ""
 
-            # 收集匹配成功的资产以便后面下载
-            if rarity:
-                matched_assets["rarities"].add(rarity)
-            if element:
-                matched_assets["elements"].add(element)
-            if profession:
-                matched_assets["professions"].add(profession)
-            if faction:
-                matched_assets["factions"].add(faction)
-
             # 图像引用拼装
-            rarity_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{rarity}.png' alt='{rarity}' />" if rarity else ""
-            element_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{element}.png'/>{element}" if element else ""
-            prof_html = f"<img src='/assets/extra_tags/{ZZZ_ID}/{profession}.png'/>{profession}" if profession else ""
+            rarity_html = get_rarity_html(rarity)
+            element_html = get_tag_html(element)
+            prof_html = get_tag_html(profession)
             
             tags_dict = {}
             if element:
@@ -298,7 +336,7 @@ def process_zzz():
             # 阵营
             faction_dict = {}
             if faction:
-                faction_dict[faction] = f"<img src='/assets/extra_tags/{ZZZ_ID}/{faction}.png'/>{faction}"
+                faction_dict[faction] = get_tag_html(faction)
                 
             extra_tags[cid] = {
                 "标签": tags_dict,
@@ -306,23 +344,6 @@ def process_zzz():
             }
             if rarity:
                 extra_tags[cid]["稀有度"] = {rarity: rarity_html}
-
-    # 4. 自动下载缺失的图片资产
-    missing_assets = {}
-    for r in matched_assets["rarities"]:
-        filename = f"{r}.png"
-        missing_assets[filename] = [f"File:角色稀有度{r}.png", f"File:{r}.png"]
-    for e in matched_assets["elements"]:
-        filename = f"{e}.png"
-        missing_assets[filename] = [f"File:图标-{e}.png", f"File:{e}.png"]
-    for p in matched_assets["professions"]:
-        filename = f"{p}.png"
-        missing_assets[filename] = [f"File:图标-{p}.png", f"File:{p}.png"]
-    for f in matched_assets["factions"]:
-        filename = f"{f}.png"
-        missing_assets[filename] = [f"File:Logo-阵营图标-{f}.png", f"File:{f}.png"]
-
-    download_missing_assets(missing_assets, headers)
 
     # 5. 保存 JSON 输出
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

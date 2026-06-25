@@ -222,6 +222,56 @@ def process_fgo():
     for name, s_list in wiki_servants.items():
         wiki_norm_map[normalize_brackets(name)] = s_list
 
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://fgo.wiki/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://fgo.wiki/"
+    }
+    fgo_assets_dir = OUTPUT_ASSETS_DIR / FGO_ID
+    
+    referenced_icons = set()
+    for name, s_list in wiki_servants.items():
+        for s in s_list:
+            referenced_icons.add(f"{s['rarity']}.png")
+            referenced_icons.add(s["class_icon_file"])
+            referenced_icons.add(f"{s['np_card_type']}.png")
+            for align in s["alignments"]:
+                referenced_icons.add(f"{align}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png",
+            f"File:职阶-{name}.png",
+            f"File:配卡-{name}.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, fgo_assets_dir, headers)
+
+    # Helper functions for dynamic file existence checking
+    def get_rarity_html(rarity):
+        if (fgo_assets_dir / f"{rarity}.png").exists():
+            return f"<img src='/assets/extra_tags/{FGO_ID}/{rarity}.png' alt='{rarity}' />"
+        return rarity
+
+    def get_class_html(class_link, class_icon_file):
+        if (fgo_assets_dir / class_icon_file).exists():
+            return f"<img src='/assets/extra_tags/{FGO_ID}/{class_icon_file}'/>{class_link}"
+        return class_link
+
+    def get_np_html(np_card_type, np_type):
+        if (fgo_assets_dir / f"{np_card_type}.png").exists():
+            return f"<img src='/assets/extra_tags/{FGO_ID}/{np_card_type}.png' alt='{np_card_type}'/>{np_type}"
+        return np_type
+
     extra_tags = {}
     for cid, info in bgm_characters.items():
         zh = info["chinese_name"]
@@ -247,8 +297,7 @@ def process_fgo():
             for s in matched_servants:
                 # 稀有度
                 rarity = s["rarity"]
-                rarity_img = f"<img src='/assets/extra_tags/{FGO_ID}/{rarity}.png' alt='{rarity}' />"
-                rarities_dict[rarity] = rarity_img
+                rarities_dict[rarity] = get_rarity_html(rarity)
                 
                 # 秩序善恶与天地人星兽属性
                 for align in s["alignments"]:
@@ -257,13 +306,13 @@ def process_fgo():
                 # 职阶 (如 Saber)
                 class_link = s["class_link"]
                 class_icon_file = s["class_icon_file"]
-                classes_dict[class_link] = f"<img src='/assets/extra_tags/{FGO_ID}/{class_icon_file}'/>{class_link}"
+                classes_dict[class_link] = get_class_html(class_link, class_icon_file)
                 
                 # 宝具
                 np_card_type = s["np_card_type"]
                 np_type = s["np_type"]
                 np_name = f"{np_card_type}{np_type}"
-                np_dict[np_name] = f"<img src='/assets/extra_tags/{FGO_ID}/{np_card_type}.png' alt='{np_card_type}'/>{np_type}"
+                np_dict[np_name] = get_np_html(np_card_type, np_type)
                 
             extra_tags[cid] = {
                 "_name": zh or ja,
@@ -272,43 +321,6 @@ def process_fgo():
                 "职阶": classes_dict,
                 "宝具": np_dict
             }
-
-    # 4. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://fgo.wiki/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://fgo.wiki/"
-    }
-    fgo_assets_dir = OUTPUT_ASSETS_DIR / FGO_ID
-    
-    referenced_icons = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            referenced_icons.add(f"{r}.png")
-        for a in char.get("属性", {}).keys():
-            # Alignments could be plain text but let's query just in case
-            referenced_icons.add(f"{a}.png")
-        for c in char.get("职阶", {}).keys():
-            referenced_icons.add(f"{c}.png")
-        for np in char.get("宝具", {}).keys():
-            referenced_icons.add(f"{np}.png")
-            
-    missing_assets = {}
-    for icon_name in referenced_icons:
-        name = icon_name.rsplit(".", 1)[0]
-        missing_assets[icon_name] = [
-            f"File:图标-{name}.png",
-            f"File:Logo-{name}.png",
-            f"File:{name}.png",
-            f"File:{name}级.png",
-            f"File:{name}star.png",
-            f"File:{name}星.png",
-            f"File:职阶-{name}.png",
-            f"File:配卡-{name}.png"
-        ]
-        
-    download_bwiki_missing_assets(api_url, missing_assets, fgo_assets_dir, headers)
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

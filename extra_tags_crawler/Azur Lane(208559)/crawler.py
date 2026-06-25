@@ -142,6 +142,48 @@ def process_azurlane():
 
     print(f"[碧蓝航线] Bwiki 上抓取并记录了 {len(wiki_ships)} 个定位行数据。")
 
+    # 4. 自动下载缺失的图片资产
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/blhx/api.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://wiki.biligame.com/blhx/"
+    }
+    al_assets_dir = OUTPUT_ASSETS_DIR / AL_ID
+    
+    referenced_icons = set()
+    for ship in wiki_ships.values():
+        r = ship["rarity_star"]
+        t = ship["type"]
+        f = ship["faction"]
+        referenced_icons.add(f"{r}.png")
+        referenced_icons.add(f"{t}.png")
+        referenced_icons.add(f"{f}.png")
+            
+    missing_assets = {}
+    for icon_name in referenced_icons:
+        name = icon_name.rsplit(".", 1)[0]
+        missing_assets[icon_name] = [
+            f"File:图标-{name}.png",
+            f"File:Logo-{name}.png",
+            f"File:Logo-阵营图标-{name}.png",
+            f"File:{name}.png",
+            f"File:角色稀有度{name}.png",
+            f"File:{name}级.png",
+            f"File:{name}star.png",
+            f"File:{name}星.png"
+        ]
+        
+    download_bwiki_missing_assets(api_url, missing_assets, al_assets_dir, headers)
+
+    # Helper function for dynamic file existence checking
+    def get_tag_html(tag_name):
+        if not tag_name:
+            return ""
+        if (al_assets_dir / f"{tag_name}.png").exists():
+            return f"<img src='/assets/extra_tags/{AL_ID}/{tag_name}.png'/>{tag_name}"
+        return tag_name
+
     # 3. 匹配 Bangumi ID 并生成规范的字典
     extra_tags = {}
     
@@ -173,48 +215,14 @@ def process_azurlane():
             faction = matched_ship["faction"]
             
             # 拼装对应 HTML 标签字符串
-            type_img = f"<img src='/assets/extra_tags/{AL_ID}/{h_type}.png'/>{h_type}"
-            faction_img = f"<img src='/assets/extra_tags/{AL_ID}/{faction}.png'/>{faction}"
+            type_img = get_tag_html(h_type)
+            faction_img = get_tag_html(faction)
             
             extra_tags[cid] = {
                 "稀有度": {r_star: r_name},
                 "类型": {h_type: type_img},
                 "阵营": {faction: faction_img}
             }
-
-    # 4. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://wiki.biligame.com/blhx/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://wiki.biligame.com/blhx/"
-    }
-    al_assets_dir = OUTPUT_ASSETS_DIR / AL_ID
-    
-    referenced_icons = set()
-    for char in extra_tags.values():
-        for r in char.get("稀有度", {}).keys():
-            referenced_icons.add(f"{r}.png")
-        for t in char.get("类型", {}).keys():
-            referenced_icons.add(f"{t}.png")
-        for f in char.get("阵营", {}).keys():
-            referenced_icons.add(f"{f}.png")
-            
-    missing_assets = {}
-    for icon_name in referenced_icons:
-        name = icon_name.rsplit(".", 1)[0]
-        missing_assets[icon_name] = [
-            f"File:图标-{name}.png",
-            f"File:Logo-{name}.png",
-            f"File:Logo-阵营图标-{name}.png",
-            f"File:{name}.png",
-            f"File:角色稀有度{name}.png",
-            f"File:{name}级.png",
-            f"File:{name}star.png",
-            f"File:{name}星.png"
-        ]
-        
-    download_bwiki_missing_assets(api_url, missing_assets, al_assets_dir, headers)
 
     # 5. 生成 JSON 输出文件
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

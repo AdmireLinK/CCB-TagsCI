@@ -62,7 +62,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          pr_number="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/pulls" -f state=open -f head="AdmireLinK:$GUESSER_BRANCH" -f base="$GUESSER_BRANCH" --jq '.[0].number // ""')"
+          pr_number="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/pulls?state=open&head=AdmireLinK:$GUESSER_BRANCH&base=$GUESSER_BRANCH" --jq '.[0].number // ""')"
           if [ -n "$pr_number" ]; then
             gh pr edit "$pr_number" \
               --repo "$GUESSER_UPSTREAM_REPOSITORY" \

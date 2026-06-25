@@ -247,7 +247,9 @@ def process_genshin():
 
     # 4. 生成规范的 JSON 输出
     def make_tag_img(value):
-        return f"<img src='/assets/extra_tags/{GENSHIN_ID}/{value}.png' alt='{value}' />"
+        if (genshin_assets_dir / f"{value}.png").exists():
+            return f"<img src='/assets/extra_tags/{GENSHIN_ID}/{value}.png' alt='{value}' />"
+        return ""
 
     extra_tags = {}
     for cid, info in id_info.items():
@@ -257,16 +259,16 @@ def process_genshin():
         nation = info['所属国家']
 
         if isinstance(element, list):
-            element_dict = {e: make_tag_img(e)+e for e in element}
+            element_dict = {e: (make_tag_img(e)+e if make_tag_img(e) else e) for e in element}
         else:
-            element_dict = {element: make_tag_img(element)+element}
+            element_dict = {element: (make_tag_img(element)+element if make_tag_img(element) else element)}
 
         extra_tags[cid] = {
             "_name": id_name_mapping[cid],
-            "稀有度": {rarity: make_tag_img(rarity)},
+            "稀有度": {rarity: make_tag_img(rarity) or rarity},
             "属性": element_dict,
-            "武器类型": {weapon: make_tag_img(weapon)+weapon},
-            "所属": {nation: make_tag_img(nation)+nation if (nation != '其它' and nation != '至冬') else nation}
+            "武器类型": {weapon: make_tag_img(weapon)+weapon if make_tag_img(weapon) else weapon},
+            "所属": {nation: make_tag_img(nation)+nation if (nation != '其它' and nation != '至冬') else nation} if make_tag_img(nation) else {nation: nation}
         }
 
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)

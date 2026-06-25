@@ -252,6 +252,13 @@ def process_umamusume():
         # 只要该适应性在初始或觉醒中达到 A 或 B，即作为该角色的可选检索标签
         return any(value in {"A", "B"} for value in values)
 
+    # Helper functions for dynamic file existence checking
+    def get_rarity_html(rarity):
+        filename = f"{rarity}star.png"
+        if (umamusume_assets_dir / filename).exists():
+            return f"<img src='/assets/extra_tags/{UMAMUSUME_ID}/{filename}' alt='{rarity}星' />"
+        return f"{rarity}星"
+
     tags = {}
     for cid in sorted(character_stats.keys(), key=int):
         stats = character_stats[cid]
@@ -261,7 +268,7 @@ def process_umamusume():
         rarity_values = sorted({value for value in stats["稀有度"] if isinstance(value, int)})
         if rarity_values:
             entry["稀有度"] = {
-                f"{rarity}星": f"<img src='/assets/extra_tags/{UMAMUSUME_ID}/{rarity}star.png' alt='{rarity}星' />"
+                f"{rarity}星": get_rarity_html(rarity)
                 for rarity in rarity_values
             }
 
