@@ -801,7 +801,7 @@
     },
     "武器类型":{
       "SR":"<img src='/assets/extra_tags/300648/SR.png'/>SR",
-      "sr":"<img src='/assets/extra_tags/300648/sr.png'/>sr"
+      "sr":"sr"
     },
     "标签":{
       "SPECIAL":"<span style='font-style: italic; font-weight: bold;'>SPECIAL</span>",
