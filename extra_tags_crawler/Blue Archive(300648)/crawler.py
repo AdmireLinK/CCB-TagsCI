@@ -110,12 +110,12 @@ def fetch_student_detail(romaji, cache):
             
         # 2. 武器类型
         weapon_div = soup.find(class_="weaponType")
-        weapon = weapon_div.get_text(strip=True) if weapon_div else "AR"
+        weapon = weapon_div.get_text(strip=True).upper() if weapon_div else "AR"
         
         # 3. 战场站位
         position = "中排"
         for row in soup.find_all(class_="propertyRow"):
-            txt = row.get_text(strip=True)
+            txt = row.get_text(strip=True).upper()
             if txt == "FRONT":
                 position = "前排"
                 break
@@ -259,7 +259,7 @@ def process_bluearchive():
         student_info = {
             "name": base_name,
             "stars": {details["stars"]},
-            "weapon": {details["weapon"]},
+            "weapon": {details["weapon"].upper()},
             "school": school_name,
             "squad": {squad},
             "role": {role_name},
@@ -274,7 +274,7 @@ def process_bluearchive():
         else:
             existing = wiki_students[base_name]
             existing["stars"].add(details["stars"])
-            existing["weapon"].add(details["weapon"])
+            existing["weapon"].add(details["weapon"].upper())
             existing["squad"].add(squad)
             existing["role"].add(role_name)
             existing["attackType"].add((atk_type, atk_color))
