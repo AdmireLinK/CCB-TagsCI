@@ -133,6 +133,8 @@ def process_genshin():
         name = name_anchor.get_text(strip=True)
         
         rarity = row.get("data-param1", "").strip()
+        if rarity and not rarity.endswith('星') and rarity.isdigit():
+            rarity = f"{rarity}星"
         weapon = row.get("data-param2", "").strip()
         element = row.get("data-param3", "").strip()
         nation = row.get("data-param5", "").strip()

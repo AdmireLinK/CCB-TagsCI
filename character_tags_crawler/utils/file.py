@@ -116,37 +116,8 @@ def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_pat
                     else:
                         final_tags[cid][section] = section_data
         
-    # 4. 统一图片资产路径替换 (把 /assets/tag/ 转换为 /assets/extra_tags/)
-    reverse_map = {
-        'lol': '18011',
-        'ow': 'ow',
-        'r6s': '105651',
-        'bandori': '208415',
-        'bh3': '172168',
-        'wzry': '194792',
-        'dota2': '20810',
-        'al': '208559',
-        'arknights': '225878',
-        'ba': '300648',
-        'fgo': '109378',
-        'pns': '293554',
-        'umamusume': '175552',
-        'zzz': '380974',
-        'ys': '284157',
-        'id5': '228217',
-        'cbjq': '378389',
-        'pcr': '219588',
-        'mc': '385208',
-        '1999': '365720',
-        'hsr': '360097'
-    }
-    
-    final_str = json.dumps(final_tags, ensure_ascii=False)
-    for code, sid in reverse_map.items():
-        final_str = final_str.replace(f'/assets/tag/{code}/', f'/assets/extra_tags/{sid}/')
-        final_str = final_str.replace(f'/assets/extra_tags/{code}/', f'/assets/extra_tags/{sid}/')
-        
-    final_tags = sort_extra_tags_entries(json.loads(final_str))
+    # 4. 排序 entries
+    final_tags = sort_extra_tags_entries(final_tags)
     
     # 5. 保存 JSON 文件
     save_json_pretty(final_tags, str(out_json_file), verbose=verbose)
