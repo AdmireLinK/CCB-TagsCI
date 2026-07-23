@@ -72,6 +72,41 @@ def sort_extra_tags_entries(data: object):
         for character_id, character_tags in data.items()
     }
 
+# 常见游戏中同维度互斥的标签组（当新抓取的标签中包含该组中的新属性时，自动清理旧有存量中的其它同组过时属性）
+MUTUALLY_EXCLUSIVE_TAG_GROUPS = [
+    # 绝区零 (ZZZ) 职业/特性
+    {"强攻", "击破", "异常", "防护", "支援", "命破"},
+    # 原神 (Genshin) 元素
+    {"火", "水", "风", "雷", "草", "冰", "岩"},
+    # 原神 (Genshin) 武器
+    {"单手剑", "双手剑", "长柄武器", "法器", "弓"},
+    # 崩坏：星穹铁道 (HSR) 命途
+    {"毁灭", "巡猎", "智识", "同谐", "虚无", "存护", "丰饶", "记忆", "欢愉"},
+    # 明日方舟 (Arknights) 职业
+    {"先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"},
+    # 战双帕弥什 (PGR) 职业
+    {"进攻型", "装甲型", "辅助型", "增幅型", "先锋型", "观测者", "湮灭型"},
+    # Fate/Grand Order (FGO) 职阶
+    {"Saber", "Lancer", "Archer", "Rider", "Caster", "Assassin", "Berserker", "Ruler", "Avenger", "MoonCancer", "AlterEgo", "Foreigner", "Pretender", "Beast"}
+]
+
+def clean_mutually_exclusive_tags(section_data: dict, new_section_data: dict):
+    """
+    对比最新抓取的同分类标签，自动清除旧数据中同属同一互斥组但已不再生效的历史残留属性
+    """
+    if not isinstance(section_data, dict) or not isinstance(new_section_data, dict):
+        return
+
+    new_keys = set(new_section_data.keys())
+    for group in MUTUALLY_EXCLUSIVE_TAG_GROUPS:
+        # 检查最新抓取的数据中是否包含该互斥组内的标签
+        matched_new_keys = new_keys.intersection(group)
+        if matched_new_keys:
+            # 如果最新抓取的数据包含了该组属性，则旧数据中同属于该组但不在最新数据中的 key 属于陈旧残留，予以清除
+            stale_keys = set(section_data.keys()).intersection(group) - matched_new_keys
+            for key in stale_keys:
+                del section_data[key]
+
 def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_path: str, guesser_workspace_path: str, verbose: bool = True):
     from pathlib import Path
     
@@ -101,7 +136,7 @@ def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_pat
             except Exception as e:
                 print(f"警告: 无法载入主仓库已有的 JSON: {e}")
                 
-    # 3. 合并新抓取的数据 (深度合并，防止覆盖历史手动录入的标签)
+    # 3. 合并新抓取的数据 (深度合并，防止覆盖历史手动录入的标签，但对同类互斥属性自动更新)
     for cid, tags in new_tags.items():
         if cid not in final_tags:
             final_tags[cid] = tags
@@ -111,6 +146,8 @@ def merge_and_save_extra_tags(subject_id: str, new_tags: dict, out_json_file_pat
                     final_tags[cid][section] = section_data
                 else:
                     if isinstance(final_tags[cid][section], dict) and isinstance(section_data, dict):
+                        # 清除同一互斥维度下的陈旧残留属性
+                        clean_mutually_exclusive_tags(final_tags[cid][section], section_data)
                         for tag_key, tag_val in section_data.items():
                             final_tags[cid][section][tag_key] = tag_val
                     else:

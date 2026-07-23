@@ -183,9 +183,7 @@ def process_zzz():
     print(f"[绝区零] Bwiki 上共获取了 {len(bwiki_data)} 个角色的数据。")
 
     # 职业属性映射
-    PROFESSION_MAP = {
-        "命破": "击破"
-    }
+    PROFESSION_MAP = {}
 
     # 别名映射词典
     ALIAS_MAP = {
