@@ -17,14 +17,12 @@ from character_tags_crawler.utils.file import save_json_pretty
 # 全局配置
 BA_ID = "300648"
 
-# 相对工作区路径的定义
 TAGSCI_WORKSPACE = project_root
 GUESSER_WORKSPACE = project_root.parent / "anime-character-guessr"
 
 OUTPUT_JSON_DIR = TAGSCI_WORKSPACE / "outputs" / "extra_tags"
 OUTPUT_ASSETS_DIR = TAGSCI_WORKSPACE / "outputs" / "assets" / "extra_tags"
 
-# 缓存文件路径
 CACHE_FILE = Path(__file__).resolve().parent / "crawler_cache.json"
 
 def load_cache():
@@ -43,50 +41,59 @@ def save_cache(cache_data):
         print(f"警告: 无法保存缓存文件: {e}")
 
 def crawl_bangumi_characters(subject_id: str):
-    """
-    爬取 Bangumi 上的角色列表，返回角色 ID 与名字之间的映射关系。
-    如果获取角色专属子页面失败，将尝试从主页面爬取作为后备逻辑。
-    """
     print(f"[{subject_id}] 正在爬取 Bangumi 角色列表...")
-    url = f"https://bgm.tv/subject/{subject_id}/characters"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    
-    try:
-        soup = safe_soup(url, headers=headers, cooldown=2)
-    except Exception as e:
-        print(f"警告: 无法获取角色子页面列表，正在尝试从主页面进行解析。错误信息: {e}")
-        main_url = f"https://bgm.tv/subject/{subject_id}"
-        soup = safe_soup(main_url, headers=headers, cooldown=2)
-
     id_name_mapping = {}
-    for subtitle in soup.select("div.item h2.subtitle"):
-        anchor = subtitle.find("a", href=re.compile(r"^/character/\d+"))
-        if not anchor:
-            continue
-
-        match = re.search(r"/character/(\d+)", anchor["href"])
-        if not match:
-            continue
-
-        character_id = match.group(1)
-        name = anchor.get_text(strip=True)
-        
-        chinese_span = subtitle.find("span", class_="tip")
-        chinese_name = chinese_span.get_text(strip=True) if chinese_span else ""
-        
-        id_name_mapping[character_id] = {
-            "name": name,
-            "chinese_name": chinese_name
-        }
     
-    print(f"[{subject_id}] 在 Bangumi 上找到了 {len(id_name_mapping)} 个角色。")
+    page = 1
+    while True:
+        url = f"https://bgm.tv/subject/{subject_id}/characters?page={page}"
+        try:
+            soup = safe_soup(url, headers=headers, cooldown=1.5)
+        except Exception as e:
+            if page == 1:
+                print(f"警告: 无法获取角色子页面列表，正在尝试从主页面进行解析。错误信息: {e}")
+                main_url = f"https://bgm.tv/subject/{subject_id}"
+                soup = safe_soup(main_url, headers=headers, cooldown=1.5)
+            else:
+                break
+
+        subtitles = soup.select("div.item h2.subtitle")
+        if not subtitles:
+            break
+
+        found_in_page = 0
+        for subtitle in subtitles:
+            anchor = subtitle.find("a", href=re.compile(r"^/character/\d+"))
+            if not anchor:
+                continue
+
+            match = re.search(r"/character/(\d+)", anchor["href"])
+            if not match:
+                continue
+
+            character_id = match.group(1)
+            name = anchor.get_text(strip=True)
+            
+            chinese_span = subtitle.find("span", class_="tip")
+            chinese_name = chinese_span.get_text(strip=True) if chinese_span else ""
+            
+            id_name_mapping[character_id] = {
+                "name": name,
+                "chinese_name": chinese_name
+            }
+            found_in_page += 1
+
+        print(f"  第 {page} 页抓取到 {found_in_page} 个角色。")
+        next_link = soup.select_one("a.p[href*='page=']")
+        if not next_link or found_in_page == 0:
+            break
+        page += 1
+
+    print(f"[{subject_id}] 在 Bangumi 上共找到了 {len(id_name_mapping)} 个角色。")
     return id_name_mapping
 
 def fetch_student_detail(romaji, cache):
-    """
-    获取学生详情页的数据，如果缓存中已存在则直接读取。
-    支持优雅的抓取与错误降级处理。
-    """
     if romaji in cache:
         return cache[romaji]
         
@@ -98,21 +105,16 @@ def fetch_student_detail(romaji, cache):
     
     print(f"[碧蓝档案] 正在获取学生详情: {romaji}...")
     try:
-        # 使用 0.5s 基础冷却时间，防止触发防爬机制 (567 Error)
         soup = safe_soup(url, headers=headers, cooldown=0.5)
-        
-        # 1. 稀有度
         star_div = soup.find(class_="romajiStar")
         stars = 3
         if star_div:
             stars_str = star_div.get_text(strip=True)
             stars = len(stars_str) if stars_str else 3
             
-        # 2. 武器类型
         weapon_div = soup.find(class_="weaponType")
         weapon = weapon_div.get_text(strip=True).upper() if weapon_div else "AR"
         
-        # 3. 战场站位
         position = "中排"
         for row in soup.find_all(class_="propertyRow"):
             txt = row.get_text(strip=True).upper()
@@ -131,26 +133,15 @@ def fetch_student_detail(romaji, cache):
         return details
     except Exception as e:
         print(f"警告: 无法获取学生 {romaji} 的详情页 ({e})，使用默认值降级处理")
-        # 降级容错
         return {"stars": 3, "weapon": "AR", "position": "中排"}
 
+def clean_base_name(name_str):
+    return re.sub(r'[\(（].*?[\)）]', '', name_str).strip()
+
 def process_bluearchive():
-    """
-    爬取碧蓝档案角色及标签核心逻辑：
-    1. 爬取 Bangumi 的角色列表
-    2. 爬取碧蓝档案 Bwiki 的学生列表 JSON 接口
-    3. 获取每个学生的星级、武器类型和战斗位置 (合并正月、泳装等多形态属性)
-    4. 将 Bangumi 角色与 Bwiki 学生进行匹配对齐 (支持拼音代号及译名差异匹配)
-    5. 复制本地已有的学校、职业、属性图标到输出文件夹
-    6. 生成最终的 JSON 文件，并将图片引用路径更改为 /assets/extra_tags/300648/...
-    """
-    # 1. 爬取 Bangumi 角色数据
     bgm_characters = crawl_bangumi_characters(BA_ID)
-    
-    # 加载本地缓存
     cache = load_cache()
     
-    # 2. 爬取碧蓝档案 Bwiki 学生列表 JSON
     print("[碧蓝档案] 正在抓取 Bwiki 学生列表 JSON 数据库...")
     bwiki_url = "https://wiki.biligame.com/ba/index.php?title=MediaWiki:StudentList.jp.json&action=raw"
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -158,7 +149,6 @@ def process_bluearchive():
     try:
         r = safe_get(bwiki_url, headers=headers, cooldown=1)
         bwiki_data = r.json()
-        # 写入缓存文件
         bwiki_cache_file.write_text(json.dumps(bwiki_data, ensure_ascii=False, indent=2), encoding="utf-8")
     except Exception as e:
         print(f"警告: 无法获取 Bwiki 学生列表 JSON: {e}。将尝试从本地缓存加载...")
@@ -173,201 +163,95 @@ def process_bluearchive():
             print("错误: 未找到本地 Bwiki 缓存。")
             return
 
-    # 3. 学校、战斗职业、属性的名称映射字典
     SCHOOL_MAP = {
-        "SRT": "SRT特殊学院",
-        "千年": "千年科学学园",
-        "圣三一": "三一综合学园",
-        "山海经": "山海经高级中学",
-        "格黑娜": "格黑娜学园",
-        "瓦尔基里": "瓦尔基里警察学校",
-        "百鬼夜行": "百鬼夜行联合学院",
-        "红冬": "赤冬联邦学园",
-        "阿拜多斯": "阿拜多斯高中",
-        "阿里乌斯": "阿里乌斯分校",
-        "海兰德": "海兰德铁道学园",
+        "SRT": "SRT特殊学院", "千年": "千年科学学园", "圣三一": "三一综合学园",
+        "山海经": "山海经高级中学", "格黑娜": "格黑娜学园", "瓦尔基里": "瓦尔基里警察学校",
+        "百鬼夜行": "百鬼夜行联合学院", "红冬": "赤冬联邦学园", "阿拜多斯": "阿拜多斯高中",
+        "阿里乌斯": "阿里乌斯分校", "海兰德": "海兰德铁道学园",
     }
     
     ROLE_MAP = {
-        "支援手": "辅助",
-        "攻击手": "输出",
-        "坦克": "坦克",
-        "治疗手": "治疗",
-        "战术支援": "载具支援",
+        "支援手": "辅助", "攻击手": "输出", "坦克": "坦克",
+        "治疗手": "治疗", "战术支援": "载具支援",
     }
     
     ATTACK_MAP = {
-        "爆炸": ("爆发", "#920008"),
-        "爆发": ("爆发", "#920008"),
-        "贯通": ("贯通", "#BD8901"),
-        "神秘": ("神秘", "#226F9B"),
-        "振动": ("振动", "#794394"),
+        "爆炸": ("爆发", "#920008"), "爆发": ("爆发", "#920008"),
+        "贯通": ("贯通", "#BD8901"), "神秘": ("神秘", "#226F9B"), "振动": ("振动", "#794394"),
     }
     
     DEFENSE_MAP = {
-        "轻装": ("轻装甲", "#920008"),
-        "轻装甲": ("轻装甲", "#920008"),
-        "重装": ("重装甲", "#BD8901"),
-        "重装甲": ("重装甲", "#BD8901"),
-        "特殊": ("特殊装甲", "#226F9B"),
-        "特殊装甲": ("特殊装甲", "#226F9B"),
-        "弹力": ("弹力装甲", "#794394"),
-        "弹力装甲": ("弹力装甲", "#794394"),
+        "轻装": ("轻装甲", "#920008"), "轻装甲": ("轻装甲", "#920008"),
+        "重装": ("重装甲", "#BD8901"), "重装甲": ("重装甲", "#BD8901"),
+        "特殊": ("特殊装甲", "#226F9B"), "特殊装甲": ("特殊装甲", "#226F9B"),
+        "弹力": ("弹力装甲", "#794394"), "弹力装甲": ("弹力装甲", "#794394"),
     }
     
-    # 中文姓名译名别名对照字典 (Bwiki 与 Bangumi 差异)
     ALIAS_MAP = {
-        "阿露": "爱露",
-        "尼禄": "妮露",
-        "切里诺": "洁莉诺",
-        "淳子": "纯子",
-        "花绘": "花江",
-        "爱莉": "爱理",
-        "遥香": "春香",
-        "枫香": "风香",
-        "小鸟": "亚都梨",
-        "朱音": "茜",
-        "叶渚": "康娜",
-        "佳代": "卡娅",
-        "明里": "明莉",
-        "阳奈": "希奈",
-        "真纪": "真姬",
+        "阿露": "爱露", "尼禄": "妮露", "切里诺": "洁莉诺", "淳子": "纯子",
+        "花绘": "花江", "爱莉": "爱理", "遥香": "春香", "枫香": "风香",
+        "小鸟": "亚都梨", "朱音": "茜", "叶渚": "康娜", "佳代": "卡娅",
+        "明里": "明莉", "阳奈": "希奈", "真纪": "真姬",
     }
 
-    def clean_wiki_name(name_str):
-        # 移除类似 "阿露(正月)" -> "阿露" 后缀括号
-        return re.sub(r'[\(（].*?[\)）]', '', name_str).strip()
-
-    # 处理每个学生的基本数据和详情页
-    wiki_students = {}
+    # 1. 整理 Bwiki 每种形态的数据
+    bwiki_forms = {}
     for romaji, info in bwiki_data.items():
         raw_name = info.get("name", "")
-        base_name = clean_wiki_name(raw_name)
-        
-        # 抓取或载入详情
+        base_name = clean_base_name(raw_name)
         details = fetch_student_detail(romaji, cache)
         
-        # 转换并规范属性
         school_name = SCHOOL_MAP.get(info.get("school"), "其它")
         role_name = ROLE_MAP.get(info.get("role"), "输出")
         squad = info.get("squad", "STRIKER")
         
-        # 攻击与装甲类型
         atk_type, atk_color = ATTACK_MAP.get(info.get("attackType"), (info.get("attackType"), "#ffffff"))
         def_type, def_color = DEFENSE_MAP.get(info.get("defenseType"), (info.get("defenseType"), "#ffffff"))
         
-        student_info = {
-            "name": base_name,
-            "stars": {details["stars"]},
-            "weapon": {details["weapon"].upper()},
+        bwiki_forms[raw_name] = {
+            "name": raw_name,
+            "base_name": base_name,
+            "stars": details["stars"],
+            "weapon": details["weapon"].upper(),
             "school": school_name,
-            "squad": {squad},
-            "role": {role_name},
-            "attackType": {(atk_type, atk_color)},
-            "defenseType": {(def_type, def_color)},
-            "position": {details["position"]}
+            "squad": squad,
+            "role": role_name,
+            "attackType": (atk_type, atk_color),
+            "defenseType": (def_type, def_color),
+            "position": details["position"]
         }
-        
-        # 合并不同形态学生的属性 (多版本角色星级及某些属性可能存在交集)
-        if base_name not in wiki_students:
-            wiki_students[base_name] = student_info
-        else:
-            existing = wiki_students[base_name]
-            existing["stars"].add(details["stars"])
-            existing["weapon"].add(details["weapon"].upper())
-            existing["squad"].add(squad)
-            existing["role"].add(role_name)
-            existing["attackType"].add((atk_type, atk_color))
-            existing["defenseType"].add((def_type, def_color))
-            existing["position"].add(details["position"])
 
-    # 保存抓取缓存以利于后续快速执行
     save_cache(cache)
 
-    # 4. 匹配 Bangumi 角色 ID
-    extra_tags = {}
-    for cid, info in bgm_characters.items():
-        name = info["name"]
-        zh_name = info["chinese_name"]
-        
-        # 查找匹配的 Bwiki 学生
-        matched_student = None
-        for candidate in [zh_name, name]:
-            if not candidate:
-                continue
-            
-            # 直接匹配
-            for wiki_name, s_info in wiki_students.items():
-                if candidate.endswith(wiki_name):
-                    matched_student = s_info
-                    break
-            if matched_student:
-                break
-                
-            # 别名匹配
-            for wiki_name, s_info in wiki_students.items():
-                mapped_wiki = ALIAS_MAP.get(wiki_name, wiki_name)
-                if candidate.endswith(mapped_wiki):
-                    matched_student = s_info
-                    break
-            if matched_student:
-                break
-
-        if matched_student:
-            stars = matched_student["stars"]
-            weapon = matched_student["weapon"]
-            school = matched_student["school"]
-            squad = matched_student["squad"]
-            role = matched_student["role"]
-            position = matched_student["position"]
-            
-    # 5. 自动下载缺失的图片资产
-    from character_tags_crawler.utils.network import download_bwiki_missing_assets
-    api_url = "https://wiki.biligame.com/ba/api.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://wiki.biligame.com/ba/"
-    }
     ba_assets_dir = OUTPUT_ASSETS_DIR / BA_ID
+    ba_assets_dir.mkdir(parents=True, exist_ok=True)
     
     referenced_icons = set()
-    for student in wiki_students.values():
-        for star in student["stars"]:
-            referenced_icons.add(f"{star}星.png")
-        for w in student["weapon"]:
-            referenced_icons.add(f"{w}.png")
-        for ro in student["role"]:
-            referenced_icons.add(f"{ro}.png")
-        s = student["school"]
-        referenced_icons.add(f"{s}.png")
-        for sq in student["squad"]:
-            referenced_icons.add(f"{sq}.png")
-        for atk, _ in student["attackType"]:
-            referenced_icons.add(f"{atk}.png")
-        for df, _ in student["defenseType"]:
-            referenced_icons.add(f"{df}.png")
-        for pos in student["position"]:
-            referenced_icons.add(f"{pos}.png")
+    for student in bwiki_forms.values():
+        referenced_icons.add(f"{student['stars']}星.png")
+        referenced_icons.add(f"{student['weapon']}.png")
+        referenced_icons.add(f"{student['role']}.png")
+        referenced_icons.add(f"{student['school']}.png")
+        referenced_icons.add(f"{student['squad']}.png")
+        referenced_icons.add(f"{student['attackType'][0]}.png")
+        referenced_icons.add(f"{student['defenseType'][0]}.png")
+        referenced_icons.add(f"{student['position']}.png")
             
     missing_assets = {}
     for icon_name in referenced_icons:
         name = icon_name.rsplit(".", 1)[0]
         missing_assets[icon_name] = [
-            f"File:图标-{name}.png",
-            f"File:Logo-{name}.png",
-            f"File:Logo-阵营图标-{name}.png",
-            f"File:{name}.png",
-            f"File:角色稀有度{name}.png",
-            f"File:{name}级.png",
-            f"File:{name}star.png",
-            f"File:{name}星.png",
-            f"File:学校-{name}.png",
-            f"File:武器-{name}.png"
+            f"File:图标-{name}.png", f"File:Logo-{name}.png",
+            f"File:Logo-阵营图标-{name}.png", f"File:{name}.png",
+            f"File:角色稀有度{name}.png", f"File:{name}级.png",
+            f"File:{name}star.png", f"File:{name}星.png",
+            f"File:学校-{name}.png", f"File:武器-{name}.png"
         ]
         
-    download_bwiki_missing_assets(api_url, missing_assets, ba_assets_dir, headers)
+    from character_tags_crawler.utils.network import download_bwiki_missing_assets
+    api_url = "https://wiki.biligame.com/ba/api.php"
+    download_bwiki_missing_assets(api_url, missing_assets, ba_assets_dir, {"User-Agent": "Mozilla/5.0", "Referer": "https://wiki.biligame.com/ba/"})
 
-    # Helper functions for dynamic file existence checking
     def get_rarity_html(star_str):
         if (ba_assets_dir / f"{star_str}.png").exists():
             return f"<img src='/assets/extra_tags/{BA_ID}/{star_str}.png' alt='{star_str}' />"
@@ -384,98 +268,105 @@ def process_bluearchive():
         return ro
 
     def get_school_html(school):
-        if school == "其它":
-            return school
+        if school == "其它": return school
         if (ba_assets_dir / f"{school}.png").exists():
             return f"<img src='/assets/extra_tags/{BA_ID}/{school}.png'/>{school}"
         return school
 
-    # 4. 匹配 Bangumi 角色 ID
-    extra_tags = {}
-    for cid, info in bgm_characters.items():
-        name = info["name"]
-        zh_name = info["chinese_name"]
+    # 2. 映射形态到 Bangumi 角色
+    # 如果异格角色在 Bangumi 有独立条目才拆分；若无独立条目则写入主形态！
+    bgm_form_mapping = {cid: [] for cid in bgm_characters}
+
+    for form_name, form_data in bwiki_forms.items():
+        base_name = form_data["base_name"]
         
-        # 查找匹配的 Bwiki 学生
-        matched_student = None
-        for candidate in [zh_name, name]:
-            if not candidate:
-                continue
-            
-            # 直接匹配
-            for wiki_name, s_info in wiki_students.items():
-                if candidate.endswith(wiki_name):
-                    matched_student = s_info
+        # 尝试寻找该形态在 Bangumi 上的专属独立条目
+        exact_cid = None
+        for cid, info in bgm_characters.items():
+            cands = [info["chinese_name"], info["name"]]
+            for cand in cands:
+                if not cand: continue
+                # 如果这个 Bangumi 角色名称包含了形态全名 (如 专属的 丹恒·饮月 或 包含括号的特定角色)
+                if cand == form_name or cand.endswith(form_name):
+                    exact_cid = cid
                     break
-            if matched_student:
+            if exact_cid:
                 break
                 
-            # 别名匹配
-            for wiki_name, s_info in wiki_students.items():
-                mapped_wiki = ALIAS_MAP.get(wiki_name, wiki_name)
-                if candidate.endswith(mapped_wiki):
-                    matched_student = s_info
+        if exact_cid:
+            # 存在独立 Bangumi 条目：归属独立条目
+            bgm_form_mapping[exact_cid].append(form_data)
+        else:
+            # 无独立 Bangumi 条目：归属主形态 (base_name) 条目进行合并！
+            base_cid = None
+            for cid, info in bgm_characters.items():
+                cands = [info["chinese_name"], info["name"]]
+                for cand in cands:
+                    if not cand: continue
+                    mapped_base = ALIAS_MAP.get(base_name, base_name)
+                    if cand == base_name or cand.endswith(base_name) or cand == mapped_base or cand.endswith(mapped_base):
+                        base_cid = cid
+                        break
+                if base_cid:
                     break
-            if matched_student:
-                break
+            if base_cid:
+                bgm_form_mapping[base_cid].append(form_data)
 
-        if matched_student:
-            stars = matched_student["stars"]
-            weapon = matched_student["weapon"]
-            school = matched_student["school"]
-            squad = matched_student["squad"]
-            role = matched_student["role"]
-            position = matched_student["position"]
-            
-            # 稀有度星级标签字典
-            rarity_dict = {}
-            for star in sorted(stars):
-                star_str = f"{star}星"
-                rarity_dict[star_str] = get_rarity_html(star_str)
-                
-            # 武器类型
-            weapon_dict = {}
-            for w in sorted(weapon):
-                weapon_dict[w] = get_weapon_html(w)
-            
-            # 标签拼装
-            tags_dict = {}
-            
-            # 攻击与装甲着色样式
-            for t_name, t_col in sorted(matched_student["attackType"]):
-                tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
-            for t_name, t_col in sorted(matched_student["defenseType"]):
-                tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
-            
-            # Squad 战术类型
-            for sq in sorted(squad):
-                tags_dict[sq] = f"<span style='font-style: italic; font-weight: bold;'>{sq}</span>"
-            
-            # 战斗职业
-            for ro in sorted(role):
-                tags_dict[ro] = get_role_html(ro)
-            
-            # 站位 (纯文本形式)
-            for pos in sorted(position):
-                tags_dict[pos] = pos
-            
-            # 学校所属
-            school_dict = {}
-            school_dict[school] = get_school_html(school)
-                
-            extra_tags[cid] = {
-                "稀有度": rarity_dict,
-                "武器类型": weapon_dict,
-                "标签": tags_dict,
-                "所属": school_dict
-            }
+    extra_tags = {}
+    matched_count = 0
 
-    # 6. 生成 JSON 输出文件
+    for cid, forms in bgm_form_mapping.items():
+        if not forms:
+            continue
+            
+        matched_count += 1
+        
+        # 聚合该 Bangumi ID 接收到的所有形态属性 (主形态 + 未拆分的异格形态)
+        stars_set = {f["stars"] for f in forms}
+        weapon_set = {f["weapon"] for f in forms}
+        school_set = {f["school"] for f in forms}
+        squad_set = {f["squad"] for f in forms}
+        role_set = {f["role"] for f in forms}
+        position_set = {f["position"] for f in forms}
+        attack_types = {f["attackType"] for f in forms}
+        defense_types = {f["defenseType"] for f in forms}
+
+        rarity_dict = {f"{star}星": get_rarity_html(f"{star}星") for star in sorted(stars_set)}
+        weapon_dict = {w: get_weapon_html(w) for w in sorted(weapon_set)}
+        
+        tags_dict = {}
+        for t_name, t_col in sorted(attack_types):
+            tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
+        for t_name, t_col in sorted(defense_types):
+            tags_dict[t_name] = f"<span style='color: {t_col};'>{t_name}</span>"
+        for sq in sorted(squad_set):
+            tags_dict[sq] = f"<span style='font-style: italic; font-weight: bold;'>{sq}</span>"
+        for ro in sorted(role_set):
+            tags_dict[ro] = get_role_html(ro)
+        for pos in sorted(position_set):
+            tags_dict[pos] = pos
+        
+        school_dict = {}
+        for sch in sorted(school_set):
+            school_dict[sch] = get_school_html(sch)
+            
+        extra_tags[cid] = {
+            "稀有度": rarity_dict,
+            "武器类型": weapon_dict,
+            "标签": tags_dict,
+            "所属": school_dict
+        }
+
+    print(f"[碧蓝档案] 成功匹配了 {matched_count} 个 Bangumi 角色条目 (含异格自动拆分/合并处理)。")
+
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
     out_json_file = OUTPUT_JSON_DIR / f"{BA_ID}.json"
-    from character_tags_crawler.utils.file import merge_and_save_extra_tags
-    merge_and_save_extra_tags(BA_ID, extra_tags, str(out_json_file), str(GUESSER_WORKSPACE))
-    print(f"[碧蓝档案] 成功写入 {len(extra_tags)} 个角色属性到 {out_json_file}")
+    save_json_pretty(extra_tags, str(out_json_file))
+    
+    guesser_dest = GUESSER_WORKSPACE / "client" / "public" / "data" / "extra_tags" / f"{BA_ID}.json"
+    guesser_dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(out_json_file, guesser_dest)
+    print(f"[碧蓝档案] 已保存并同步 {len(extra_tags)} 个角色的 Extra Tags 至 {guesser_dest}")
 
 def main():
     print("=== 碧蓝档案 Extra Tags 自动爬取与处理程序 ===")

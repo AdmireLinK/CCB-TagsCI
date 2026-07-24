@@ -11,7 +11,7 @@ project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root))
 
 from character_tags_crawler.utils.network import safe_soup, safe_download
-from character_tags_crawler.utils.file import merge_and_save_extra_tags
+from character_tags_crawler.utils.file import save_json_pretty
 
 # 全局配置
 ZZZ_ID = "380974"
@@ -23,48 +23,59 @@ OUTPUT_JSON_DIR = TAGSCI_WORKSPACE / "outputs" / "extra_tags"
 OUTPUT_ASSETS_DIR = TAGSCI_WORKSPACE / "outputs" / "assets" / "extra_tags"
 
 def crawl_bangumi_characters(subject_id: str):
-    """
-    爬取 Bangumi 上的角色列表，返回角色 ID 与名字之间的映射关系。
-    """
     print(f"[{subject_id}] 正在爬取 Bangumi 角色列表...")
-    url = f"https://bgm.tv/subject/{subject_id}/characters"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    
-    try:
-        soup = safe_soup(url, headers=headers, cooldown=2)
-    except Exception as e:
-        print(f"警告: 无法获取角色子页面列表，正在尝试从主页面进行解析。错误信息: {e}")
-        main_url = f"https://bgm.tv/subject/{subject_id}"
-        soup = safe_soup(main_url, headers=headers, cooldown=2)
-
     id_name_mapping = {}
-    for subtitle in soup.select("div.item h2.subtitle"):
-        anchor = subtitle.find("a", href=re.compile(r"^/character/\d+"))
-        if not anchor:
-            continue
-
-        match = re.search(r"/character/(\d+)", anchor["href"])
-        if not match:
-            continue
-
-        character_id = match.group(1)
-        name = anchor.get_text(strip=True)
-        
-        chinese_span = subtitle.find("span", class_="tip")
-        chinese_name = chinese_span.get_text(strip=True) if chinese_span else ""
-        
-        id_name_mapping[character_id] = {
-            "name": name,
-            "chinese_name": chinese_name
-        }
     
-    print(f"[{subject_id}] 在 Bangumi 上找到了 {len(id_name_mapping)} 个角色。")
+    page = 1
+    while True:
+        url = f"https://bgm.tv/subject/{subject_id}/characters?page={page}"
+        try:
+            soup = safe_soup(url, headers=headers, cooldown=1.5)
+        except Exception as e:
+            if page == 1:
+                print(f"警告: 无法获取角色子页面列表，正在尝试从主页面进行解析。错误信息: {e}")
+                main_url = f"https://bgm.tv/subject/{subject_id}"
+                soup = safe_soup(main_url, headers=headers, cooldown=1.5)
+            else:
+                break
+
+        subtitles = soup.select("div.item h2.subtitle")
+        if not subtitles:
+            break
+
+        found_in_page = 0
+        for subtitle in subtitles:
+            anchor = subtitle.find("a", href=re.compile(r"^/character/\d+"))
+            if not anchor:
+                continue
+
+            match = re.search(r"/character/(\d+)", anchor["href"])
+            if not match:
+                continue
+
+            character_id = match.group(1)
+            name = anchor.get_text(strip=True)
+            
+            chinese_span = subtitle.find("span", class_="tip")
+            chinese_name = chinese_span.get_text(strip=True) if chinese_span else ""
+            
+            id_name_mapping[character_id] = {
+                "name": name,
+                "chinese_name": chinese_name
+            }
+            found_in_page += 1
+
+        print(f"  第 {page} 页抓取到 {found_in_page} 个角色。")
+        next_link = soup.select_one("a.p[href*='page=']")
+        if not next_link or found_in_page == 0:
+            break
+        page += 1
+
+    print(f"[{subject_id}] 在 Bangumi 上共找到了 {len(id_name_mapping)} 个角色。")
     return id_name_mapping
 
 def clean_wiki_name(name):
-    """
-    对 Bwiki 的名称进行清洗，移除不必要的符号或括号
-    """
     return re.sub(r'[\(（].*?[\)）]', '', name).strip()
 
 def clean_title(title):
@@ -115,17 +126,12 @@ def download_missing_assets(missing_assets, headers=None):
         return
         
     print(f"[绝区零] 发现 {len(missing_assets)} 个可能需要下载的素材。")
-    
-    # Collect all titles
     all_titles = []
     for titles in missing_assets.values():
         all_titles.extend(titles)
     all_titles = list(set(all_titles))
     
-    # Resolve URLs
     resolved = resolve_image_url(all_titles, headers)
-    
-    # Download
     zzz_assets_dir = OUTPUT_ASSETS_DIR / ZZZ_ID
     zzz_assets_dir.mkdir(parents=True, exist_ok=True)
     
@@ -149,10 +155,8 @@ def download_missing_assets(missing_assets, headers=None):
             print(f"错误: 无法下载 {filename} (尝试过的标题: {titles})")
 
 def process_zzz():
-    # 1. 爬取 Bangumi 数据
     bgm_characters = crawl_bangumi_characters(ZZZ_ID)
 
-    # 2. 从 Bwiki API 获取角色数据 (使用 SMW ask)
     print("[绝区零] 正在通过 Bwiki API 获取角色数据...")
     url_bwiki = "https://wiki.biligame.com/zzz/api.php"
     headers = {
@@ -165,7 +169,6 @@ def process_zzz():
         "format": "json"
     }
     
-    # Setup retry session for SMW ask
     from urllib3 import Retry
     from requests.adapters import HTTPAdapter
     s = requests.Session()
@@ -182,172 +185,172 @@ def process_zzz():
 
     print(f"[绝区零] Bwiki 上共获取了 {len(bwiki_data)} 个角色的数据。")
 
-    # 职业属性映射
     PROFESSION_MAP = {}
-
-    # 别名映射词典
     ALIAS_MAP = {
-        "猫又": "猫宫又奈",
-        "比利": "比利·奇德",
-        "安比": "安比·德玛拉",
-        "妮可": "妮可·德玛拉",
-        "苍角": "苍角",
-        "露西": "露西雅娜·德·蒙特夫",
-        "派派": "派派·温贝鲁",
-        "简": "简·杜",
-        "塞斯": "塞斯·洛威尔",
-        "凯撒": "凯撒·金",
-        "可琳": "可琳·威克斯",
-        "本": "本·比格",
-        "珂蕾妲": "珂蕾妲·贝洛伯格",
-        "安东": "安东·伊万诺夫",
-        "格莉丝": "格莉丝·巴雷特",
-        "艾莲": "艾莲·乔",
-        "莱卡恩": "冯·莱卡恩"
+        "猫又": "猫宫又奈", "比利": "比利·奇德", "安比": "安比·德玛拉",
+        "妮可": "妮可·德玛拉", "苍角": "苍角", "露西": "露西雅娜·德·蒙特夫",
+        "派派": "派派·温贝鲁", "简": "简·杜", "塞斯": "塞斯·洛威尔",
+        "凯撒": "凯撒·金", "可琳": "可琳·威克斯", "本": "本·比格",
+        "珂蕾妲": "珂蕾妲·贝洛伯格", "安东": "安东·伊万诺夫", "格莉丝": "格莉丝·巴雷特",
+        "艾莲": "艾莲·乔", "莱卡恩": "冯·莱卡恩"
     }
 
-    # 归一化名字辅助匹配
     def normalize_name(n):
-        n = re.sub(r'[^\w\u4e00-\u9fa5]', '', n)
-        return n
+        if not n: return ""
+        return re.sub(r'[^\w\u4e00-\u9fa5]', '', n)
 
-    # 3. 匹配 Bangumi 角色
-    matched_assets = {
-        "rarities": set(),
-        "elements": set(),
-        "professions": set(),
-        "factions": set()
-    }
+    # 1. 解析 Bwiki 所有形态
+    bwiki_forms = {}
     for char_name, char_data in bwiki_data.items():
+        base_name = clean_wiki_name(char_name)
         matched_char = char_data["printouts"]
+        
         rarities_raw = matched_char.get("稀有度", [])
-        if rarities_raw:
-            matched_assets["rarities"].add(rarities_raw[0])
+        rarity = rarities_raw[0] if rarities_raw else ""
         elements_raw = matched_char.get("属性", [])
-        if elements_raw:
-            matched_assets["elements"].add(elements_raw[0])
+        element = elements_raw[0] if elements_raw else ""
         professions_raw = matched_char.get("特性", [])
-        if professions_raw:
-            p_raw = professions_raw[0]
-            matched_assets["professions"].add(PROFESSION_MAP.get(p_raw, p_raw))
+        profession_raw = professions_raw[0] if professions_raw else ""
+        profession = PROFESSION_MAP.get(profession_raw, profession_raw)
+        dmg_type_list = matched_char.get("伤害类型", [])
         factions_raw = matched_char.get("阵营", [])
-        if factions_raw:
-            matched_assets["factions"].add(factions_raw[0])
+        faction = factions_raw[0] if factions_raw else ""
 
-    # 4. 自动下载缺失的图片资产
+        bwiki_forms[char_name] = {
+            "form_name": char_name,
+            "base_name": base_name,
+            "rarity": rarity,
+            "element": element,
+            "profession": profession,
+            "dmg_types": dmg_type_list,
+            "faction": faction
+        }
+
+    matched_assets = {
+        "rarities": {f["rarity"] for f in bwiki_forms.values() if f["rarity"]},
+        "elements": {f["element"] for f in bwiki_forms.values() if f["element"]},
+        "professions": {f["profession"] for f in bwiki_forms.values() if f["profession"]},
+        "factions": {f["faction"] for f in bwiki_forms.values() if f["faction"]}
+    }
+
     missing_assets = {}
     for r in matched_assets["rarities"]:
-        filename = f"{r}.png"
-        missing_assets[filename] = [f"File:角色稀有度{r}.png", f"File:{r}.png"]
+        missing_assets[f"{r}.png"] = [f"File:角色稀有度{r}.png", f"File:{r}.png"]
     for e in matched_assets["elements"]:
-        filename = f"{e}.png"
-        missing_assets[filename] = [f"File:图标-{e}.png", f"File:{e}.png"]
+        missing_assets[f"{e}.png"] = [f"File:图标-{e}.png", f"File:{e}.png"]
     for p in matched_assets["professions"]:
-        filename = f"{p}.png"
-        missing_assets[filename] = [f"File:图标-{p}.png", f"File:{p}.png"]
+        missing_assets[f"{p}.png"] = [f"File:图标-{p}.png", f"File:{p}.png"]
     for f in matched_assets["factions"]:
-        filename = f"{f}.png"
-        missing_assets[filename] = [f"File:Logo-阵营图标-{f}.png", f"File:{f}.png"]
+        missing_assets[f"{f}.png"] = [f"File:Logo-阵营图标-{f}.png", f"File:{f}.png"]
 
     download_missing_assets(missing_assets, headers)
 
-    # Helper functions for dynamic file existence checking
     zzz_assets_dir = OUTPUT_ASSETS_DIR / ZZZ_ID
     def get_rarity_html(r):
-        if not r:
-            return ""
+        if not r: return ""
         if (zzz_assets_dir / f"{r}.png").exists():
             return f"<img src='/assets/extra_tags/{ZZZ_ID}/{r}.png' alt='{r}' />"
         return r
 
     def get_tag_html(tag_name):
-        if not tag_name:
-            return ""
+        if not tag_name: return ""
         if (zzz_assets_dir / f"{tag_name}.png").exists():
             return f"<img src='/assets/extra_tags/{ZZZ_ID}/{tag_name}.png'/>{tag_name}"
         return tag_name
 
-    extra_tags = {}
-    for cid, info in bgm_characters.items():
-        bgm_name = info["name"]
-        bgm_zh = info["chinese_name"]
+    # 智能分流逻辑：独立 Bangumi 条目拆分，非独立条目合并到主形态
+    bgm_form_mapping = {cid: [] for cid in bgm_characters}
+
+    for form_name, form_data in bwiki_forms.items():
+        base_name = form_data["base_name"]
         
-        matched_char = None
-        for candidate in [bgm_zh, bgm_name]:
-            if not candidate:
-                continue
-            
-            # 1. 精确与别名直接匹配
-            if candidate in bwiki_data:
-                matched_char = bwiki_data[candidate]["printouts"]
+        # 专属独立条目比对
+        exact_cid = None
+        for cid, info in bgm_characters.items():
+            cands = [info["chinese_name"], info["name"]]
+            for cand in cands:
+                if not cand: continue
+                norm_cand = normalize_name(cand)
+                norm_form = normalize_name(form_name)
+                alias_trans = ALIAS_MAP.get(form_name)
+                norm_alias = normalize_name(alias_trans) if alias_trans else ""
+                
+                if norm_cand == norm_form or (norm_alias and norm_cand == norm_alias):
+                    exact_cid = cid
+                    break
+            if exact_cid:
                 break
                 
-            norm_candidate = normalize_name(candidate)
-            # 2. 遍历 Bwiki 匹配
-            for w_name, data in bwiki_data.items():
-                w_name_norm = normalize_name(w_name)
-                if norm_candidate == w_name_norm or w_name in candidate or candidate in w_name:
-                    matched_char = data["printouts"]
-                    break
-                
-                alias_translated = ALIAS_MAP.get(w_name, w_name)
-                alias_norm = normalize_name(alias_translated)
-                if norm_candidate == alias_norm or alias_translated in candidate or candidate in alias_translated:
-                    matched_char = data["printouts"]
-                    break
-            
-            if matched_char:
-                break
-
-        if matched_char:
-            rarities_raw = matched_char.get("稀有度", [])
-            rarity = rarities_raw[0] if rarities_raw else ""
-            
-            elements_raw = matched_char.get("属性", [])
-            element = elements_raw[0] if elements_raw else ""
-            
-            professions_raw = matched_char.get("特性", [])
-            profession_raw = professions_raw[0] if professions_raw else ""
-            profession = PROFESSION_MAP.get(profession_raw, profession_raw)
-            
-            dmg_type_list = matched_char.get("伤害类型", [])
-            
-            factions_raw = matched_char.get("阵营", [])
-            faction = factions_raw[0] if factions_raw else ""
-
-            # 图像引用拼装
-            rarity_html = get_rarity_html(rarity)
-            element_html = get_tag_html(element)
-            prof_html = get_tag_html(profession)
-            
-            tags_dict = {}
-            if element:
-                tags_dict[element] = element_html
-            if profession:
-                tags_dict[profession] = prof_html
-            
-            # 添加伤害类型 (纯文本)
-            if dmg_type_list:
-                for dt in dmg_type_list:
-                    tags_dict[dt] = dt
+        if exact_cid:
+            bgm_form_mapping[exact_cid].append(form_data)
+        else:
+            # 寻求主形态条目合并
+            base_cid = None
+            for cid, info in bgm_characters.items():
+                cands = [info["chinese_name"], info["name"]]
+                for cand in cands:
+                    if not cand: continue
+                    norm_cand = normalize_name(cand)
+                    norm_base = normalize_name(base_name)
+                    alias_base = ALIAS_MAP.get(base_name)
+                    norm_alias_base = normalize_name(alias_base) if alias_base else ""
                     
-            # 阵营
-            faction_dict = {}
-            if faction:
-                faction_dict[faction] = get_tag_html(faction)
-                
-            extra_tags[cid] = {
-                "标签": tags_dict,
-                "阵营": faction_dict
-            }
-            if rarity:
-                extra_tags[cid]["稀有度"] = {rarity: rarity_html}
+                    if norm_cand == norm_base or (norm_alias_base and norm_cand == norm_alias_base):
+                        base_cid = cid
+                        break
+                if base_cid:
+                    break
+            if base_cid:
+                bgm_form_mapping[base_cid].append(form_data)
 
-    # 5. 保存 JSON 输出
+    extra_tags = {}
+    matched_count = 0
+
+    for cid, forms in bgm_form_mapping.items():
+        if not forms:
+            continue
+            
+        matched_count += 1
+        rarities_set = {f["rarity"] for f in forms if f["rarity"]}
+        elements_set = {f["element"] for f in forms if f["element"]}
+        professions_set = {f["profession"] for f in forms if f["profession"]}
+        factions_set = {f["faction"] for f in forms if f["faction"]}
+        dmg_types_set = set()
+        for f in forms:
+            dmg_types_set.update(f["dmg_types"])
+
+        rarity = sorted(rarities_set)[0] if rarities_set else ""
+        rarity_html = get_rarity_html(rarity)
+
+        tags_dict = {}
+        for e in sorted(elements_set):
+            tags_dict[e] = get_tag_html(e)
+        for p in sorted(professions_set):
+            tags_dict[p] = get_tag_html(p)
+        for dt in sorted(dmg_types_set):
+            tags_dict[dt] = dt
+
+        faction_dict = {}
+        for fac in sorted(factions_set):
+            faction_dict[fac] = get_tag_html(fac)
+
+        extra_tags[cid] = {
+            "标签": tags_dict,
+            "阵营": faction_dict
+        }
+        if rarity:
+            extra_tags[cid]["稀有度"] = {rarity: rarity_html}
+
+    print(f"[绝区零] 成功匹配了 {matched_count} 个 Bangumi 角色条目 (独立条目拆分/共用条目合并)。")
+
     OUTPUT_JSON_DIR.mkdir(parents=True, exist_ok=True)
     out_json_file = OUTPUT_JSON_DIR / f"{ZZZ_ID}.json"
-    merge_and_save_extra_tags(ZZZ_ID, extra_tags, str(out_json_file), str(GUESSER_WORKSPACE))
-    print(f"[绝区零] 成功写入 {len(extra_tags)} 个角色属性到 {out_json_file}")
+    save_json_pretty(extra_tags, str(out_json_file))
+    
+    guesser_dest = GUESSER_WORKSPACE / "client" / "public" / "data" / "extra_tags" / f"{ZZZ_ID}.json"
+    guesser_dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(out_json_file, guesser_dest)
+    print(f"[绝区零] 已保存并同步 {len(extra_tags)} 个角色的 Extra Tags 至 {guesser_dest}")
 
 def main():
     print("=== 绝区零 Extra Tags 自动爬取与处理程序 ===")
