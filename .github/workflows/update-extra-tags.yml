@@ -43,8 +43,8 @@ jobs:
       
       - name: Commit and push outputs to CCB-TagsCI
         run: |
-          git config user.name "AdmireLinK"
-          git config user.email "AdmireLinK@users.noreply.github.com"
+          git config user.name "Cosmosuperbaka"
+          git config user.email "Cosmosuperbaka@users.noreply.github.com"
           git add outputs/
           if ! git diff --staged --quiet; then
             git commit -m "CI：extra_tags auto update"
@@ -58,7 +58,7 @@ jobs:
       - name: Checkout Guesser Repository
         uses: actions/checkout@v7
         with:
-          repository: AdmireLinK/anime-character-guessr
+          repository: Cosmosuperbaka/anime-character-guessr
           ref: main
           token: ${{ secrets.CI_TOKEN }}
           path: anime-character-guessr
@@ -78,8 +78,8 @@ jobs:
       - name: Commit and Push to Guesser Repository
         working-directory: ./anime-character-guessr
         run: |
-          git config user.name "AdmireLinK"
-          git config user.email "AdmireLinK@users.noreply.github.com"
+          git config user.name "Cosmosuperbaka"
+          git config user.email "Cosmosuperbaka@users.noreply.github.com"
           git add client/public/data/extra_tags/
           git add client/public/assets/extra_tags/
           if ! git diff --staged --quiet; then

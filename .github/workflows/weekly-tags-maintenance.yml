@@ -30,7 +30,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          gh repo sync AdmireLinK/anime-character-guessr --branch "$GUESSER_BRANCH"
+          gh repo sync Cosmosuperbaka/anime-character-guessr --branch "$GUESSER_BRANCH"
 
   merge-user-feedback:
     name: Merge User Feedback Tags
@@ -62,7 +62,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          pr_number="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/pulls?state=open&head=AdmireLinK:$GUESSER_BRANCH&base=$GUESSER_BRANCH" --jq '.[0].number // ""')"
+          pr_number="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/pulls?state=open&head=Cosmosuperbaka:$GUESSER_BRANCH&base=$GUESSER_BRANCH" --jq '.[0].number // ""')"
           if [ -n "$pr_number" ]; then
             gh pr edit "$pr_number" \
               --repo "$GUESSER_UPSTREAM_REPOSITORY" \
@@ -72,7 +72,7 @@ jobs:
             exit 0
           fi
 
-          ahead_by="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/compare/$GUESSER_BRANCH...AdmireLinK:$GUESSER_BRANCH" --jq '.ahead_by')"
+          ahead_by="$(gh api "repos/$GUESSER_UPSTREAM_REPOSITORY/compare/$GUESSER_BRANCH...Cosmosuperbaka:$GUESSER_BRANCH" --jq '.ahead_by')"
           if [ "$ahead_by" = "0" ]; then
             echo "No Guesser Repository changes to open as an upstream PR."
             exit 0
@@ -80,7 +80,7 @@ jobs:
 
           gh pr create \
             --repo "$GUESSER_UPSTREAM_REPOSITORY" \
-            --head "AdmireLinK:$GUESSER_BRANCH" \
+            --head "Cosmosuperbaka:$GUESSER_BRANCH" \
             --base "$GUESSER_BRANCH" \
             --title "$PR_MESSAGE" \
             --body "$PR_MESSAGE"
