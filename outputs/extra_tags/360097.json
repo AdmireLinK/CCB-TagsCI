@@ -1013,6 +1013,18 @@
       "匹诺康尼":"<img src='/assets/extra_tags/360097/匹诺康尼.png'/>匹诺康尼"
     }
   },
+  "215855":{
+    "稀有度":{
+      "5星":"<img src='/assets/extra_tags/360097/5星.png' alt='5星' />"
+    },
+    "标签":{
+      "欢愉":"<img src='/assets/extra_tags/360097/欢愉.png'/>欢愉",
+      "量子":"<img src='/assets/extra_tags/360097/量子.png'/>量子"
+    },
+    "阵营":{
+      "星际和平公司":"星际和平公司"
+    }
+  },
   "10596":{
     "稀有度":{
       "5星":"<img src='/assets/extra_tags/360097/5星.png' alt='5星' />"

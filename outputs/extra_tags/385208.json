@@ -640,6 +640,17 @@
       "霜渐":"霜渐"
     }
   },
+  "214567":{
+    "稀有度":{
+      "5星":"<img src='/assets/extra_tags/385208/5星.png' alt='5星' />"
+    },
+    "标签":{
+      "气动":"<img src='/assets/extra_tags/385208/气动.png'/>气动",
+      "迅刀":"<img src='/assets/extra_tags/385208/迅刀.png'/>迅刀",
+      "主力输出":"主力输出",
+      "集谐响应":"集谐响应"
+    }
+  },
   "214566":{
     "稀有度":{
       "5星":"<img src='/assets/extra_tags/385208/5星.png' alt='5星' />"
